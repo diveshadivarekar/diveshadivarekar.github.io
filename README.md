@@ -26,7 +26,7 @@ Visit the live website: [Your Portfolio Website](https://diveshwebsite.000webhos
 
 ## Installation
 
-1. Clone the repository: `git clone https://github.com/your-username/your-portfolio.git`
+1. Clone the repository: `git clone https://github.com/diveshadivarekar/Divesh-Website.git`
 2. Open `index.html` in your preferred web browser.
 
 ## Usage
@@ -39,8 +39,8 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Contact
 
-- Email: your.email@example.com
-- GitHub: [Your GitHub Profile](https://github.com/your-username)
+- Email: diveshadivarekar09@gmail.com
+- GitHub: [Your GitHub Profile](https://github.com/diveshadivarekar)
 
 ## Acknowledgements
 
