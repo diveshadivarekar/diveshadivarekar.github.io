@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Multiple Buttons with Images</title>
+    <style>
+        .master-container {
+            display: grid;
+            grid-template-columns: auto;
+            gap: 5px;
+        }
+
+        .card {
+            width: 55vw;
+            background: #FFFFFF;
+            box-shadow: 0px 187px 75px rgba(0, 0, 0, 0.01), 0px 105px 63px rgba(0, 0, 0, 0.05), 0px 47px 47px rgba(0, 0, 0, 0.09), 0px 12px 26px rgba(0, 0, 0, 0.1), 0px 0px 0px rgba(0, 0, 0, 0.1);
+        }
+
+        .title {
+            width: 100%;
+            height: 40px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding-left: 20px;
+            border-bottom: 1px solid #efeff3;
+            font-weight: 700;
+            /* font-size: 11px; */
+            color: #63656b;
+        }
+
+        /* cart */
+        .cart {
+            border-radius: 19px 19px 7px 7px;
+        }
+
+        .cart .products {
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+        }
+
+        .cart .products .product {
+            display: grid;
+            grid-template-columns: 60px 1fr 80px 1fr;
+            gap: 10px;
+        }
+
+        .cart .products .product span {
+            font-size: 13px;
+            font-weight: 600;
+            color: #47484b;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .cart .products .product p {
+            font-size: 11px;
+            font-weight: 600;
+            color: #7a7c81;
+        }
+
+        .cart .quantity {
+            height: 30px;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            margin: auto;
+            background-color: #ffffff;
+            border: 1px solid #e5e5e5;
+            border-radius: 7px;
+            filter: drop-shadow(0px 1px 0px #efefef) drop-shadow(0px 1px 0.5px rgba(239, 239, 239, 0.5));
+        }
+
+        .cart .quantity label {
+            width: 20px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-bottom: 2px;
+            font-size: 15px;
+            font-weight: 700;
+            color: #47484b;
+        }
+
+        .cart .quantity button {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 0;
+            outline: none;
+            background-color: transparent;
+            padding-bottom: 2px;
+        }
+
+        .card .small {
+            font-size: 15px;
+            margin: 0 0 auto auto;
+        }
+
+        .card .small sup {
+            font-size: px;
+        }
+
+        /* coupons */
+        .coupons {
+            border-radius: 7px;
+        }
+
+        .coupons form {
+            display: grid;
+            grid-template-columns: 1fr 80px;
+            gap: 10px;
+            padding: 10px;
+        }
+
+        .input_field {
+            width: auto;
+            height: 36px;
+            padding: 0 0 0 12px;
+            border-radius: 5px;
+            outline: none;
+            border: 1px solid #e5e5e5;
+            filter: drop-shadow(0px 1px 0px #efefef) drop-shadow(0px 1px 0.5px rgba(239, 239, 239, 0.5));
+            transition: all 0.3s cubic-bezier(0.15, 0.83, 0.66, 1);
+        }
+
+        .input_field:focus {
+            border: 1px solid transparent;
+            box-shadow: 0px 0px 0px 2px #242424;
+            background-color: transparent;
+        }
+
+        .coupons form button {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 18px;
+            gap: 10px;
+            width: 100%;
+            height: 36px;
+            background: linear-gradient(180deg, #4480FF 0%, #115DFC 50%, #0550ED 100%);
+            box-shadow: 0px 0.5px 0.5px #EFEFEF, 0px 1px 0.5px rgba(239, 239, 239, 0.5);
+            border-radius: 5px;
+            border: 0;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 12px;
+            line-height: 15px;
+            color: #ffffff;
+        }
+
+        /* Checkout */
+        .checkout {
+            border-radius: 9px 9px 19px 19px;
+        }
+
+        .checkout .details {
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            padding: 10px;
+            gap: 5px;
+        }
+
+        .checkout .details span {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .checkout .details span:nth-child(odd) {
+            font-size: 11px;
+            font-weight: 700;
+            color: #707175;
+            margin: auto auto auto 0;
+        }
+
+        .checkout .details span:nth-child(even) {
+            font-size: 13px;
+            font-weight: 600;
+            color: #47484b;
+            margin: auto 0 auto auto;
+        }
+
+        .checkout .checkout--footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 10px 10px 20px;
+            background-color: #efeff3;
+        }
+
+        .price {
+            position: relative;
+            font-size: 22px;
+            color: #2B2B2F;
+            font-weight: 900;
+        }
+
+        .price sup {
+            font-size: 13px;
+        }
+
+        .price sub {
+            width: fit-content;
+            position: absolute;
+            font-size: 11px;
+            color: #5F5D6B;
+            bottom: 5px;
+            display: inline-block;
+        }
+
+        .checkout .checkout-btn {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            width: 150px;
+            height: 36px;
+            background: linear-gradient(180deg, #4480FF 0%, #115DFC 50%, #0550ED 100%);
+            box-shadow: 0px 0.5px 0.5px #EFEFEF, 0px 1px 0.5px rgba(239, 239, 239, 0.5);
+            border-radius: 7px;
+            border: 0;
+            outline: none;
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.15, 0.83, 0.66, 1);
+        }
+
+        .exitbtn button {
+            width: 140px;
+            height: 56px;
+            overflow: hidden;
+            border: none;
+            color: #000;
+            background: none;
+            position: relative;
+            padding-bottom: 2em;
+        }
+
+        .exitbtn button>div,
+        .exitbtn button>svg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+        }
+
+        .exitbtn button:before {
+            content: "";
+            position: absolute;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            background: currentColor;
+            transition: transform 0.25s ease-out;
+        }
+
+        .exitbtn button:hover:before {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+
+        .exitbtn button .clone>*,
+        .exitbtn button .text>* {
+            opacity: 1;
+            font-size: 1.3rem;
+            transition: 0.2s;
+            margin-left: 4px;
+        }
+
+        .exitbtn button .clone>* {
+            transform: translateY(60px);
+        }
+
+        .exitbtn button:hover .clone>* {
+            opacity: 1;
+            transform: translateY(0px);
+            transition: all 0.2s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+        }
+
+        .exitbtn button:hover .text>* {
+            opacity: 1;
+            transform: translateY(-60px);
+            transition: all 0.2s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
+        }
+
+        .exitbtn button:hover .clone> :nth-child(1) {
+            transition-delay: 0.15s;
+        }
+
+        .exitbtn button:hover .clone> :nth-child(2) {
+            transition-delay: 0.2s;
+        }
+
+        .exitbtn button:hover .clone> :nth-child(3) {
+            transition-delay: 0.25s;
+        }
+
+        .exitbtn button:hover .clone> :nth-child(4) {
+            transition-delay: 0.3s;
+        }
+
+        /* icon style and hover */
+        .exitbtn button svg {
+            width: 20px;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%) rotate(-50deg);
+            transition: 0.2s ease-out;
+        }
+
+        .exitbtn button:hover svg {
+            transform: translateY(-50%) rotate(-90deg);
+        }
+
+        #myDialog {
+            /* height: auto;
+            width :auto; */
+            overflow: hidden;
+            border: none;
+            background-color: transparent;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px;
+            background-color: #ccc;
+            margin: 10px;
+            cursor: pointer;
+        }
+
+        #imageContainer img {
+            max-width: 100%;
+            max-height: 300px;
+        }
+        #year,
+        #subtotal1{
+            font-size:1em;
+            color:#333;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="button-container">
+        <button class="button" onclick="openDialog('button1')">First Year </button>
+        <button class="button" onclick="openDialog('button2')">Second Year </button>
+        <button class="button" onclick="openDialog('button3')">Third Year </button>
+    </div>
+
+    <dialog id="myDialog">
+        <div class="master-container">
+            <div class = "exitbtn">
+                <button onclick="closeDialog()">
+                    <div class="text">
+                        <span>Back</span>
+                        <span>to</span>
+                        <span>Web</span>
+                    </div>
+                    <div class="clone">
+                        <span>Back</span>
+                        <span>to</span>
+                        <span>Web</span>
+                    </div>
+                    <svg width="20px" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="card cart">
+                <label class="title">Divesh Payment Portal 2.0</label>
+
+                <div class="products">
+                    <div class="product">
+                        <svg fill="none" viewBox="0 0 60 60" height="60" width="60" xmlns="http://www.w3.org/2000/svg">
+                            <rect fill="#FFF6EE" rx="8.25" height="60" width="60"></rect>
+                            <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" stroke="#FF8413"
+                                fill="#FFB672"
+                                d="M34.2812 18H25.7189C21.9755 18 18.7931 20.5252 17.6294 24.0434C17.2463 25.2017 17.0547 25.7808 17.536 26.3904C18.0172 27 18.8007 27 20.3675 27H39.6325C41.1993 27 41.9827 27 42.4639 26.3904C42.9453 25.7808 42.7538 25.2017 42.3707 24.0434C41.207 20.5252 38.0246 18 34.2812 18Z">
+                            </path>
+                            <path fill="#FFB672"
+                                d="M18 36H17.25C16.0074 36 15 34.9926 15 33.75C15 32.5074 16.0074 31.5 17.25 31.5H29.0916C29.6839 31.5 30.263 31.6754 30.7557 32.0039L33.668 33.9453C34.1718 34.2812 34.8282 34.2812 35.332 33.9453L38.2443 32.0039C38.7371 31.6754 39.3161 31.5 39.9084 31.5H42.75C43.9926 31.5 45 32.5074 45 33.75C45 34.9926 43.9926 36 42.75 36H42M18 36L18.6479 38.5914C19.1487 40.5947 20.9486 42 23.0135 42H36.9865C39.0514 42 40.8513 40.5947 41.3521 38.5914L42 36M18 36H28.5ZM42 36H39.75Z">
+                            </path>
+                            <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" stroke="#FF8413"
+                                d="M18 36H17.25C16.0074 36 15 34.9926 15 33.75C15 32.5074 16.0074 31.5 17.25 31.5H29.0916C29.6839 31.5 30.263 31.6754 30.7557 32.0039L33.668 33.9453C34.1718 34.2812 34.8282 34.2812 35.332 33.9453L38.2443 32.0039C38.7371 31.6754 39.3161 31.5 39.9084 31.5H42.75C43.9926 31.5 45 32.5074 45 33.75C45 34.9926 43.9926 36 42.75 36H42M18 36L18.6479 38.5914C19.1487 40.5947 20.9486 42 23.0135 42H36.9865C39.0514 42 40.8513 40.5947 41.3521 38.5914L42 36M18 36H28.5M42 36H39.75">
+                            </path>
+                            <path stroke-linejoin="round" stroke-linecap="round" stroke-width="3" stroke="#FF8413"
+                                d="M34.512 22.5H34.4982"></path>
+                            <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.25" stroke="#FF8413"
+                                d="M27.75 21.75L26.25 23.25"></path>
+                        </svg>
+                        <div>
+                            <span><b><p id = year></p></b></span>
+                            <p>Even Semester</p>
+                            <p>Odd Semester</p>
+                        </div>
+
+                        <label class="price small"><p id="subtotal1">₹ 0</p></label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card coupons">
+                <label class="title">Apply coupons</label>
+                <form class="form">
+                    <input type="text" id="couponCode" placeholder="Apply your coupons here" class="input_field">
+                    <button onclick="applyCoupon()" id="myButton">Apply</button>
+                </form>
+            </div>
+
+            <div class="card checkout">
+                <label class="title">Checkout</label>
+                <div class="details">
+                    <span>Your cart subtotal:</span>
+                    <span>
+                        <p id="subtotal">₹ 0</p>
+                    </span>
+                    <span>Discount through applied coupons:</span>
+                    <span>
+                        <p id="discount">₹ 0</p>
+                    </span>
+                    <span>convenience fee:</span>
+                    <span>50₹</span>
+                </div>
+                <div class="checkout--footer">
+                    <label id="total" class="price"><sup>₹</sup>0</label>
+                    <button class="checkout-btn" onclick="Pay()">Checkout</button>
+                </div>
+            </div>
+        </div>
+        <div id="imageContainer"><img id="image" style="display: none;"></div>
+    </dialog>
+    <script>
+        const code = "JSPM100"
+        var currentButton = "";
+        let discount = 100;
+        let total = 0;
+        let fee = 50;
+
+        const button = document.getElementById('myButton');
+        document.getElementById("year").innerHTML ="";
+        button.addEventListener('click', function (event) {
+            event.preventDefault(); // Prevents the default action of refreshing the screen
+        });
+        function applyCoupon() {
+            var label = document.getElementById('total')
+            var couponCode = document.getElementById("couponCode").value;
+            if (couponCode === code) {
+                document.getElementById("discount").innerHTML = discount + "₹";
+                // document.getElementById("subtotal").innerHTML = 0 + "₹";
+                if (currentButton === "button1") {
+                    total = 300 - discount + fee;
+                    label.textContent = total + "₹";
+                    subtotal.textContent = 300 + "₹";
+                } else if (currentButton === "button2") {
+                    total = 400 - discount + fee;
+                    label.textContent = total + "₹";
+                    subtotal.textContent = 400 + "₹";
+                } else if (currentButton === "button3") {
+                    total = 500 - discount + fee;
+                    label.textContent = total + "₹";
+                    subtotal.textContent = 500 + "₹";
+                }
+            }
+            else {
+                if (currentButton === "button1") {
+                    total = 300 + fee;
+                    label.textContent = total + "₹";
+                    subtotal.textContent = 300 + "₹";
+                } else if (currentButton === "button2") {
+                    total = 400 + fee;
+                    label.textContent = total + "₹";
+                    subtotal.textContent = 400 + "₹";
+                } else if (currentButton === "button3") {
+                    total = 500 + fee;
+                    label.textContent = total + "₹";
+                    subtotal.textContent = 500 + "₹";
+                }
+            }
+
+        }
+        function openDialog(buttonId) {
+            currentButton = buttonId;
+            document.getElementById("myDialog").showModal();
+
+            if (currentButton === "button1") {
+                subtotal1.textContent = 300 + "₹";
+                subtotal.textContent = 300 + "₹";
+                year.textContent = "First Year";
+            } else if (currentButton === "button2") {
+                subtotal1.textContent = 400 + "₹";
+                subtotal.textContent = 400 + "₹";
+                year.textContent = "Second Year";
+            } else if (currentButton === "button3") {
+                subtotal1.textContent = 500 + "₹";
+                subtotal.textContent = 500 + "₹";
+                year.textContent = "Third Year";
+            }
+            applyCoupon();
+        }
+        function closeDialog() {
+            currentButton = "";
+            document.getElementById("couponCode").value = "";
+            document.getElementById("image").style.display = "none";
+            document.getElementById("myDialog").close();
+        }
+
+        function Pay() {
+            applyCoupon();
+            var couponCode = document.getElementById("couponCode").value;
+            var imgSrc = "";
+            total = 0;
+            if (couponCode === code) {
+                if (currentButton === "button1") {
+                    imgSrc = "image.png";
+                } else if (currentButton === "button2") {
+                    imgSrc = "images/blog-2.jpg";
+                } else if (currentButton === "button3") {
+                    imgSrc = "images/blog-3.jpg";
+                }
+            } else {
+                if (currentButton === "button1") {
+                    imgSrc = "https://via.placeholder.com/200x200.png?text=Valid+coupon+code";
+                } else if (currentButton === "button2") {
+                    imgSrc = "failed2.jpg";
+                } else if (currentButton === "button3") {
+                    imgSrc = "failed3.jpg";
+                }
+            }
+            if (imgSrc) {
+                var img = document.getElementById("image");
+                img.src = imgSrc;
+                img.style.display = "block";
+            }
+
+        }
+        document.getElementById("couponCode").addEventListener("keydown", function (event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                document.getElementById("applyButton").click();
+            }
+        });
+    </script>
+</body>
+
+</html>

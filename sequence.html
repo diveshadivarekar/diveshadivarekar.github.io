@@ -1,0 +1,423 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>SQL &mdash; SEQUENCE </title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Hey It's Me Divesh!" />
+	<meta name="keywords" content="divesh website,divesh adivarekar,divesh, sql sequence,sql cheat sheet,cheat sheet, cs50 divesh, ieee, python internship divesh, harvard divesh" />
+	<meta name="Divesh" content="Divesh's portfolio" />
+
+	
+
+  	<!-- Facebook and Twitter integration -->
+	<meta property="og:title" content=""/>
+	<meta property="og:image" content=""/>
+	<meta property="og:url" content=""/>
+	<meta property="og:site_name" content=""/>
+	<meta property="og:description" content=""/>
+	<meta name="twitter:title" content="" />
+	<meta name="twitter:image" content="" />
+	<meta name="twitter:url" content="" />
+	<meta name="twitter:card" content="" />
+
+	<link href="https://fonts.googleapis.com/css?family=Oxygen:300,400" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+	<!-- Animate.css -->
+	<link rel="stylesheet" href="css/animate.css">
+	<!-- Icomoon Icon Fonts-->
+	<link rel="stylesheet" href="css/icomoon.css">
+	<!-- Bootstrap  -->
+	<link rel="stylesheet" href="css/bootstrap.css">
+
+	<!-- Magnific Popup -->
+	<link rel="stylesheet" href="css/magnific-popup.css">
+
+	<!-- Flexslider  -->
+	<link rel="stylesheet" href="css/flexslider.css">
+
+	<!-- Theme style  -->
+	<link rel="stylesheet" href="css/style.css">
+
+	<!-- Modernizr JS -->
+	<script src="js/modernizr-2.6.2.min.js"></script>
+	<!-- FOR IE9 below -->
+	<!--[if lt IE 9]>
+	<script src="js/respond.min.js"></script>
+	<![endif]-->
+
+	<link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+	<link rel="shortcut icon" href="/favicon/favicon.ico" type="image/x-icon">
+	<link rel="manifest" href="/favicon/site.webmanifest"> 
+
+    <style>
+        pre {
+                    overflow-x: auto;
+                    white-space: pre-wrap;
+                    white-space: -moz-pre-wrap;
+                    white-space: -pre-wrap;
+                    white-space: -o-pre-wrap;
+                    word-wrap: break-word;
+                }
+
+                .collapsible {
+                background-color: #777;
+                color: white;
+                cursor: pointer;
+                padding: 18px;
+                width: 100%;
+                border: none;
+                text-align: left;
+                outline: none;
+                font-size: 15px;
+                }
+
+                .active, .collapsible:hover {
+                background-color: #555;
+                }
+
+                .content {
+                padding: 0 18px;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.2s ease-out;
+                background-color: #f1f1f1;
+                }
+
+                .btn {
+                background-color: DodgerBlue;
+                border: none;
+                color: white;
+                padding: 12px 30px;
+                cursor: pointer;
+                font-size: 20px;
+                }
+
+                /* Darker background on mouse-over */
+                .btn:hover {
+                background-color: RoyalBlue;
+                }
+                #snackbar {
+                visibility: hidden;
+                min-width: 250px;
+                margin-left: -125px;
+                background-color: #333;
+                color: #fff;
+                text-align: center;
+                border-radius: 2px;
+                padding: 16px;
+                position: fixed;
+                z-index: 1;
+                left: 50%;
+                bottom: 30px;
+                font-size: 17px;
+                }
+
+                #snackbar.show {
+                visibility: visible;
+                -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+                animation: fadein 0.5s, fadeout 0.5s 2.5s;
+                }
+
+                @-webkit-keyframes fadein {
+                from {bottom: 0; opacity: 0;} 
+                to {bottom: 30px; opacity: 1;}
+                }
+
+                @keyframes fadein {
+                from {bottom: 0; opacity: 0;}
+                to {bottom: 30px; opacity: 1;}
+                }
+
+                @-webkit-keyframes fadeout {
+                from {bottom: 30px; opacity: 1;} 
+                to {bottom: 0; opacity: 0;}
+                }
+
+                @keyframes fadeout {
+                from {bottom: 30px; opacity: 1;}
+                to {bottom: 0; opacity: 0;}
+                }
+    </style>
+	</head>
+	<body>
+		
+	<div class="fh5co-loader"></div>
+	
+	<div id="page">
+	<nav class="fh5co-nav" role="navigation">
+		<div class="container-wrap">
+			<div class="top-menu">
+				<div class="row">
+					<div class="col-xs-2">
+						<div id="fh5co-logo"><a href="index.html">Divesh</a></div>
+					</div>
+					<div class="col-xs-10 text-right menu-1">
+						<ul>
+							<li><a href="index.html">Home</a></li>
+							<li><a href="work.html">Work</a></li>
+							<li class="has-dropdown active">
+								<a href="blog.html">Blog</a>
+								<ul class="dropdown">
+									<li><a href="#">Web Design</a></li>
+									<li><a href="#">eCommerce</a></li>
+									<li><a href="#">Branding</a></li>
+									<li><a href="#">API</a></li>
+								</ul>
+							</li>
+							<li><a href="about.html">About</a></li>
+							<li><a href="contact.html">Contact</a></li>
+						</ul>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</nav>
+	<div class="container-wrap">
+		<aside id="fh5co-hero">
+			<div class="flexslider">
+				<ul class="slides">
+			   	<li style="background-image: url(https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE4xfAg?ver=6a1f&q=90&m=6&h=431&w=767&b=%23FFFFFFFF&l=f&o=t&aim=true);">
+			   		<div class="overlay-gradient"></div>
+			   		<div class="container-fluids">
+			   			<div class="row">
+				   			<div class="col-md-6 col-md-offset-3 slider-text slider-text-bg">
+				   				<div class="slider-text-inner text-center">
+				   					<h1>SEQUENCE SQL <i class="fa fa-database" aria-hidden="true"></i></h1>
+										<!-- <h2>Free html5 templates Made by <a href="http://freehtml5.co/" target="_blank">freehtml5.co</a></h2> -->
+				   				</div>
+				   			</div>
+				   		</div>
+			   		</div>
+			   	</li>		   	
+			  	</ul>
+		  	</div>
+		</aside>		
+		<div id="fh5co-blog">
+            <button type="button" class="collapsible"><b>Creating SEQUENCES <i style="float:right"class="fa fa-plus" aria-hidden="true"></i></b></button>
+            <div class="content">
+			<pre>
+                <b><h2>Sequence</h2></b><ul>
+<li>A sequence is a database object that generates unique integer number in sequential order. It can be used to automatically generate primary key values or unique key values</li>
+<li>Sequencs can either in ascending or descending order.</li>
+</ul>
+<h4>Features /characteristics of sequences:</h4><ol>
+<li>sequence are available to all users of the database.</li>
+<li>sequence are created using SQL statements.</li>
+<li>sequence have a minimum and maximum value (the default are minimum=0 and maximum=263-1); they can be droped, but not reset</li> 
+<li>once a sequence returns a value, the sequence can never return the same value.</li>
+<li>while sequence values are not tied to any particular table, a sequence is usually used to generate values for only one table</li> 
+<li>sequence increment by an amount specified when created (the default is 1)</li>
+</ol>
+<h3>creating sequences</h3><ul>
+<li>To create a sequence in your schema, you must have the CREATE SEQUENCE system privilege 
+the syntax for creating the sequence is,</li></ul>
+	<b>CREATE SEQUENCE</b> sequence_name
+	[<b>START WITH</b> start_num]
+	[<b>INCREMENT BY</b> increment_num]
+	[{<b>MAXVALUE</b> maximum_num | <b>NOMAXVALUE</b>}]
+	[{<b>MINVALUE</b> minimum_num | <b>NOMINVALUE</b>}]
+	[{<b>CYCLE</b> | <b>NOCYCLE</b>}]
+	[{<b>CACHE</b> cache_num | <b>NO CACHE</b>}]
+	[{<b>ORDER</b> | <b>NOORDER</b>}] ;
+
+<ul><H4>where,</H4><li><b><u>START WITH</u></b> : It specifies the start value for the sequence. the default START WITH for an ascending sequence is the sequence minimum value (1) and for descecnding sequence, it is the maximum value(-1)</li>
+<li><b><u>INCREMENT BY</u></b> : it specifies the value how the sequence increments each iteration. by default a sequence generator increments by 1 it can be any positive or negative value but not zero.</li>
+<li><b><u>MINVALUE</u></b> : this is the minimum value that the sequence will generate the value specified in <B>MINVALUE</B> must be greater than or equal to START WITH value <B>NOMINVALUE</B> is the default value that is equal to 1 for an ascending sequence and -1026 for decending sequence.</li>
+<li><b><u>MAXVALUE</u></b> : it specify value the bounds of the sequence generator. it specifies the highest value that it can generate. <B>NOMAXVALUE</B> is the default value that is equal to 1027 and -1 for descending sequence</li> 
+<li><b><u>CYCLE</u></b> : specify CYCLE to indicate that when the maximum value is reached the sequence starts over again at the start value. specify <B>NOCYCLE</B> to generate an error upon reaching the maximum value.</li>
+<li><b><u>CACHE</u></b> : it specify how many values of a sequence Oracle pre-allocates and keep in memory for faster access. the minimum value for this parameter is two.</li>
+<li><b><u>NOCACHE</u></b> : it specify that values of a sequence are not pre-allocated </li>
+<li><b><u>ORDER</u></b> : It guarantees that sequence number are generated in the order of request.</li> 
+<li><b><u>NOORDER</u></b> : this does not guarantee sequence numbers are assigned in order of request. you can use these parameter to indicate whether the seequence is ascending or descending. the starting point of the sequence, the minimum and maximum value, and the interval between sequence values.</li>
+<b>example</b>
+<b>SQL</b> > <b>CREATE SEQUENCE</b> EID
+<b>START WITH</b> 1
+<b>INCREMENT BY</b> 1
+<b>MAXVALUE</b> 100;
+
+<b><u>sequence created.</u></b></ul>
+<ul><li>On execution, Oracle will create a squence EID its START WITH value is 1, incrementing The sequence number by 1. Maximum value that it can generate is 100</li></ul><br>
+<h3>Referencing a sequence :</h3> 
+<ul><li>A sequence is referenced in SQL statements with the <b>NEXTVAL</b> and <b>CURRVAL</b></li></ul><ol>
+<li><b>NEXTVAL</b> : Each new sequence number is generated by a reference to the sequence. for example for reference to the sequence 
+For example for reference it should be used as 'seq_name.<b>NEXTVAL</b>'.</li>
+<li><b>CURVAL</b> : The current sequence number can be referenced 
+For example for reference it should be used as 'seq_name.<b>CURRVAL</b>'.</li></ol><ul>
+<li>NEXTVAL and CURRVAL can be used in SQL statement such as SELECT, INSERT, or UPDATE</li></ul>
+<h3>Generating sequence number with NEXTVAL :</h3><ul>
+<li><b>NEXTVAL</b> is used to generate unique number. to generate and use a sequence number, use seq_name.<b>NEXTVAL</b>.</li>
+<li>Assume the table of 'EMPLOYEES' where we want to add the EID in the sequence starting from 1 to 100</li>
+<h4>For example:</h4>
+<li><B>SQL</B> > <B>INSERT INTO EMPLOYEES VALUES</B> (EID.<B>NEXTVAL</B>, 'Divesh');</li>
+<li>In the example 'EID' is the sequqnce number and '<b>NEXTVAL</b>' is used to generate a unique sequence number. as defined, the first reference to EID.<b>NEXTVAL</b> return value 1. each subsequent statement that references EID.<b>NEXTVAL</b> generates the next sequence number (2,3,4,....).</li></ul>
+<h3>Using sequence number with CURRVAL :</h3><ul>
+<li>To use or refer to the current sequence value of your session, reference seq_name.CURRVAL.</li>
+<li>CURRVAL can only be used if seq_name.NEXTVAL has been referenced in the current or a previous transaction.</li>
+	<b>SQL</b> > <b>SELECT</b> EID.<b>CURRVAL FROM</b> table_name;
+</ul>
+
+            </pre>
+            </div>
+
+            <button type="button" class="collapsible"><b>Altering SEQUENCES <i style="float:right"class="fa fa-plus" aria-hidden="true"></i></b></button>
+            <div class="content">
+			<pre>
+<h2>Altering Sequences</h2><ul>
+<li>You can alter a sequence to change any of the parameters that define how it generates sequence numbers except the sequence starting number.</li>
+<li>Can set or remove minvalue and maxvalue, change the increment value</li> 
+<li>Some important restrictions on altering the sequence:</li><ol>
+<li>To change the stating point of a sequence, drop the sequence and then re-create it.</li>
+<li><b>NEW MAXVAL</b> should not be less than starting value.</li></ol></ul>
+<h3>syntax:</h3>
+<b>ALTER SEQUENCE</b> sequence_name
+[<b>START WITH</b> star_num]
+[<b>INCREMENT BY</b> increment_num]
+[{<b>MAXVALUE</b> maximum_num | <b>NOMAXVALUE</b>}]
+[{<b>MINVALUE</b> minimum_num | <b>NOMINVALUE</b>}]
+[{<b>CYCLE</b> | <b>NOCYCLE</b>}]
+[{<b>CACHE</b> cache_num | <b>NOCACHE</b>}]
+[{<b>ORDER</b> | <b>NOORDER</b>}] ;<br>
+<h4>Example:</h4><ul><li>This statement sets a new maximum value for the EID sequence:
+<b>ALTER SEQUENCE</b> EID <b>MAXVALUE</b> 1500;</li>
+<li>This statement turns on CYCLE and CACHE for the EID sequence:
+<b>ALTER SEQUENCE</b> EID <b>CYCLE CACHE</b> 5;</li></ul>
+            </pre>
+            </div>
+
+            <button type="button" class="collapsible"><b>Dropping SEQUENCES <i style="float:right"class="fa fa-plus" aria-hidden="true"></i></b></button>
+            <div class="content">
+			<pre>
+<h2>Dropping Sequences</h2><ul><li>If a sequence is no longer required, you can drop the sequence using the <b>DROP SEQUENCE</b> statement.</li>
+<li>To drop a sequence in another schema, you must have the <b>DROP ANY SEQUENCE</b> system privilege.</li></ul>
+<h4>syntax:</h4><ul><B>DROP SEQUENCE</B>;</ul>
+<br><h4>Example:</h4><ul><b>SQL</b> > <b>DROP SEQUENCE</b> EID;</ul>
+
+<b><u>sequence droped.</u></b>
+            </pre>
+            </div>
+
+            <a target="_blank" href="./documents/sql-basics-cheat-sheet-a4.pdf">
+            <button class="btn" onclick="myFunction()"style="width:100%"><i class="fa fa-download"></i> Download Divesh's SQL Cheat Sheet</button>
+            </a>
+
+            <div id="snackbar">Thanks for Downloading...</div>
+
+            <script>
+            function myFunction() {
+            var x = document.getElementById("snackbar");
+            x.className = "show";
+            setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
+            }
+            </script>
+		</div>
+	</div><!-- END container-wrap -->
+
+	<div class="container-wrap">
+		<footer id="fh5co-footer" role="contentinfo">
+			<div class="row">
+				<div class="col-md-3 fh5co-widget">
+					<h4>About Me</h4>
+					<p>Hey it's me Divesh. <br>I'am a Full-Stack Developer. </p>
+				</div>
+				<div class="col-md-3 col-md-push-1">
+					<h4>Latest Posts</h4>
+					<ul class="fh5co-footer-links">
+						<!-- <li><a href="#">Amazing Templates</a></li> -->
+						<!-- <li><a href="#">100+ Free Download Templates</a></li> -->
+						<li><a href="#">Divesh is now available</a></li>
+						<!-- <li><a href="#">Download 1000+ icons</a></li> -->
+						<!-- <li><a href="#">Big Deal for this month of october, Join Us here</a></li> -->
+					</ul>
+				</div>
+
+				<div class="col-md-3 col-md-push-1">
+					<h4>Links</h4>
+					<ul class="fh5co-footer-links">
+						<li><a href="/index.html">Home</a></li>
+						<li><a href="/work.html">Work</a></li>
+						<li><a href="/work.html">Services</a></li>
+						<li><a href="/blog.html">Blog</a></li>
+						<li><a href="/about.html">About us</a></li>
+					</ul>
+				</div>
+
+				<div class="col-md-3">
+					<h4>Contact Information</h4>
+					<ul class="fh5co-footer-links">
+						<li>India, <br> Maharashtra</li>
+						<li><a href="tel://+918261962829">+91 82619 62829 </a></li>
+						<li><a href="mailto:diveshadivarekar09@gmail.com">diveshadivarekar09@gmail.com</a></li>
+						<li><a href="http://diveshwebsite.000webhostapp.com">diveshwebsite.000webhostapp.com <a></li>
+					</ul>
+				</div>
+
+			</div>
+
+			<div class="row copyright">
+				<div class="col-md-12 text-center">
+					<p>
+						<small class="block">&copy; 2023 diveshwebsite All Rights Reserved.</small> 
+						<small class="block">Designed with ❤️ by <a href="http://diveshwebsite.000webhostapp.com" target="_blank">Divesh Adivarekar </a></small>
+					</p>
+					<p>
+						<ul class="fh5co-social-icons">
+							<li><a href="https://www.instagram.com/diveshadivarekar/"><i class="icon-instagram"></i></a></li>
+							<li><a href="https://www.facebook.com/divesh.adivarekar/"><i class="icon-facebook"></i></a></li>
+							<!-- <li><a href="#"><i class="icon-linkedin"></i></a></li> -->
+							<li><a href="https://github.com/diveshadivarekar"><i class="icon-github"></i></a></li>
+						</ul>
+					</p>
+				</div>
+			</div>
+		</footer>
+	</div><!-- END container-wrap -->
+	</div>
+
+	<div class="gototop js-top">
+		<a href="#" class="js-gotop"><i class="icon-arrow-up2"></i></a>
+	</div>
+	<script>
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
+        
+        for (i = 0; i < coll.length; i++) {
+          coll[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var content = this.nextElementSibling;
+            if (content.style.maxHeight){
+              content.style.maxHeight = null;
+            } else {
+              content.style.maxHeight = content.scrollHeight + "px";
+            } 
+          });
+        }
+        </script>
+        
+	<!-- jQuery -->
+	<script src="js/jquery.min.js"></script>
+	<!-- jQuery Easing -->
+	<script src="js/jquery.easing.1.3.js"></script>
+	<!-- Bootstrap -->
+	<script src="js/bootstrap.min.js"></script>
+	<!-- Waypoints -->
+	<script src="js/jquery.waypoints.min.js"></script>
+	<!-- Flexslider -->
+	<script src="js/jquery.flexslider-min.js"></script>
+	<!-- Magnific Popup -->
+	<script src="js/jquery.magnific-popup.min.js"></script>
+	<script src="js/magnific-popup-options.js"></script>
+	<!-- Counters -->
+	<script src="js/jquery.countTo.js"></script>
+	<!-- Main -->
+	<script src="js/main.js"></script>
+
+	</body>
+</html>
+
