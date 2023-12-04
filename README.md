@@ -4,7 +4,7 @@ Welcome to the repository for my personal portfolio website. This website serves
 
 ## Live Demo
 
-Visit the live website: [Your Portfolio Website](https://diveshwebsite.000webhostapp.com)
+Visit the live website: [Divesh Website](https://diveshwebsite.000webhostapp.com)
 
 ## Technologies Used
 
@@ -22,7 +22,6 @@ Visit the live website: [Your Portfolio Website](https://diveshwebsite.000webhos
 ## Screenshots
 
 ![Screenshot 1](screenshots/screenshot1.png)
-![Screenshot 2](screenshots/screenshot2.png)
 
 ## Installation
 
@@ -40,7 +39,7 @@ This project is licensed under the [MIT License](LICENSE).
 ## Contact
 
 - Email: diveshadivarekar09@gmail.com
-- GitHub: [Your GitHub Profile](https://github.com/diveshadivarekar)
+- GitHub: [diveshadivarekar](https://github.com/diveshadivarekar)
 
 ## Acknowledgements
 
