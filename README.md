@@ -4,7 +4,7 @@ Welcome to the repository for my personal portfolio website. This website serves
 
 ## Live Demo
 
-Visit the live website: [Divesh Website](https://diveshwebsite.000webhostapp.com)
+Visit the live website: [Divesh Website](https://diveshadivarekar.github.io/)
 
 ## Technologies Used
 
