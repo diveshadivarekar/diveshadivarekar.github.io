@@ -394,10 +394,11 @@
             max-width: 100%;
             max-height: 300px;
         }
+
         #year,
-        #subtotal1{
-            font-size:1em;
-            color:#333;
+        #subtotal1 {
+            font-size: 1em;
+            color: #333;
         }
     </style>
 </head>
@@ -407,6 +408,16 @@
     <div class="fh5co-loader"></div>
 
     <div id="page">
+
+        <!-- visitor counter -->
+        <div style="position: absolute; bottom: 1.2rem; left: 50%; transform: translate(-50%, -50%);">
+            <a href='http://www.freevisitorcounters.com'>click here</a>
+            <script type='text/javascript'
+                src='https://www.freevisitorcounters.com/auth.php?id=4d27761791c46e2acdd4a11b5d5962ca1c6e9bca'></script>
+            <script type="text/javascript"
+                src="https://www.freevisitorcounters.com/en/home/counter/1224187/t/5"></script>
+        </div>
+
         <nav class="fh5co-nav" role="navigation">
             <div class="container-wrap">
                 <div class="top-menu">
@@ -541,7 +552,7 @@
 
         <div id="footer"></div>
         <script src="js/component.js"></script>
-        
+
     </div>
 
     <div class="gototop js-top">
@@ -550,7 +561,7 @@
 
     <dialog id="myDialog">
         <div class="master-container">
-            <div class = "exitbtn">
+            <div class="exitbtn">
                 <button onclick="closeDialog()">
                     <div class="text">
                         <span>Back</span>
@@ -591,12 +602,16 @@
                                 d="M27.75 21.75L26.25 23.25"></path>
                         </svg>
                         <div>
-                            <span><b><p id = year></p></b></span>
+                            <span><b>
+                                    <p id=year></p>
+                                </b></span>
                             <p>Even Semester</p>
                             <p>Odd Semester</p>
                         </div>
 
-                        <label class="price small"><p id="subtotal1">₹ 0</p></label>
+                        <label class="price small">
+                            <p id="subtotal1">₹ 0</p>
+                        </label>
                     </div>
                 </div>
             </div>
@@ -643,7 +658,7 @@
         let fee = 50;
 
         const button = document.getElementById('myButton');
-        document.getElementById("year").innerHTML ="";
+        document.getElementById("year").innerHTML = "";
         button.addEventListener('click', function (event) {
             event.preventDefault(); // Prevents the default action of refreshing the screen
         });
@@ -651,7 +666,7 @@
             var label = document.getElementById('total')
             var couponCode = document.getElementById("couponCode").value;
             if (couponCode === code) {
-                discount=100;
+                discount = 100;
                 document.getElementById("discount").innerHTML = discount + "₹";
                 // document.getElementById("subtotal").innerHTML = 0 + "₹";
                 if (currentButton === "button1") {
@@ -669,10 +684,10 @@
                 }
             }
             else {
-                if(couponCode !== ""){
-                    alert("invalid Coupon Code >> \'" + couponCode+ "\'");
+                if (couponCode !== "") {
+                    alert("invalid Coupon Code >> \'" + couponCode + "\'");
                 }
-                discount=0;
+                discount = 0;
                 document.getElementById("discount").innerHTML = discount + "₹";
                 if (currentButton === "button1") {
                     total = 300 + fee;
@@ -721,7 +736,7 @@
             var couponCode = document.getElementById("couponCode").value;
             var imgSrc = "";
             total = 0;
-            alert ("Scan QR code for Payment 😊")
+            alert("Scan QR code for Payment 😊")
             if (couponCode === code) {
                 if (currentButton === "button1") {
                     imgSrc = "images/250.jpg";

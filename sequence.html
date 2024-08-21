@@ -1,22 +1,24 @@
 <!DOCTYPE HTML>
 <html>
-	<head>
+
+<head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>SQL &mdash; SEQUENCE </title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="Hey It's Me Divesh!" />
-	<meta name="keywords" content="divesh website,divesh adivarekar,divesh, sql sequence,sql cheat sheet,cheat sheet, cs50 divesh, ieee, python internship divesh, harvard divesh" />
+	<meta name="keywords"
+		content="divesh website,divesh adivarekar,divesh, sql sequence,sql cheat sheet,cheat sheet, cs50 divesh, ieee, python internship divesh, harvard divesh" />
 	<meta name="Divesh" content="Divesh's portfolio" />
 
-	
 
-  	<!-- Facebook and Twitter integration -->
-	<meta property="og:title" content=""/>
-	<meta property="og:image" content=""/>
-	<meta property="og:url" content=""/>
-	<meta property="og:site_name" content=""/>
-	<meta property="og:description" content=""/>
+
+	<!-- Facebook and Twitter integration -->
+	<meta property="og:title" content="" />
+	<meta property="og:image" content="" />
+	<meta property="og:url" content="" />
+	<meta property="og:site_name" content="" />
+	<meta property="og:description" content="" />
 	<meta name="twitter:title" content="" />
 	<meta name="twitter:image" content="" />
 	<meta name="twitter:url" content="" />
@@ -24,8 +26,8 @@
 
 	<link href="https://fonts.googleapis.com/css?family=Oxygen:300,400" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 	<!-- Animate.css -->
 	<link rel="stylesheet" href="css/animate.css">
 	<!-- Icomoon Icon Fonts-->
@@ -53,156 +55,199 @@
 	<link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
 	<link rel="shortcut icon" href="/favicon/favicon.ico" type="image/x-icon">
-	<link rel="manifest" href="/favicon/site.webmanifest"> 
+	<link rel="manifest" href="/favicon/site.webmanifest">
 
-    <style>
-        pre {
-                    overflow-x: auto;
-                    white-space: pre-wrap;
-                    white-space: -moz-pre-wrap;
-                    white-space: -pre-wrap;
-                    white-space: -o-pre-wrap;
-                    word-wrap: break-word;
-                }
+	<style>
+		pre {
+			overflow-x: auto;
+			white-space: pre-wrap;
+			white-space: -moz-pre-wrap;
+			white-space: -pre-wrap;
+			white-space: -o-pre-wrap;
+			word-wrap: break-word;
+		}
 
-                .collapsible {
-                background-color: #777;
-                color: white;
-                cursor: pointer;
-                padding: 18px;
-                width: 100%;
-                border: none;
-                text-align: left;
-                outline: none;
-                font-size: 15px;
-                }
+		.collapsible {
+			background-color: #777;
+			color: white;
+			cursor: pointer;
+			padding: 18px;
+			width: 100%;
+			border: none;
+			text-align: left;
+			outline: none;
+			font-size: 15px;
+		}
 
-                .active, .collapsible:hover {
-                background-color: #555;
-                }
+		.active,
+		.collapsible:hover {
+			background-color: #555;
+		}
 
-                .content {
-                padding: 0 18px;
-                max-height: 0;
-                overflow: hidden;
-                transition: max-height 0.2s ease-out;
-                background-color: #f1f1f1;
-                }
+		.content {
+			padding: 0 18px;
+			max-height: 0;
+			overflow: hidden;
+			transition: max-height 0.2s ease-out;
+			background-color: #f1f1f1;
+		}
 
-                .btn {
-                background-color: DodgerBlue;
-                border: none;
-                color: white;
-                padding: 12px 30px;
-                cursor: pointer;
-                font-size: 20px;
-                }
+		.btn {
+			background-color: DodgerBlue;
+			border: none;
+			color: white;
+			padding: 12px 30px;
+			cursor: pointer;
+			font-size: 20px;
+		}
 
-                /* Darker background on mouse-over */
-                .btn:hover {
-                background-color: RoyalBlue;
-                }
-                #snackbar {
-                visibility: hidden;
-                min-width: 250px;
-                margin-left: -125px;
-                background-color: #333;
-                color: #fff;
-                text-align: center;
-                border-radius: 2px;
-                padding: 16px;
-                position: fixed;
-                z-index: 1;
-                left: 50%;
-                bottom: 30px;
-                font-size: 17px;
-                }
+		/* Darker background on mouse-over */
+		.btn:hover {
+			background-color: RoyalBlue;
+		}
 
-                #snackbar.show {
-                visibility: visible;
-                -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-                animation: fadein 0.5s, fadeout 0.5s 2.5s;
-                }
+		#snackbar {
+			visibility: hidden;
+			min-width: 250px;
+			margin-left: -125px;
+			background-color: #333;
+			color: #fff;
+			text-align: center;
+			border-radius: 2px;
+			padding: 16px;
+			position: fixed;
+			z-index: 1;
+			left: 50%;
+			bottom: 30px;
+			font-size: 17px;
+		}
 
-                @-webkit-keyframes fadein {
-                from {bottom: 0; opacity: 0;} 
-                to {bottom: 30px; opacity: 1;}
-                }
+		#snackbar.show {
+			visibility: visible;
+			-webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+			animation: fadein 0.5s, fadeout 0.5s 2.5s;
+		}
 
-                @keyframes fadein {
-                from {bottom: 0; opacity: 0;}
-                to {bottom: 30px; opacity: 1;}
-                }
+		@-webkit-keyframes fadein {
+			from {
+				bottom: 0;
+				opacity: 0;
+			}
 
-                @-webkit-keyframes fadeout {
-                from {bottom: 30px; opacity: 1;} 
-                to {bottom: 0; opacity: 0;}
-                }
+			to {
+				bottom: 30px;
+				opacity: 1;
+			}
+		}
 
-                @keyframes fadeout {
-                from {bottom: 30px; opacity: 1;}
-                to {bottom: 0; opacity: 0;}
-                }
-    </style>
-	</head>
-	<body>
-		
+		@keyframes fadein {
+			from {
+				bottom: 0;
+				opacity: 0;
+			}
+
+			to {
+				bottom: 30px;
+				opacity: 1;
+			}
+		}
+
+		@-webkit-keyframes fadeout {
+			from {
+				bottom: 30px;
+				opacity: 1;
+			}
+
+			to {
+				bottom: 0;
+				opacity: 0;
+			}
+		}
+
+		@keyframes fadeout {
+			from {
+				bottom: 30px;
+				opacity: 1;
+			}
+
+			to {
+				bottom: 0;
+				opacity: 0;
+			}
+		}
+	</style>
+</head>
+
+<body>
+
 	<div class="fh5co-loader"></div>
-	
+
 	<div id="page">
-	<nav class="fh5co-nav" role="navigation">
-		<div class="container-wrap">
-			<div class="top-menu">
-				<div class="row">
-					<div class="col-xs-2">
-						<div id="fh5co-logo"><a href="index.html">Divesh</a></div>
-					</div>
-					<div class="col-xs-10 text-right menu-1">
-						<ul>
-							<li><a href="index.html">Home</a></li>
-							<li><a href="work.html">Work</a></li>
-							<li class="has-dropdown active">
-								<a href="blog.html">Blog</a>
-								<ul class="dropdown">
-									<li><a href="#">Web Design</a></li>
-									<li><a href="#">eCommerce</a></li>
-									<li><a href="#">Branding</a></li>
-									<li><a href="#">API</a></li>
-								</ul>
-							</li>
-							<li><a href="about.html">About</a></li>
-							<li><a href="contact.html">Contact</a></li>
-						</ul>
-					</div>
-				</div>
-				
-			</div>
+
+		<!-- visitor counter -->
+		<div style="position: absolute; bottom: 1.2rem; left: 50%; transform: translate(-50%, -50%);">
+			<a href='http://www.freevisitorcounters.com'>click here</a>
+			<script type='text/javascript'
+				src='https://www.freevisitorcounters.com/auth.php?id=4d27761791c46e2acdd4a11b5d5962ca1c6e9bca'></script>
+			<script type="text/javascript"
+				src="https://www.freevisitorcounters.com/en/home/counter/1224187/t/5"></script>
 		</div>
-	</nav>
-	<div class="container-wrap">
-		<aside id="fh5co-hero">
-			<div class="flexslider">
-				<ul class="slides">
-			   	<li style="background-image: url(https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE4xfAg?ver=6a1f&q=90&m=6&h=431&w=767&b=%23FFFFFFFF&l=f&o=t&aim=true);">
-			   		<div class="overlay-gradient"></div>
-			   		<div class="container-fluids">
-			   			<div class="row">
-				   			<div class="col-md-6 col-md-offset-3 slider-text slider-text-bg">
-				   				<div class="slider-text-inner text-center">
-				   					<h1>SEQUENCE SQL <i class="fa fa-database" aria-hidden="true"></i></h1>
-										<!-- <h2>Free html5 templates Made by <a href="http://freehtml5.co/" target="_blank">freehtml5.co</a></h2> -->
-				   				</div>
-				   			</div>
-				   		</div>
-			   		</div>
-			   	</li>		   	
-			  	</ul>
-		  	</div>
-		</aside>		
-		<div id="fh5co-blog">
-            <button type="button" class="collapsible"><b>Creating SEQUENCES <i style="float:right"class="fa fa-plus" aria-hidden="true"></i></b></button>
-            <div class="content">
-			<pre>
+
+		<nav class="fh5co-nav" role="navigation">
+			<div class="container-wrap">
+				<div class="top-menu">
+					<div class="row">
+						<div class="col-xs-2">
+							<div id="fh5co-logo"><a href="index.html">Divesh</a></div>
+						</div>
+						<div class="col-xs-10 text-right menu-1">
+							<ul>
+								<li><a href="index.html">Home</a></li>
+								<li><a href="work.html">Work</a></li>
+								<li class="has-dropdown active">
+									<a href="blog.html">Blog</a>
+									<ul class="dropdown">
+										<li><a href="#">Web Design</a></li>
+										<li><a href="#">eCommerce</a></li>
+										<li><a href="#">Branding</a></li>
+										<li><a href="#">API</a></li>
+									</ul>
+								</li>
+								<li><a href="about.html">About</a></li>
+								<li><a href="contact.html">Contact</a></li>
+							</ul>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</nav>
+		<div class="container-wrap">
+			<aside id="fh5co-hero">
+				<div class="flexslider">
+					<ul class="slides">
+						<li
+							style="background-image: url(https://img-prod-cms-rt-microsoft-com.akamaized.net/cms/api/am/imageFileData/RE4xfAg?ver=6a1f&q=90&m=6&h=431&w=767&b=%23FFFFFFFF&l=f&o=t&aim=true);">
+							<div class="overlay-gradient"></div>
+							<div class="container-fluids">
+								<div class="row">
+									<div class="col-md-6 col-md-offset-3 slider-text slider-text-bg">
+										<div class="slider-text-inner text-center">
+											<h1>SEQUENCE SQL <i class="fa fa-database" aria-hidden="true"></i></h1>
+											<!-- <h2>Free html5 templates Made by <a href="http://freehtml5.co/" target="_blank">freehtml5.co</a></h2> -->
+										</div>
+									</div>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</aside>
+			<div id="fh5co-blog">
+				<button type="button" class="collapsible"><b>Creating SEQUENCES <i style="float:right"
+							class="fa fa-plus" aria-hidden="true"></i></b></button>
+				<div class="content">
+					<pre>
                 <b><h2>Sequence</h2></b><ul>
 <li>A sequence is a database object that generates unique integer number in sequential order. It can be used to automatically generate primary key values or unique key values</li>
 <li>Sequencs can either in ascending or descending order.</li>
@@ -264,11 +309,12 @@ For example for reference it should be used as 'seq_name.<b>CURRVAL</b>'.</li></
 </ul>
 
             </pre>
-            </div>
+				</div>
 
-            <button type="button" class="collapsible"><b>Altering SEQUENCES <i style="float:right"class="fa fa-plus" aria-hidden="true"></i></b></button>
-            <div class="content">
-			<pre>
+				<button type="button" class="collapsible"><b>Altering SEQUENCES <i style="float:right"
+							class="fa fa-plus" aria-hidden="true"></i></b></button>
+				<div class="content">
+					<pre>
 <h2>Altering Sequences</h2><ul>
 <li>You can alter a sequence to change any of the parameters that define how it generates sequence numbers except the sequence starting number.</li>
 <li>Can set or remove minvalue and maxvalue, change the increment value</li> 
@@ -289,11 +335,12 @@ For example for reference it should be used as 'seq_name.<b>CURRVAL</b>'.</li></
 <li>This statement turns on CYCLE and CACHE for the EID sequence:
 <b>ALTER SEQUENCE</b> EID <b>CYCLE CACHE</b> 5;</li></ul>
             </pre>
-            </div>
+				</div>
 
-            <button type="button" class="collapsible"><b>Dropping SEQUENCES <i style="float:right"class="fa fa-plus" aria-hidden="true"></i></b></button>
-            <div class="content">
-			<pre>
+				<button type="button" class="collapsible"><b>Dropping SEQUENCES <i style="float:right"
+							class="fa fa-plus" aria-hidden="true"></i></b></button>
+				<div class="content">
+					<pre>
 <h2>Dropping Sequences</h2><ul><li>If a sequence is no longer required, you can drop the sequence using the <b>DROP SEQUENCE</b> statement.</li>
 <li>To drop a sequence in another schema, you must have the <b>DROP ANY SEQUENCE</b> system privilege.</li></ul>
 <h4>syntax:</h4><ul><B>DROP SEQUENCE</B>;</ul>
@@ -301,26 +348,28 @@ For example for reference it should be used as 'seq_name.<b>CURRVAL</b>'.</li></
 
 <b><u>sequence droped.</u></b>
             </pre>
-            </div>
+				</div>
 
-            <a target="_blank" href="./documents/sql-basics-cheat-sheet-a4.pdf">
-            <button class="btn" onclick="myFunction()"style="width:100%"><i class="fa fa-download"></i> Download SQL Cheat Sheet ( by <a href="https://learnsql.com/" target= "_blank" >LearnSQL.com </a> ) </button>
-            </a>
+				<a target="_blank" href="./documents/sql-basics-cheat-sheet-a4.pdf">
+					<button class="btn" onclick="myFunction()" style="width:100%"><i class="fa fa-download"></i>
+						Download SQL Cheat Sheet ( by <a href="https://learnsql.com/" target="_blank">LearnSQL.com </a>
+						) </button>
+				</a>
 
-            <div id="snackbar">Thanks for Downloading...</div>
+				<div id="snackbar">Thanks for Downloading...</div>
 
-            <script>
-            function myFunction() {
-            var x = document.getElementById("snackbar");
-            x.className = "show";
-            setTimeout(function(){ x.className = x.className.replace("show", ""); }, 3000);
-            }
-            </script>
-		</div>
-	</div><!-- END container-wrap -->
+				<script>
+					function myFunction() {
+						var x = document.getElementById("snackbar");
+						x.className = "show";
+						setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
+					}
+				</script>
+			</div>
+		</div><!-- END container-wrap -->
 
-	<div id="footer"></div>
-    <script src="js/component.js"></script>
+		<div id="footer"></div>
+		<script src="js/component.js"></script>
 
 	</div>
 
@@ -328,22 +377,22 @@ For example for reference it should be used as 'seq_name.<b>CURRVAL</b>'.</li></
 		<a href="#" class="js-gotop"><i class="icon-arrow-up2"></i></a>
 	</div>
 	<script>
-        var coll = document.getElementsByClassName("collapsible");
-        var i;
-        
-        for (i = 0; i < coll.length; i++) {
-          coll[i].addEventListener("click", function() {
-            this.classList.toggle("active");
-            var content = this.nextElementSibling;
-            if (content.style.maxHeight){
-              content.style.maxHeight = null;
-            } else {
-              content.style.maxHeight = content.scrollHeight + "px";
-            } 
-          });
-        }
-        </script>
-        
+		var coll = document.getElementsByClassName("collapsible");
+		var i;
+
+		for (i = 0; i < coll.length; i++) {
+			coll[i].addEventListener("click", function () {
+				this.classList.toggle("active");
+				var content = this.nextElementSibling;
+				if (content.style.maxHeight) {
+					content.style.maxHeight = null;
+				} else {
+					content.style.maxHeight = content.scrollHeight + "px";
+				}
+			});
+		}
+	</script>
+
 	<!-- jQuery -->
 	<script src="js/jquery.min.js"></script>
 	<!-- jQuery Easing -->
@@ -364,6 +413,6 @@ For example for reference it should be used as 'seq_name.<b>CURRVAL</b>'.</li></
 
 	<script src="js/year.js"></script>
 
-	</body>
-</html>
+</body>
 
+</html>
