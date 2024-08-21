@@ -160,7 +160,7 @@ figure {
 }
 .fh5co-nav ul li a {
   position: relative;
-  font-size: 13px;
+  font-size: 1.5rem;
   padding: 30px 12px;
   color: rgba(0, 0, 0, 0.3);
   -webkit-transition: 0.5s;
@@ -1074,6 +1074,7 @@ input[type="text"] {
 }
 #fh5co-offcanvas a {
   color: rgba(255, 255, 255, 0.5);
+  font-size: 3rem;
 }
 #fh5co-offcanvas a:hover {
   color: rgba(255, 255, 255, 0.8);
