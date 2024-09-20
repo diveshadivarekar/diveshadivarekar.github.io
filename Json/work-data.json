@@ -1,0 +1,68 @@
+[
+    {
+        "title": "Divesh IDE",
+        "description": "IDE to run Java, Python, HTML, CSS, JS programs",
+        "image": "https://cdn-icons-png.flaticon.com/512/8318/8318933.png",
+        "link": "https://github.com/diveshadivarekar/Divesh-IDE"
+    },
+    {
+        "title": "Divesh Website",
+        "description": "My portfolio website",
+        "image": "./favicon/android-chrome-512x512.png",
+        "link": "./index.html"
+    },
+    {
+        "title": "Breast Cancer Detection",
+        "description": "A Web Application to predict Breast Cancer using SVM",
+        "image": "https://static.vecteezy.com/system/resources/previews/024/585/338/original/3d-happy-cartoon-doctor-cartoon-doctor-on-transparent-background-generative-ai-png.png",
+        "link": "https://github.com/diveshadivarekar/Breast-Cancer-Detection-Web-App-Flask"
+    },
+    {
+        "title": "Dish Genie",
+        "description": "Transformer T5 based AI app",
+        "image": "./images/work/dish_genie.png",
+        "link": "https://github.com/diveshadivarekar/Dish-Genie"
+    },
+    {
+        "title": "Code Mania",
+        "description": "Quiz / DSA Question Platform",
+        "image": "./images/work/code_mania.png",
+        "link": "https://github.com/diveshadivarekar/Code-Mania"
+    },
+    {
+        "title": "Task-Assist",
+        "description": "Personal / Organizational Planner",
+        "image": "https://raw.githubusercontent.com/diveshadivarekar/Task-Assist/797f59686fddf7ca0bb62e6d804022a1d8295434/public/assets/images/logo.svg",
+        "link": "https://github.com/diveshadivarekar/Task-Assist"
+    },
+    {
+        "title": "Video to Flipbook Creator",
+        "description": "Video to Flipbook Creator",
+        "image": "https://raw.githubusercontent.com/diveshadivarekar/video-to-flip-book-creator/refs/heads/main/assets/icon.ico",
+        "link": "https://github.com/diveshadivarekar/video-to-flip-book-creator"
+    },
+    {
+        "title": "Feed Me More",
+        "description": "Organic food delivery",
+        "image": "images/feed_me_more_logo.jpg",
+        "link": "/feed_me_more/index.html"
+    },
+    {
+        "title": "Point Media 01",
+        "description": "Free software",
+        "image": "images/pointmedia/pointmedia_logo.jpeg",
+        "link": "https://diveshadivarekar.github.io/PointMedia01/"
+    },
+    {
+        "title": "Study Search",
+        "description": "Search engine for nerds",
+        "image": "https://diveshadivarekar.github.io/Study-Search/assets/logo.png",
+        "link": "https://diveshadivarekar.github.io/Study-Search/"
+    },
+    {
+        "title": "Computer Engineering Student Association",
+        "description": "Portfolio site for CESA",
+        "image": "images/cesa_logo.png",
+        "link": "#"
+    }
+]
