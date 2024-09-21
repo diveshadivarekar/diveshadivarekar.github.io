@@ -12,6 +12,27 @@ document.addEventListener('DOMContentLoaded', function() {
             // Sort the posts by date (newest first)
             blogPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
 
+            // Get unique years from the blog posts
+            const uniqueYears = [...new Set(blogPosts.map(post => new Date(post.date).getFullYear()))];
+
+            // Populate the year dropdown
+            const yearDropdown = document.getElementById('year-dropdown');
+            uniqueYears.forEach(year => {
+                const option = document.createElement('option');
+                option.value = year;
+                option.textContent = year;
+                yearDropdown.appendChild(option);
+            });
+
+            // Scroll to the appropriate section when a year is selected
+            yearDropdown.addEventListener('change', function() {
+                const selectedYear = this.value;
+                const yearElement = document.querySelector(`#year-${selectedYear}`);
+                if (yearElement) {
+                    yearElement.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+
             // Function to render posts
             function renderBlogPosts(posts) {
                 let html = '';
@@ -61,8 +82,8 @@ document.addEventListener('DOMContentLoaded', function() {
                                 html += rowHtml + '</div>';
                                 rowHtml = '<div class="row">';
                             }
-                            // Add year heading
-                            html += `<h3 style="font-size: 3em; margin: 20px 0;">
+                            // Add year heading with an ID for scrolling
+                            html += `<h3 id="year-${year}" style="font-size: 3em; margin: 20px 0;">
                                 <b style="padding: 5px 25px; background-color: #444; color: #fff; border-radius: 47%;">${year}</b>
                             </h3>`;
                             currentYear = year;
