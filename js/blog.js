@@ -15,23 +15,25 @@ document.addEventListener('DOMContentLoaded', function() {
             // Get unique years from the blog posts
             const uniqueYears = [...new Set(blogPosts.map(post => new Date(post.date).getFullYear()))];
 
-            // Populate the year dropdown
-            const yearDropdown = document.getElementById('year-dropdown');
-            uniqueYears.forEach(year => {
-                const option = document.createElement('option');
-                option.value = year;
-                option.textContent = year;
-                yearDropdown.appendChild(option);
-            });
-
-            // Scroll to the appropriate section when a year is selected
-            yearDropdown.addEventListener('change', function() {
-                const selectedYear = this.value;
-                const yearElement = document.querySelector(`#year-${selectedYear}`);
-                if (yearElement) {
-                    yearElement.scrollIntoView({ behavior: 'smooth' });
-                }
-            });
+            try{
+                // Populate the year dropdown
+                const yearDropdown = document.getElementById('year-dropdown');
+                uniqueYears.forEach(year => {
+                    const option = document.createElement('option');
+                    option.value = year;
+                    option.textContent = year;
+                    yearDropdown.appendChild(option);
+                });
+    
+                // Scroll to the appropriate section when a year is selected
+                yearDropdown.addEventListener('change', function() {
+                    const selectedYear = this.value;
+                    const yearElement = document.querySelector(`#year-${selectedYear}`);
+                    if (yearElement) {
+                        yearElement.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            }catch (e) {}   
 
             // Function to render posts
             function renderBlogPosts(posts) {
