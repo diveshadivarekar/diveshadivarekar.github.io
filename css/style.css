@@ -609,10 +609,12 @@ figure {
     background: transparent !important;
   }
   .work .desc h3 {
+    visibility: hidden;
     -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
   }
   .work .desc span {
+    visibility: hidden;
     -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
   }
