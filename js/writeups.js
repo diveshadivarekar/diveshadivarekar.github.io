@@ -6,11 +6,12 @@ fetch('../Json/writeups.json')
          <div class="col-md-6 mb-4">
              <div class="card h-100">
                  <div class="card-body text-center">
-                     <h5 class="card-title">${title}</h5>
+                     <h5 class="card-title"><b>${title}</b></h5>
                      <a href="${link}" target="_blank" class="btn btn-primary mx-2">View</a>
                      <!-- <a href="${link.replace('/view', '/uc?export=download')}" target="_blank" class="btn btn-success mx-2">Download</a> -->
                  </div>
              </div>
+             <br><br>
          </div>
      `;
 
