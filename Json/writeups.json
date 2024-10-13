@@ -1,35 +1,42 @@
 {
     "practicals": [
-      {
-        "title": "CG 1",
-        "link": "https://drive.google.com/file/d/1jJ5JPxJXrVx3C-zjr_NYEllp3NqU8j8H/view?usp=drive_link"
-      },
-      {
-        "title": "OOP 1",
-        "link": "https://drive.google.com/file/d/1Sdj3JzbiSSoMC3cdsnEIWqX9AGFE-3Aa/view?usp=drive_link"
-      },
-      {
-        "title": "OOP 2",
-        "link": "https://drive.google.com/file/d/1q7NPNyQSEF_p6ZR49VLJbYr6-Urb5k6w/view?usp=drive_link"
-      },
-      {
-        "title": "OOP 3",
-        "link": "https://drive.google.com/file/d/1ucMaw5ggUbGvXIn1cPELk5Ujd1uqRWWU/view?usp=drive_link"
-      }
+        {
+            "title": "FDS ALL",
+            "link": "https://drive.google.com/file/d/1wXYKkVU_glSZCI-rfQ5YpBHpR7K2-2y3/view?usp=drive_link"
+        },
+        {
+            "title": "CG 1",
+            "link": "https://drive.google.com/file/d/1jJ5JPxJXrVx3C-zjr_NYEllp3NqU8j8H/view?usp=drive_link"
+        },
+        {
+            "title": "CG 2",
+            "link": "https://drive.google.com/file/d/1zGPUYmB5Oqatu-uMb0_w9kH7I-COOXeJ/view?usp=drive_link"
+        },
+        {
+            "title": "OOP 1",
+            "link": "https://drive.google.com/file/d/1Sdj3JzbiSSoMC3cdsnEIWqX9AGFE-3Aa/view?usp=drive_link"
+        },
+        {
+            "title": "OOP 2",
+            "link": "https://drive.google.com/file/d/1q7NPNyQSEF_p6ZR49VLJbYr6-Urb5k6w/view?usp=drive_link"
+        },
+        {
+            "title": "OOP 3",
+            "link": "https://drive.google.com/file/d/1ucMaw5ggUbGvXIn1cPELk5Ujd1uqRWWU/view?usp=drive_link"
+        }
     ],
     "assignments": [
-      {
-        "title": "OOP unit 2",
-        "link": "https://drive.google.com/file/d/14eCEW71wP4jNttWJxHVKMl2X1UfN0cjV/view?usp=drive_link"
-      },
-      {
-        "title": "OS unit 1",
-        "link": "https://drive.google.com/file/d/1k0LYbi3ODoO_0fGkeLKWUl5F28lQBQMM/view?usp=drive_link"
-      },
-      {
-        "title": "OS unit 2",
-        "link": "https://drive.google.com/file/d/1tH6OhC9-6Nf_kCz9i6gxfNmtxJc9cKi6/view?usp=drive_link"
-      }
+        {
+            "title": "OOP unit 2",
+            "link": "https://drive.google.com/file/d/14eCEW71wP4jNttWJxHVKMl2X1UfN0cjV/view?usp=drive_link"
+        },
+        {
+            "title": "OS unit 1",
+            "link": "https://drive.google.com/file/d/1k0LYbi3ODoO_0fGkeLKWUl5F28lQBQMM/view?usp=drive_link"
+        },
+        {
+            "title": "OS unit 2",
+            "link": "https://drive.google.com/file/d/1tH6OhC9-6Nf_kCz9i6gxfNmtxJc9cKi6/view?usp=drive_link"
+        }
     ]
-  }
-  
+}
