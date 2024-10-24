@@ -7,6 +7,13 @@
         "certificate_url": "https://udemy-certificate.s3.amazonaws.com/image/UC-54ccb6e6-9b12-4f4e-abd9-7c8f67a44bae.jpg?v=1729796918000"
     },
     {
+        "date": "2024-10-24",
+        "title": "Angular",
+        "description": "Angular is the most powerful UI framework which can be used to develop complex, customizable, modern, responsive, and user-friendly web applications. The angular framework follows a component-oriented application design pattern to develop completely reusable and modularized web applications. This course introduces learners to various concepts like creating components, enhancing the functionality of components, sharing data between the components, validating forms, communicating with backend code, and building a single-page application using synchronous or asynchronous routing",
+        "image": "https://www.infosys.com/content/dam/infosys-web/en/global-resource/18/springboard-logo.png",
+        "certificate_url": "https://infyspringboard.onwingspan.com/public-assets/infosysheadstart/cert/lex_20858515543254600000_shared/1-ac08f00b-7861-4ceb-a414-9f0c9dbd7985.pdf"
+    },
+    {
         "date": "2024-10-18",
         "title": "Spoken Tutorial by IIT Bombay",
         "description": "I has successfully completed Advanced Cpp test organized at Pune Vidhyarthi Griha's College of Engineering and Technology with course material provided by the Spoken Tutorial Project, IIT Bombay. Passing an online exam, conducted remotely from IIT Bombay <br>This training is offered by the Spoken Tutorial Project, IIT Bombay",
