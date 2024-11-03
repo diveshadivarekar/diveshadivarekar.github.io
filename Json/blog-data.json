@@ -1,5 +1,12 @@
 [
     {
+        "date": "2024-11-3",
+        "title": "Generative AI Foundations: IT Integration with Generative AI",
+        "description": "In today's fast-paced IT landscape, mastering generative artificial intelligence is crucial. This course equips IT professionals with the essential skills to effectively harness generative AI for tasks like content generation, automation, and data integration. You’ll explore foundational concepts, deploy AI models on Azure, create impactful prompts, and address security considerations. Join us to transform your IT administration practices with cutting-edge AI technologies.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/b/b8/Skillsoft-logo-navy-RGB_.png",
+        "certificate_url": "https://skillsoft.digitalbadges.skillsoft.com/182474c4-0bb6-4a98-b806-7de832414492"
+    },
+    {
         "date": "2024-10-25",
         "title": "Smart Cities Urban Planning & Management",
         "description": "I’m thrilled to share that I’ve just completed a course on Smart Cities! This journey has enriched my understanding of urban infrastructure and the principles of urban management.<br>I delved into the key components that create a smart urban infrastructure system, focusing on smart transport and energy solutions. The case studies from around the globe provided valuable insights into innovative urban planning practices.<br>I can’t wait to apply this knowledge and contribute to building smarter, more sustainable cities. Stay tuned for more insights on this fascinating topic!",
@@ -146,6 +153,13 @@
     },
     {
         "date": "2023-07-01",
+        "title": "Principles of IoT & Python Basics",
+        "description": "Attending the \"Principles of IoT & Python Basics\" course was a game-changer for me. I gained a solid understanding of IoT concepts, including how devices connect and communicate, as well as the overall architecture of IoT systems. The hands-on projects were particularly engaging, allowing me to apply what I learned in real-world scenarios. Learning Python alongside these principles gave me the tools to program IoT devices and analyze data effectively. This course has truly sparked my interest in the exciting possibilities of IoT and equipped me with valuable skills for future projects.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/b/b8/Skillsoft-logo-navy-RGB_.png",
+        "certificate_url": "https://skillsoft.digitalbadges.skillsoft.com/2db26e3c-31ea-4534-8c70-cecdab44e57b"
+    },
+    {
+        "date": "2023-07-01",
         "title": "Infosys Networking and Web Technology",
         "description": "Just completed a Networking and Web Technology course on Infosys SpringBoard.",
         "image": "https://www.infosys.com/content/dam/infosys-web/en/global-resource/18/springboard-logo.png",
@@ -154,8 +168,8 @@
     {
         "date": "2023-05-25",
         "title": "Samsung Solve for Tomorrow",
-        "description": "Participated in it; view Certificate.",
-        "image": "https://d3bzyjrsc4233l.cloudfront.net/news/LBB_Online_-_2023-08-28T102027.930.png",
+        "description": "I had the incredible opportunity to participate in Samsung’s Solve for Tomorrow 2023, a competition that challenges students to use their creativity and technical skills to address pressing social issues. Throughout the event, I collaborated with a diverse team, brainstorming innovative solutions and developing a project that leverages technology for positive impact. The experience not only enhanced my problem-solving abilities but also deepened my understanding of the importance of social responsibility in technology. I’m grateful for the chance to learn from industry experts and connect with like-minded peers who are passionate about making a difference.",
+        "image": "https://img.global.news.samsung.com/za/wp-content/uploads/2024/03/samsung-solve-for-tomorrow-logo-White-e1711091397702.jpg",
         "certificate_url": "./documents/samsung_solve_for_tomorrow.jpg"
     },
     {
