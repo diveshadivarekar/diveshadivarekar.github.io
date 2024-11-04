@@ -1,8 +1,15 @@
 [
     {
+        "date": "2024-11-4",
+        "title": "Indexes in Raven DB",
+        "description": "I've completed the course on Raven! I now have a solid understanding of how indexes function as optimized on-disk data structures that deliver query results quickly. I explored various topics, including full-text searches, paging results, and streaming large result sets. This knowledge has greatly enhanced my skills in working with data in Raven.",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/b/b8/Skillsoft-logo-navy-RGB_.png",
+        "certificate_url": "https://skillsoft.digitalbadges.skillsoft.com/d6483411-1359-40ef-8c2e-5465a7234b83"
+    },
+    {
         "date": "2024-11-3",
         "title": "Generative AI Foundations: IT Integration with Generative AI",
-        "description": "In today's fast-paced IT landscape, mastering generative artificial intelligence is crucial. This course equips IT professionals with the essential skills to effectively harness generative AI for tasks like content generation, automation, and data integration. You’ll explore foundational concepts, deploy AI models on Azure, create impactful prompts, and address security considerations. Join us to transform your IT administration practices with cutting-edge AI technologies.",
+        "description": "I've successfully completed the course on mastering generative artificial intelligence! In today's fast-paced IT landscape, I've gained essential skills to effectively harness generative AI for tasks such as content generation, automation, and data integration. I explored foundational concepts, deployed AI models on Azure, created impactful prompts, and addressed important security considerations. This experience has truly transformed my IT administration practices with cutting-edge AI technologies.",
         "image": "https://upload.wikimedia.org/wikipedia/commons/b/b8/Skillsoft-logo-navy-RGB_.png",
         "certificate_url": "https://skillsoft.digitalbadges.skillsoft.com/182474c4-0bb6-4a98-b806-7de832414492"
     },
