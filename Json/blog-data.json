@@ -1,5 +1,26 @@
 [
     {
+        "date": "2025-01-4",
+        "title": "Data Engineering - Foundation",
+        "description": "I’ve completed the Data Engineering - Foundation course, gaining essential skills in data modeling, ETL processes, and cloud technologies. This course has equipped me with a strong foundation in data engineering principles, and I’m excited to apply this knowledge in future projects.",
+        "image": "https://lwfiles.mycourse.app/66b0a2af2f87d26054d55304-public/6a83791e11b85120fb5c185d8ff752a0.png",
+        "certificate_url": "https://learn.rubiscape.com/certificate_v2/66d192b1669d22c40f0289c6/user/6777fa4dc4ae510fde05fe39"
+    },
+    {
+        "date": "2025-01-4",
+        "title": "Data Science - Foundation",
+        "description": "I’ve successfully completed the Data Science - Foundation course, where I learned the key concepts in data analysis, statistical modeling, and machine learning. This course has laid the groundwork for further exploration into data science techniques and tools.",
+        "image": "https://lwfiles.mycourse.app/66b0a2af2f87d26054d55304-public/6a83791e11b85120fb5c185d8ff752a0.png",
+        "certificate_url": "https://learn.rubiscape.com/certificate_v2/66d1a6ac8bae64b7f80cd708/user/6777fa4dc4ae510fde05fe39"
+    },
+    {
+        "date": "2025-01-4",
+        "title": "Data Visualization - Foundation",
+        "description": "I’ve successfully completed the Data Visualization - Foundation course, gaining a comprehensive understanding of key principles in data visualization. This course enhanced my skills in transforming complex data into easy-to-understand visual formats, focusing on clarity, consistency, and accuracy.",
+        "image": "https://lwfiles.mycourse.app/66b0a2af2f87d26054d55304-public/6a83791e11b85120fb5c185d8ff752a0.png",
+        "certificate_url": "https://learn.rubiscape.com/certificate_v2/66d16b3d4ff3f8879b0311a4/user/6777fa4dc4ae510fde05fe39"
+    },
+    {
         "date": "2024-11-4",
         "title": "Indexes in Raven DB",
         "description": "I've completed the course on Raven! I now have a solid understanding of how indexes function as optimized on-disk data structures that deliver query results quickly. I explored various topics, including full-text searches, paging results, and streaming large result sets. This knowledge has greatly enhanced my skills in working with data in Raven.",
