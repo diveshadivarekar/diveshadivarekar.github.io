@@ -9,15 +9,22 @@
   </script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&amp;display=swap" rel="stylesheet"/>
+  <style>
+   .category-tab {
+      cursor: pointer;
+    }
+  </style>
   <script>
    document.addEventListener('DOMContentLoaded', function() {
       const cart = [];
       const cartCountElement = document.getElementById('cart-count');
       const cartItemsElement = document.getElementById('cart-items');
       const cartTotalElement = document.getElementById('cart-total');
+      const categoryTabs = document.querySelectorAll('.category-tab');
+      const productSections = document.querySelectorAll('.product-section');
 
       function updateCart() {
-        cartCountElement.textContent = cart.length;
+        cartCountElement.textContent = cart.reduce((acc, item) => acc + item.quantity, 0);
         cartItemsElement.innerHTML = '';
         let total = 0;
         cart.forEach(item => {
@@ -25,22 +32,66 @@
           itemElement.className = 'flex justify-between items-center py-2';
           itemElement.innerHTML = `
             <span>${item.name}</span>
-            <span>₹${item.price.toFixed(2)}</span>
+            <div class="flex items-center">
+              <button class="bg-red-600 text-white px-2 py-1 rounded remove-item" data-name="${item.name}">-</button>
+              <span class="mx-2">${item.quantity}</span>
+              <button class="bg-green-600 text-white px-2 py-1 rounded add-item" data-name="${item.name}">+</button>
+            </div>
+            <span>₹${(item.price * item.quantity).toFixed(2)}</span>
           `;
           cartItemsElement.appendChild(itemElement);
-          total += item.price;
+          total += item.price * item.quantity;
         });
         cartTotalElement.textContent = `₹${total.toFixed(2)}`;
+
+        document.querySelectorAll('.add-item').forEach(button => {
+          button.addEventListener('click', function() {
+            const itemName = this.dataset.name;
+            const item = cart.find(i => i.name === itemName);
+            item.quantity += 1;
+            updateCart();
+          });
+        });
+
+        document.querySelectorAll('.remove-item').forEach(button => {
+          button.addEventListener('click', function() {
+            const itemName = this.dataset.name;
+            const item = cart.find(i => i.name === itemName);
+            if (item.quantity > 1) {
+              item.quantity -= 1;
+            } else {
+              const index = cart.indexOf(item);
+              cart.splice(index, 1);
+            }
+            updateCart();
+          });
+        });
       }
 
       document.querySelectorAll('.add-to-cart').forEach(button => {
         button.addEventListener('click', function() {
-          const item = {
-            name: this.dataset.name,
-            price: parseFloat(this.dataset.price)
-          };
-          cart.push(item);
+          const itemName = this.dataset.name;
+          const itemPrice = parseFloat(this.dataset.price);
+          const existingItem = cart.find(i => i.name === itemName);
+          if (existingItem) {
+            existingItem.quantity += 1;
+          } else {
+            cart.push({ name: itemName, price: itemPrice, quantity: 1 });
+          }
           updateCart();
+        });
+      });
+
+      categoryTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+          const category = this.dataset.category;
+          productSections.forEach(section => {
+            if (section.dataset.category === category || category === 'all') {
+              section.classList.remove('hidden');
+            } else {
+              section.classList.add('hidden');
+            }
+          });
         });
       });
     });
@@ -83,29 +134,32 @@
      Categories
     </h2>
     <div class="flex flex-wrap gap-4">
-     <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+     <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 category-tab" data-category="all">
+      All
+     </button>
+     <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 category-tab" data-category="flowers">
       Fresh Flowers
      </button>
-     <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+     <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 category-tab" data-category="pooja">
       Pooja Samagri
      </button>
-     <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+     <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 category-tab" data-category="garlands">
       Garlands
      </button>
-     <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+     <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 category-tab" data-category="incense">
       Incense Sticks
      </button>
-     <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+     <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 category-tab" data-category="diyas">
       Diyas
      </button>
-     <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+     <button class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 category-tab" data-category="kumkum">
       Kumkum
      </button>
     </div>
    </section>
    <section class="mb-8">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-     <div class="bg-white shadow-md rounded-lg overflow-hidden">
+     <div class="bg-white shadow-md rounded-lg overflow-hidden product-section" data-category="flowers">
       <img alt="A beautiful bouquet of fresh flowers with vibrant colors" class="w-full h-48 object-cover" height="400" src="https://storage.googleapis.com/a1aa/image/372JWlHRfVSHKiU4rEK0bCPE8eHf1YZYUo2cGYsTmluYkZNoA.jpg" width="600"/>
       <div class="p-4">
        <h2 class="text-xl font-bold text-gray-800">
@@ -124,7 +178,7 @@
        </div>
       </div>
      </div>
-     <div class="bg-white shadow-md rounded-lg overflow-hidden">
+     <div class="bg-white shadow-md rounded-lg overflow-hidden product-section" data-category="pooja">
       <img alt="A set of traditional pooja samagri items including incense sticks, diya, and kumkum" class="w-full h-48 object-cover" height="400" src="https://storage.googleapis.com/a1aa/image/akGYHHwZffoRMUBnpcGnnJRARiraL9hGsCbMjHm0VlvPysGUA.jpg" width="600"/>
       <div class="p-4">
        <h2 class="text-xl font-bold text-gray-800">
@@ -143,7 +197,7 @@
        </div>
       </div>
      </div>
-     <div class="bg-white shadow-md rounded-lg overflow-hidden">
+     <div class="bg-white shadow-md rounded-lg overflow-hidden product-section" data-category="garlands">
       <img alt="A decorative garland made of fresh marigold flowers" class="w-full h-48 object-cover" height="400" src="https://storage.googleapis.com/a1aa/image/n86Bnzjc5AaeTCa48xRzmgH3DqA5vaDghX56m0yXfbEOysGUA.jpg" width="600"/>
       <div class="p-4">
        <h2 class="text-xl font-bold text-gray-800">
@@ -162,7 +216,7 @@
        </div>
       </div>
      </div>
-     <div class="bg-white shadow-md rounded-lg overflow-hidden">
+     <div class="bg-white shadow-md rounded-lg overflow-hidden product-section" data-category="flowers">
       <img alt="A set of fresh rose petals in a bowl" class="w-full h-48 object-cover" height="400" src="https://storage.googleapis.com/a1aa/image/6g8qkvK8CXJMNtLoH6EtqZNTPAheBdLbrZ1qNL60tAZIZWDKA.jpg" width="600"/>
       <div class="p-4">
        <h2 class="text-xl font-bold text-gray-800">
@@ -181,7 +235,7 @@
        </div>
       </div>
      </div>
-     <div class="bg-white shadow-md rounded-lg overflow-hidden">
+     <div class="bg-white shadow-md rounded-lg overflow-hidden product-section" data-category="flowers">
       <img alt="A set of fresh jasmine flowers in a bowl" class="w-full h-48 object-cover" height="400" src="https://storage.googleapis.com/a1aa/image/w3raeQshj4SwEyanfjPnaecUs3qMxpznaJ8R9B3fd8bqIzaQB.jpg" width="600"/>
       <div class="p-4">
        <h2 class="text-xl font-bold text-gray-800">
@@ -200,7 +254,7 @@
        </div>
       </div>
      </div>
-     <div class="bg-white shadow-md rounded-lg overflow-hidden">
+     <div class="bg-white shadow-md rounded-lg overflow-hidden product-section" data-category="pooja">
       <img alt="A set of fresh tulsi leaves in a bowl" class="w-full h-48 object-cover" height="400" src="https://storage.googleapis.com/a1aa/image/Tdl9BNI3iU4rAlKofLlnIIkFWOrC5yBFj78dRntA7deSysGUA.jpg" width="600"/>
       <div class="p-4">
        <h2 class="text-xl font-bold text-gray-800">
