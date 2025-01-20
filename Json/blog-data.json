@@ -1,5 +1,20 @@
 [
     {
+        "date": "2025-01-20",
+        "title": "National Level Online Coding Challenge Competition",
+        "description": " I have participated in the National Level Online Coding Challenge Competition 2025 conducted by AD Infocom Systems.",
+        "image": "https://media.licdn.com/dms/image/v2/C4D0BAQEkj6nU96vYKg/company-logo_200_200/company-logo_200_200/0/1675573451873?e=2147483647&v=beta&t=da56vTMJ1nuy2ZzJ_TD3x-O_RC9CDok2acfaKZCcX4w",
+        "certificate_url": "./documents/AD Infocom System.pdf"
+    },
+    {
+        "date": "2025-01-13",
+        "title": "AI Tools Workshop",
+        "description": " I have attended the Module 4 : Innovative Insights and Opportunities in CWS (Cloud, Wheel(EV), Cyber Security) by industry professionals at our College PVG's COET Pune. ",
+        "image": "https://techtalkrotary.in/wp-content/uploads/2024/12/Image20241216172040.png",
+        "certificate_url": "./documents/techtalk 2025.pdf"
+    },
+
+    {
         "date": "2025-01-5",
         "title": "AI Tools Workshop",
         "description": " I completed an amazing AI Tools Workshop by Be10X! The session was insightful and packed with valuable hands-on experience. I learned a lot about the latest AI technologies and their real-world applications.",
