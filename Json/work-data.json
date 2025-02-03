@@ -1,8 +1,26 @@
 [
     {
+        "title": "Beach Guard",
+        "description": "App to provide recreational suitability information of beach locations",
+        "image": "https://cdn-icons-png.flaticon.com/512/284/284483.png",
+        "link": "https://github.com/diveshadivarekar/SIH-2024"
+    },
+    {
+        "title": "Route Craft",
+        "description": "A personalized learning pathway generator.",
+        "image": "https://cdn-icons-png.flaticon.com/512/9601/9601676.png",
+        "link": "https://youtu.be/IJ2tyLmHoWY"
+    },
+    {
+        "title": "Bharat Krishi",
+        "description": "A Supper app for Farmers of Bharat",
+        "image": "https://i.pinimg.com/736x/39/e4/26/39e426741c29f67274c8d23734f19aea.jpg",
+        "link": "https://drive.google.com/file/d/1HiqbYa3kn6XRFaSzd5c2MF5OJnNnLewi/view"
+    },
+    {
         "title": "Bloomify",
         "description": "A modern question paper setting AI agent based on Bloom's taxonomy",
-        "image": "https://raw.githubusercontent.com/existence-master/Bloomify/refs/heads/master/.github/assets/banner.png?token=GHSAT0AAAAAACQGIYTU6PQJUYSQV2SPE6KSZ34FGSA",
+        "image": "https://existence-bloomify.vercel.app/navbarlogo.svg",
         "link": "https://existence-bloomify.vercel.app/"
     },
     {

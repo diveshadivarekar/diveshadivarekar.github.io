@@ -28,7 +28,7 @@ fetch('../Json/work-data.json')
 
             // Add content to the card
             card.innerHTML = `
-                    <a href="${cardData.link}" class="work" style="background-image: url(${cardData.image}); background-size: contain;">
+                    <a target ="_blank" href="${cardData.link}" class="work" style="background-image: url(${cardData.image}); background-size: contain;">
                         <div class="desc">
                             <h3>${cardData.title}</h3>
                             <span>${cardData.description}</span>
