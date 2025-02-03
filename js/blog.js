@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     fetch('../Json/blog-data.json')
         .then(response => {
             if (!response.ok) {
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Get unique years from the blog posts
             const uniqueYears = [...new Set(blogPosts.map(post => new Date(post.date).getFullYear()))];
 
-            try{
+            try {
                 // Populate the year dropdown
                 const yearDropdown = document.getElementById('year-dropdown');
                 uniqueYears.forEach(year => {
@@ -24,16 +24,16 @@ document.addEventListener('DOMContentLoaded', function() {
                     option.textContent = year;
                     yearDropdown.appendChild(option);
                 });
-    
+
                 // Scroll to the appropriate section when a year is selected
-                yearDropdown.addEventListener('change', function() {
+                yearDropdown.addEventListener('change', function () {
                     const selectedYear = this.value;
                     const yearElement = document.querySelector(`#year-${selectedYear}`);
                     if (yearElement) {
                         yearElement.scrollIntoView({ behavior: 'smooth' });
                     }
                 });
-            }catch (e) {}   
+            } catch (e) { }
 
             // Function to render posts
             function renderBlogPosts(posts) {
@@ -85,8 +85,8 @@ document.addEventListener('DOMContentLoaded', function() {
                                 rowHtml = '<div class="row">';
                             }
                             // Add year heading with an ID for scrolling
-                            html += `<h3 id="year-${year}" style="font-size: 3em; margin: 20px 0;">
-                                <b style="padding: 5px 25px; background-color: #444; color: #fff; border-radius: 47%;">${year}</b>
+                            html += ` <h3 id="year-${year}" class="text-5xl my-5 mx-5">
+                                <b class="px-6 py-1 bg-gray-800 text-white rounded-full">${year}</b>
                             </h3>`;
                             currentYear = year;
                             rowCount = 0; // Reset row count for new year
@@ -102,13 +102,20 @@ document.addEventListener('DOMContentLoaded', function() {
                         // Create the card HTML
                         rowHtml += `<div class="col-md-4">
                             <div class="fh5co-blog ">
-                                <a class="blog-bg" style="background-image: url(${post.image}); background-size: contain;"></a>
+                                <a class="blog-bg m-5" style="background-image: url(${post.image}); background-size: contain; width: auto"></a>
                                 <div class="blog-text">
                                     <span class="posted_on">${postDate.toDateString()}</span>
                                     <h3><a href="#">${post.title}</a></h3>
                                     <p>${post.description}</p>
                                     <ul class="stuff"></ul>
-                                    ${post.certificate_url ? `<a target="_blank" href="${post.certificate_url}">View Certificate</a>` : ''}
+
+                                    ${post.certificate_url ?
+                                    `<a target="_blank" href="${post.certificate_url}">
+                                        <button class="flex items-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                                            <i class="fas fa-certificate mr-2"></i>
+                                            View Certificate
+                                        </button>
+                                    </a>` : ''}
                                 </div>
                             </div>
                         </div>`;
