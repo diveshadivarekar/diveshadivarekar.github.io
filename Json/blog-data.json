@@ -1,5 +1,19 @@
 [
     {
+        "date": "2025-02-23",
+        "title": "Inovation foundation Techathon 2.0",
+        "description": "I had the incredible opportunity to participate in InnovateYou Techathon 2.0, a 24-hour national-level hackathon at AISSMS IOIT Pune, organized by the Innovation Foundation, Pune. Our challenge was to develop an AI-driven solution for quick and accurate patient record analysis, pushing us to innovate under pressure. It was an intense yet rewarding experience, filled with brainstorming, coding, and last-minute debugging. Being part of such a competitive and insightful event, judged by industry experts, was truly inspiring. Looking forward to more such challenges!",
+        "image": "https://innovateyou.in/wp-content/uploads/2025/01/INNOVATION-FOUNDATION-1.jpg",
+        "certificate_url": "https://drive.google.com/file/d/1l2wwou_5O8oVuKfQf5Dig17sxjrvqgbZ/view"
+    },
+    {
+        "date": "2025-01-30",
+        "title": "Nirman X ODOO Hackathon",
+        "description": "From a fun, no-expectations start to securing a Top 7 spot, our hackathon journey at Amity University Mumbai was pure chaos and innovation! With top-notch management, great vibes, and intense problem statements from Odoo, we tackled merge conflicts, database nightmares, and UI disasters—all while running on caffeine and last-minute panic. Somehow, we made it through! Shoutout to my incredible team, Rudra, Atharva, and Adnan, for making the impossible happen. Here’s to more hackathons, more challenges, and, let’s be real, more last-minute submissions!",
+        "image": "https://portcities.net/web/image/72197-195b6c87/Odoo-Logo.wine.png",
+        "certificate_url": "./documents/odoo-nirman.jpg"
+    },  
+    {
         "date": "2025-01-20",
         "title": "National Level Online Coding Challenge Competition",
         "description": " I have participated in the National Level Online Coding Challenge Competition 2025 conducted by AD Infocom Systems.",
