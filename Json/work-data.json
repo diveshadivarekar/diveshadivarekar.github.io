@@ -1,5 +1,11 @@
 [
     {
+        "title": "Vaidya Saarthi",
+        "description": "AI assistant app for Doctor, Patient and Hospitals with AI features and hipaa compliant",
+        "image": "./images/work/vaidya_saarthi.jpg",
+        "link": "https://github.com/diveshadivarekar/Team_X-techathon-healthcare"
+    },
+    {
         "title": "Beach Guard",
         "description": "App to provide recreational suitability information of beach locations",
         "image": "https://cdn-icons-png.flaticon.com/512/284/284483.png",
