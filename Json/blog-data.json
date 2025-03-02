@@ -27,7 +27,13 @@
         "image": "https://techtalkrotary.in/wp-content/uploads/2024/12/Image20241216172040.png",
         "certificate_url": "./documents/techtalk 2025.pdf"
     },
-
+    {
+        "date": "2025-01-8",
+        "title": "PICT Tech fiesta",
+        "description": "",
+        "image": "https://pict.edu/images/events/img/techfiesta1.jpeg",
+        "certificate_url": "https://drive.google.com/drive/folders/1JkAJFiePUL-vvnRKiOAAZ0B67ue0N1hl"
+    },
     {
         "date": "2025-01-5",
         "title": "AI Tools Workshop",
