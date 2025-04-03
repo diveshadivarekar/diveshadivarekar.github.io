@@ -1,5 +1,11 @@
 [
     {
+        "title": "Code Clash",
+        "description": "Quiz / DSA Question Platform",
+        "image": "./images/work/CODE_CLASH_LOGO.png",
+        "link": "https://github.com/diveshadivarekar/CODE-CLASH"
+    },
+    {
         "title": "Vaidya Saarthi",
         "description": "AI assistant app for Doctor, Patient and Hospitals with AI features and hipaa compliant",
         "image": "./images/work/vaidya_saarthi.jpg",
