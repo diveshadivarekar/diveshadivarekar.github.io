@@ -1,5 +1,12 @@
 [
     {
+        "date": "2025-04-02",
+        "title": "Code Clash",
+        "description": "We, second-year AI & Data Science Engineering students, successfully organized Code Clash, our first major coding competition featuring two rounds: Aptitude + Coding and a Data Structures Challenge. With 54 participants, exciting cash prizes, and custom certificates for all, the event was a great success. From platform development and automation to design, media, and coordination, our dedicated team handled everything end-to-end. Special thanks to our mentors and faculty for their support — this event showcased our technical skills, teamwork, and initiative.",
+        "image": "./images/code_clash.jpg",
+        "certificate_url": "./documents/code_clash.pdf"
+    },
+    {
         "date": "2025-02-23",
         "title": "Inovation foundation Techathon 2.0",
         "description": "I had the incredible opportunity to participate in InnovateYou Techathon 2.0, a 24-hour national-level hackathon at AISSMS IOIT Pune, organized by the Innovation Foundation, Pune. Our challenge was to develop an AI-driven solution for quick and accurate patient record analysis, pushing us to innovate under pressure. It was an intense yet rewarding experience, filled with brainstorming, coding, and last-minute debugging. Being part of such a competitive and insightful event, judged by industry experts, was truly inspiring. Looking forward to more such challenges!",
