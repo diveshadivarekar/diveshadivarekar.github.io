@@ -1,5 +1,12 @@
 [
     {
+        "date": "2025-05-19",
+        "title": "Galgotias International Hackathon 2.0",
+        "description": "I recently participated in the Galgotias International Hackathon 2025 at TechFest, hosted by GCET. It was an incredible experience that fostered innovation, collaboration, and future-forward thinking. Grateful to be part of a platform that empowers passionate minds to shape the future of technology.",
+        "image": "https://media.licdn.com/dms/image/v2/D560BAQHasSllMpZnXQ/company-logo_200_200/B56ZWTcefzGsAI-/0/1741935471057/galgotiasuniversity_logo?e=2147483647&v=beta&t=aXS5LDkOq8WGxbS4iFsVVkVOJsTxW100xQt1On7x3Q0",
+        "certificate_url": "./documents/galgotias.pdf"
+    },
+    {
         "date": "2025-04-17",
         "title": "Spoken Tutorial by IIT Bombay",
         "description": "I has successfully completed Python test organized at Pune Vidhyarthi Griha's College of Engineering and Technology with course material provided by the Spoken Tutorial Project, IIT Bombay. Passing an online exam, conducted remotely from IIT Bombay <br>This training is offered by the Spoken Tutorial Project, IIT Bombay",
