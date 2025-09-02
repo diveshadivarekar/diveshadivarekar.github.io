@@ -1,4 +1,11 @@
 [
+     {
+        "date": "2025-09-02",
+        "title": "Exploring Natural Language Processing (NLP) using Deep Learning",
+        "description": "Dive into the fascinating world of NLP powered by deep learning. From chatbots to language translation, deep neural networks enable machines to understand and generate human language with remarkable accuracy. Discover how models like Transformers are revolutionizing communication and AI today.",
+        "image": "https://pbs.twimg.com/profile_images/1418119697862594561/53YV5N0w_400x400.png",
+        "certificate_url": "https://courses.analyticsvidhya.com/certificates/lrwi9juxjt"
+    },
     {
         "date": "2025-08-03",
         "title": "Code For Bharat Season 2 Hackathon",
