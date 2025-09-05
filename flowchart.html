@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You, Michelle Thaller!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            /* Added for 3D effect */
+            perspective: 1000px;
+        }
+        
+        /* --- Starry Background Animation --- */
+        @keyframes move-stars {
+            from { transform: translateY(0); }
+            to { transform: translateY(-2000px); }
+        }
+        #stars-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: -10;
+        }
+        
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%; /* Changed from 200% */
+            display: block;
+            background: transparent;
+        }
+        #stars1 {
+            background-image: radial-gradient(white 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: move-stars 200s linear infinite;
+        }
+        #stars2 {
+            background-image: radial-gradient(white 1px, transparent 1px);
+            background-size: 100px 100px;
+            animation: move-stars 150s linear infinite;
+        }
+        #stars3 {
+            background-image: radial-gradient(#a78bfa 1px, transparent 1px); /* A hint of violet */
+            background-size: 150px 150px;
+            animation: move-stars 100s linear infinite;
+        }
+
+        /* --- Animation Reveal on Scroll --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Connecting Lines Animation --- */
+        .paths-container-desktop { position: relative; }
+        .paths-container-desktop::before {
+            content: ''; position: absolute; top: 2rem; left: 15%; right: 15%;
+            height: 2px; background-color: #818cf8; z-index: 0;
+            transform: scaleX(0); transform-origin: center;
+            transition: transform 0.6s ease-out 0.5s;
+        }
+        .paths-container-desktop.visible::before { transform: scaleX(1); }
+        
+        .path-desktop .connector {
+            width: 2px; height: 2rem; background-color: #818cf8;
+            transform: scaleY(0); transform-origin: top;
+            transition: transform 0.5s ease-out;
+        }
+        .path-desktop.visible .connector { transform: scaleY(1); }
+
+        .convergence-connector.reveal {
+            transform: scaleY(0); transform-origin: top;
+            transition-delay: 0.3s;
+        }
+        .convergence-connector.reveal.visible { transform: scaleY(1); }
+
+        /* NEW Line Drawing Animation */
+        .line-draw {
+            transform: scaleY(0);
+            transform-origin: top;
+            transition: transform 0.5s ease-out;
+        }
+        .arrowhead-fade {
+            opacity: 0;
+            transition: opacity 0.4s ease-out 0.4s; /* Delay after line draws */
+        }
+        .reveal.visible .line-draw {
+            transform: scaleY(1);
+        }
+        .reveal.visible .arrowhead-fade {
+            opacity: 1;
+        }
+
+
+        /* --- 3D Tilt Effect --- */
+        .node {
+            transition: transform 0.1s ease-out;
+            transform-style: preserve-3d;
+        }
+        
+    </style>
+</head>
+<body class="bg-gray-900 bg-gradient-to-br from-gray-900 via-indigo-900 to-slate-900 text-slate-200 flex items-start justify-center min-h-screen p-4 sm:p-6 md:p-8 overflow-x-hidden">
+
+    <!-- Starry Background -->
+    <div id="stars-container">
+        <div id="stars1" class="stars"></div>
+        <div id="stars2" class="stars"></div>
+        <div id="stars3" class="stars"></div>
+    </div>
+
+    <main class="w-full max-w-7xl flex flex-col items-center gap-4">
+
+        <div class="relative w-full max-w-2xl reveal node">
+            <img src="https://i.ytimg.com/vi/3C2PyZi--fU/maxresdefault.jpg" alt="Michelle Thaller giving a lecture" class="w-full h-auto rounded-3xl shadow-2xl shadow-indigo-500/30 border-2 border-indigo-400/30">
+        </div>
+
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-white mt-12 mb-8 text-center reveal">A Thank You Note Flowchart</h1>
+
+        <!-- Start -->
+        <div class="node-oval reveal flex flex-col items-center gap-2">
+             <img src="https://earth.gsfc.nasa.gov/sites/default/files/styles/max_325x325/public/maniacs/pics/michelleThaller.png?itok=UMW-kGt2" alt="Illustration Placeholder" class="w-12 h-12 object-cover rounded-full">
+            Thinking of you, Michelle Thaller
+        </div>
+        
+        <div class="flex flex-col items-center my-2 reveal">
+            <div class="h-12 w-0.5 bg-indigo-400/50 line-draw"></div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-indigo-300/70 arrowhead-fade" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+        </div>
+
+        <!-- Process 1 -->
+        <div class="node-rect reveal flex items-center gap-4">
+            <img src="https://plus.unsplash.com/premium_vector-1721803200754-99417f18031c?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE0fHx8ZW58MHx8fHx8" alt="Illustration Placeholder" class="w-16 h-16 object-cover rounded-lg hidden sm:block">
+            I was reflecting on the people who have truly shaped my perspective, and you immediately came to mind.
+        </div>
+        
+        <div class="flex flex-col items-center my-2 reveal">
+            <div class="h-12 w-0.5 bg-indigo-400/50 line-draw"></div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-indigo-300/70 arrowhead-fade" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+        </div>
+
+        <!-- Deeper Reflection -->
+        <div class="node-rect reveal flex items-center gap-4">
+            <p>It was during your talk on stellar evolution that I truly felt the scale of the universe and my place within it.</p>
+            <img src="https://i.ytimg.com/vi/xIEjWef_AAg/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLAI5XvSyHgD49RfbWY2GPBkuP4HDw" alt="Illustration Placeholder" class="w-16 h-16 object-cover rounded-lg hidden sm:block">
+        </div>
+        
+        <div class="flex flex-col items-center my-2 reveal">
+            <div class="h-12 w-0.5 bg-indigo-400/50 line-draw"></div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-indigo-300/70 arrowhead-fade" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+        </div>
+        
+        <!-- Decision -->
+        <div class="node-diamond reveal">
+            <span class="text-center font-semibold">What do I appreciate the most?</span>
+        </div>
+        
+        <!-- Branching Paths Container -->
+        <div class="hidden lg:flex w-full justify-center items-start paths-container-desktop mb-4 reveal">
+            <!-- Path A -->
+            <div class="path-desktop reveal" style="transition-delay: 0.1s;">
+                <div class="connector"></div>
+                <div class="node-rect-path"><strong class="path-title">The Lessons</strong>
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmXQ1FzprYL8ysQiaZcEazSZ3cgwulS-ppnw&s" alt="Illustration Placeholder" class="w-24 h-24 object-cover rounded-lg mb-4">
+                    Your analogy comparing spacetime to a bowling ball on a trampoline is unforgettable.
+                </div>
+            </div>
+            <!-- Path B -->
+            <div class="path-desktop reveal" style="transition-delay: 0.3s;">
+                <div class="connector"></div>
+                <div class="node-rect-path"><strong class="path-title">The Inspiration</strong>
+                    <img src="https://media.istockphoto.com/id/1326956550/vector/creative-mind-or-brainstorm-or-creative-idea-concept-with-abstract-human-head-silhouette-and.jpg?s=612x612&w=0&k=20&c=FJkZhj0hYC58Um9aYxoODVk_XfjSemUscwPgNwxlIX0=" alt="Illustration Placeholder" class="w-24 h-24 object-cover rounded-lg mb-4">
+                    Your encouragement to stay curious has become a personal mantra.
+                </div>
+            </div>
+            <!-- Path C -->
+            <div class="path-desktop reveal" style="transition-delay: 0.5s;">
+                <div class="connector"></div>
+                <div class="node-rect-path"><strong class="path-title">The Communicator</strong>
+                    <img src="https://media.istockphoto.com/id/1359879029/vector/hybrid-team-colleagues-with-distant-online-video-call-tiny-person-concept-business-project.jpg?s=612x612&w=0&k=20&c=jxI1EWCEy7kQuyUTq_SojU0hGP2KYcdoGF-4HmLd8WY=" alt="Illustration Placeholder" class="w-24 h-24 object-cover rounded-lg mb-4">
+                    Your passion is a contagious reminder that science is a deeply human endeavor.
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile-only stacked paths -->
+        <div class="flex lg:hidden flex-col items-center w-full gap-4">
+            <div class="flex flex-col items-center my-2 reveal">
+                <div class="h-12 w-0.5 bg-indigo-400/50 line-draw"></div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-indigo-300/70 arrowhead-fade" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </div>
+            <div class="node-rect-path reveal"><strong class="path-title">The Lessons</strong>Your analogy comparing spacetime to a bowling ball on a trampoline is unforgettable.</div>
+            <div class="flex flex-col items-center my-2 reveal">
+                <div class="h-12 w-0.5 bg-indigo-400/50 line-draw"></div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-indigo-300/70 arrowhead-fade" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </div>
+            <div class="node-rect-path reveal"><strong class="path-title">The Inspiration</strong>Your encouragement to stay curious has become a personal mantra.</div>
+            <div class="flex flex-col items-center my-2 reveal">
+                <div class="h-12 w-0.5 bg-indigo-400/50 line-draw"></div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-indigo-300/70 arrowhead-fade" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+            </div>
+            <div class="node-rect-path reveal"><strong class="path-title">The Communicator</strong>Your passion is a contagious reminder that science is a deeply human endeavor.</div>
+        </div>
+
+        <!-- Convergence -->
+        <div class="hidden lg:block w-4/5 h-16 border-b-2 border-l-2 border-r-2 border-indigo-400/50 rounded-b-3xl mt-6 convergence-connector reveal"></div>
+        <div class="flex flex-col items-center my-2 reveal">
+            <div class="h-12 w-0.5 bg-indigo-400/50 line-draw"></div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-indigo-300/70 arrowhead-fade" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+        </div>
+
+        <!-- Realization -->
+        <div class="node-rect reveal flex items-center gap-6">
+            <img src="https://www.shutterstock.com/image-vector/young-man-look-mirror-see-260nw-2161932829.jpg" alt="Illustration Placeholder" class="w-20 h-20 object-cover rounded-full hidden sm:block">
+            <p>Your influence extends far beyond a single talk; it's a permanent fixture in how I see the world.</p>
+        </div>
+
+        <div class="flex flex-col items-center my-2 reveal">
+            <div class="h-12 w-0.5 bg-indigo-400/50 line-draw"></div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-indigo-300/70 arrowhead-fade" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+        </div>
+
+        <!-- Future Impact -->
+        <div class="node-rect reveal flex items-center gap-6">
+             <p>You've equipped a generation with the tools to think critically and the inspiration to dream bigger than ever before.</p>
+             <img src="https://media.istockphoto.com/id/1176392332/vector/woman-sitting-in-yoga-lotus-pose-night-starry-sky-and-moon-in-hair-space-exploring-universal.jpg?s=612x612&w=0&k=20&c=SVc2BfGwmGD1tMwrmwWqV0_zryLa0XdYC8MDCoikA5s=" alt="Illustration Placeholder" class="w-20 h-20 object-cover rounded-full hidden sm:block">
+        </div>
+        
+        <div class="flex flex-col items-center my-2 reveal">
+            <div class="h-12 w-0.5 bg-indigo-400/50 line-draw"></div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-indigo-300/70 arrowhead-fade" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+        </div>
+        
+        <!-- Final Thanks -->
+        <div class="node-rect reveal flex items-center gap-4">
+            <img src="https://img.freepik.com/free-vector/color-seamless-space-pattern_102902-2360.jpg" alt="Illustration Placeholder" class="w-16 h-16 object-cover rounded-lg hidden sm:block">
+            For inspiring countless people like me to look up at the stars with wonder...
+        </div>
+        
+        <div class="flex flex-col items-center my-2 reveal">
+            <div class="h-12 w-0.5 bg-indigo-400/50 line-draw"></div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-indigo-300/70 arrowhead-fade" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+        </div>
+
+        <!-- End -->
+        <div class="node-oval reveal flex flex-col items-center gap-2 animate-pulse">
+            <img src="https://img.freepik.com/free-vector/thank-you-concept-illustration_114360-13427.jpg" alt="Illustration Placeholder" class="w-12 h-12 object-cover rounded-full">
+            Thank you. For everything.
+        </div>
+        
+        <div class="flex flex-col items-center my-2 reveal">
+            <div class="h-12 w-0.5 bg-indigo-400/50 line-draw"></div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-indigo-300/70 arrowhead-fade" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+        </div>
+        
+        <!-- Sign-off -->
+        <div class="node-rect reveal font-semibold text-violet-200">With deepest gratitude, a lifelong learner.</div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const nodeBase = "node w-11/12 max-w-md text-center shadow-2xl shadow-indigo-500/20 backdrop-blur-md border border-indigo-400/30 transition-all duration-300 hover:border-violet-300 hover:shadow-violet-500/30 hover:-translate-y-2 bg-slate-800/60";
+            document.querySelectorAll('.node-oval').forEach(el => el.className += ` ${nodeBase} rounded-full py-8 px-6`);
+            document.querySelectorAll('.node-rect').forEach(el => el.className += ` ${nodeBase} rounded-2xl p-6`);
+            document.querySelectorAll('.node-rect-path').forEach(el => el.className += ` ${nodeBase} rounded-2xl p-6 min-h-[16rem] flex flex-col justify-center items-center`);
+            document.querySelectorAll('.node-diamond').forEach(el => el.className += ` ${nodeBase} w-52 h-52 flex justify-center items-center p-4 my-6` + " " + `[clip-path:polygon(50%_0%,100%_50%,50%_100%,0%_50%)]`);
+            document.querySelectorAll('.path-title').forEach(el => el.className = `text-xl font-bold text-violet-300 mb-2 block`);
+
+            // Intersection Observer for animations
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            document.querySelectorAll('.reveal').forEach(el => {
+                observer.observe(el);
+            });
+
+            // 3D Tilt Effect
+            const nodes = document.querySelectorAll('.node');
+            document.addEventListener('mousemove', (e) => {
+                const { clientX, clientY } = e;
+                const x = (clientX / window.innerWidth) - 0.5;
+                const y = (clientY / window.innerHeight) - 0.5;
+
+                nodes.forEach(node => {
+                    const rotateX = -y * 10; // Tilt intensity
+                    const rotateY = x * 10;
+                    node.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+                });
+            });
+
+        });
+    </script>
+</body>
+</html>
+
+
