@@ -1,5 +1,26 @@
 [
-     {
+    {
+        "date": "2026-03-07",
+        "title": "Natural Language Processing (NLP) and Text Mining Tutorial for Beginners",
+        "description": "This course introduces the fundamentals of Natural Language Processing (NLP) and text mining, focusing on how machines understand and process human language. It covers key concepts such as text preprocessing, tokenization, sentiment analysis, and the use of the Natural Language Toolkit (NLTK) to build practical text-based applications. :contentReference[oaicite:0]{index=0}",
+        "image": "https://www.simplilearn.com/ice9/new_logo.svgz",
+        "certificate_url": "https://certificates.simplicdn.net/share/9932109_9471349_1772899189910.png"
+    },
+    {
+        "date": "2025-10-22",
+        "title": "Introduction to Data Mining",
+        "description": "This course introduces the fundamentals of data mining, including techniques for discovering patterns, analyzing large datasets, and applying statistical and machine learning methods. It covers key concepts such as data preprocessing, clustering, classification, and real-world data analysis using industry tools.",
+        "image": "https://www.simplilearn.com/ice9/new_logo.svgz",
+        "certificate_url": "https://certificates.simplicdn.net/share/9215828_94713491761154152928.png"
+    },
+    {
+        "date": "2025-10-05",
+        "title": "Introduction to SQL",
+        "description": "This course provides a foundational understanding of SQL, covering essential concepts such as database structure, queries, and data manipulation. It equips learners with the skills to interact with relational databases and perform operations like data retrieval, filtering, and aggregation.",
+        "image": "https://www.simplilearn.com/ice9/new_logo.svgz",
+        "certificate_url": "https://certificates.simplicdn.net/share/9106496_94713491759700300568.png"
+    },
+    {
         "date": "2025-09-02",
         "title": "Exploring Natural Language Processing (NLP) using Deep Learning",
         "description": "Dive into the fascinating world of NLP powered by deep learning. From chatbots to language translation, deep neural networks enable machines to understand and generate human language with remarkable accuracy. Discover how models like Transformers are revolutionizing communication and AI today.",
@@ -54,14 +75,14 @@
         "description": "We’re thrilled to share a proud moment—securing a top rank in the TYCO Computer Engineering class at Rajarshi Shahu College of Engineering, Polytechnic, Pune for the academic year 2023-24! It’s an honor to be recognized for outstanding academic performance by such a reputed institution. The journey was full of challenges, late-night studies, and countless cups of chai, but it was all worth it. Celebrating this achievement with friends, some great food, and chilled-out vibes made it even more memorable!",
         "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTjx_7g4nkPUhFiOCmem6mAWh1VVLI7X7Shg&s",
         "certificate_url": "./documents/jspm_merit.pdf"
-    }, 
+    },
     {
         "date": "2025-01-30",
         "title": "Nirman X ODOO Hackathon",
         "description": "From a fun, no-expectations start to securing a Top 7 spot, our hackathon journey at Amity University Mumbai was pure chaos and innovation! With top-notch management, great vibes, and intense problem statements from Odoo, we tackled merge conflicts, database nightmares, and UI disasters—all while running on caffeine and last-minute panic. Somehow, we made it through! Shoutout to my incredible team, Rudra, Atharva, and Adnan, for making the impossible happen. Here’s to more hackathons, more challenges, and, let’s be real, more last-minute submissions!",
         "image": "https://portcities.net/web/image/72197-195b6c87/Odoo-Logo.wine.png",
         "certificate_url": "./documents/odoo-nirman.jpg"
-    },  
+    },
     {
         "date": "2025-01-20",
         "title": "National Level Online Coding Challenge Competition",
