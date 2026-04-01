@@ -1,10 +1,31 @@
 [
     {
+        "date": "2026-03-28",
+        "title": "SentinAI – 1st Runner-Up at MITWPU Ciphathon 26",
+        "description": "Why do companies with 10 security tools still get breached? Tools alone aren’t enough—they need a connected system. We built SentinAI 🛡️, an Autonomous Secure Software Intelligence Platform that proves vulnerabilities with features like Exploit Chaining, Auto Test Generation, Business Impact Output, Jira Integration, and Zero Trust Simulation. Proud 1st Runner-Up at MITWPU Ciphathon 26 with Team DRPS — Divesh Adivarekar, Pranav Gugale, Rohan Gorde, and Samarth Sangolgi. Thanks to mentors Murari Ramuka and Vinayak Zugar for their guidance.",
+        "image": "https://media.assettype.com/freepressjournal/2023-10/8e816667-25db-4190-901a-543255dd6191/MIT___WPU_Logo.jpg?width=1200",
+        "certificate_url": "./documents/mit wpu ciphathon 26.pdf"
+    },
+    {
+        "date": "2026-02-27",
+        "title": "Team DRPS Wins Best Solution at Innovate You National Techathon",
+        "description": "🚀 From Research to Real Impact — Team DRPS won the 🏆 Best Solution Award at Innovate You National Level 24-Hour Techathon 3.0, competing with 450+ teams across India. Our solution, Krishi Sahayak, is an AI-powered AgriTech platform bridging farmers with schemes, insurance, and credit, while tackling psychological and policy gaps. Inspired by research from Dr. Jayadeva Hiranya & Dr. Harish G Joshi, it integrates DeepFake Detection Hub and Apro Learn for fraud prevention and personalized financial literacy. Proud of Team DRPS — Divesh Adivarekar, Pranav Gugale, Samarth Sangolgi, and Rohan Gorde. Thanks to mentors Dr. Minakshi Atre, Prof. Ravindra Mule, and our department for guidance. Grateful, motivated, and ready for the next challenge! 🚀",
+        "image": "https://innovateyou.in/wp-content/uploads/2025/01/INNOVATION-FOUNDATION-1.jpg",
+        "certificate_url": ""
+    },
+    {
         "date": "2026-03-07",
         "title": "Natural Language Processing (NLP) and Text Mining Tutorial for Beginners",
-        "description": "This course introduces the fundamentals of Natural Language Processing (NLP) and text mining, focusing on how machines understand and process human language. It covers key concepts such as text preprocessing, tokenization, sentiment analysis, and the use of the Natural Language Toolkit (NLTK) to build practical text-based applications. :contentReference[oaicite:0]{index=0}",
+        "description": "This course introduces the fundamentals of Natural Language Processing (NLP) and text mining, focusing on how machines understand and process human language. It covers key concepts such as text preprocessing, tokenization, sentiment analysis, and the use of the Natural Language Toolkit (NLTK) to build practical text-based applications.",
         "image": "https://www.simplilearn.com/ice9/new_logo.svgz",
         "certificate_url": "https://certificates.simplicdn.net/share/9932109_9471349_1772899189910.png"
+    },
+    {
+        "date": "2025-12-12",
+        "title": "Finalists at Smart India Hackathon 2025 – Hardware Edition",
+        "description": "“Your idea made my day.” – Words from Dr. Sanjay Mohapatra, author of our Problem Statement, that stayed with us after Smart India Hackathon 2025. Proud Finalists at GIET University Gunupur, we worked on a Microgrid Monitoring System (PS ID 25051). Grateful to mentors, coordinators, and our dedicated team – Atharva Karanjawane, Divesh Adivarekar, Sanika Phalle, Rahul Kate, Sanyuri Jamdade – for an inspiring journey. Representing PVGCOET Pune, we take forward these learnings with clarity, confidence, and optimism.",
+        "image": "https://sih.xplorica.in/images/SIH2025-logo.png",
+        "certificate_url": "./documents/sih 2025.pdf"
     },
     {
         "date": "2025-10-22",
