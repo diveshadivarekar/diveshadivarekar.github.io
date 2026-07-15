@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EvalioAI — Semantic AI Evaluation for Student Answer Scripts</title>
+<meta name="description" content="EvalioAI reads handwritten answer scripts, understands what students actually mean, and grades them against your rubric — combining OCR, semantic embeddings, and grammar analysis in one pipeline.">
+<meta name="keywords" content="AI grading, OCR evaluation, semantic embeddings, automated exam evaluation, edtech, answer script grading, rubric scoring">
+<meta property="og:title" content="EvalioAI — Semantic AI Evaluation for Student Answer Scripts">
+<meta property="og:description" content="OCR meets semantic understanding. EvalioAI grades handwritten answer scripts against your rubric in under a second.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#FAFAF9">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        colors: {
+          paper: '#FAFAF9',
+          surface: '#FFFFFF',
+          ink: '#14171F',
+          inkmute: '#5B6070',
+          brand: {
+            50:'#EEF2FF',100:'#E0E7FF',200:'#C7D2FE',300:'#A5B4FC',400:'#818CF8',
+            500:'#2451FF',600:'#1E42E0',700:'#1834B3',800:'#132A8C',900:'#0F216B'
+          },
+          mark: '#FFB800',
+          markdark:'#B37E00'
+        },
+        fontFamily: {
+          display: ['Fraunces','serif'],
+          body: ['Inter','sans-serif'],
+          mono: ['JetBrains Mono','monospace']
+        },
+        boxShadow: {
+          soft: '0 1px 2px rgba(20,23,31,0.04), 0 8px 24px -8px rgba(20,23,31,0.10)',
+          softlg: '0 4px 8px rgba(20,23,31,0.04), 0 24px 48px -16px rgba(20,23,31,0.16)'
+        }
+      }
+    }
+  }
+</script>
+
+<style>
+  html { scroll-behavior: smooth; }
+  body { background: #FAFAF9; }
+  .dark body { background: #0B0C10; }
+
+  ::selection { background: #FFB800; color: #14171F; }
+
+  /* reveal on scroll */
+  .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s ease; }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+
+  /* glass card */
+  .glass {
+    background: rgba(255,255,255,0.72);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(20,23,31,0.06);
+  }
+  .dark .glass {
+    background: rgba(22,24,31,0.6);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .grain {
+    background-image: radial-gradient(rgba(20,23,31,0.035) 1px, transparent 1px);
+    background-size: 18px 18px;
+  }
+
+  /* Scanning laser animation for hero sheet */
+  @keyframes scanline {
+    0% { transform: translateY(-4%); opacity: 0; }
+    8% { opacity: 1; }
+    50% { transform: translateY(104%); opacity: 1; }
+    58% { opacity: 0; }
+    100% { transform: translateY(104%); opacity: 0; }
+  }
+  .scanline {
+    animation: scanline 5s cubic-bezier(.6,0,.4,1) infinite;
+  }
+
+  @keyframes floatUp {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+  .float { animation: floatUp 4.5s ease-in-out infinite; }
+
+  .num-tick { font-variant-numeric: tabular-nums; }
+
+  /* underline highlight strokes on mock answer lines */
+  .ink-line { position: relative; }
+  .ink-line::after {
+    content:'';
+    position:absolute; left:0; bottom:-3px; height:6px; width:0%;
+    background: rgba(255,184,0,0.55); border-radius:3px;
+    transition: width 1.1s ease;
+  }
+  .ink-line.marked::after { width:100%; }
+
+  /* architecture diagram connectors */
+  .flow-arrow { position: relative; }
+  .flow-arrow::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -1.35rem;
+    width: 1.35rem;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(20,23,31,0.25), rgba(20,23,31,0.05));
+  }
+
+  /* timeline */
+  .timeline-line {
+    background: linear-gradient(180deg, rgba(36,81,255,0.5), rgba(36,81,255,0));
+  }
+
+  .card-hover { transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease, border-color .35s ease; }
+  .card-hover:hover { transform: translateY(-4px); box-shadow: 0 24px 48px -16px rgba(20,23,31,0.18); }
+
+  details > summary { list-style: none; cursor: pointer; }
+  details > summary::-webkit-details-marker { display: none; }
+  details[open] .chev { transform: rotate(45deg); }
+
+  .chip { font-family: 'JetBrains Mono', monospace; letter-spacing: 0.02em; }
+
+  .nav-blur { backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal, .scanline, .float { animation: none !important; transition: none !important; opacity: 1 !important; transform: none !important; }
+  }
+
+  :focus-visible { outline: 2px solid #2451FF; outline-offset: 2px; }
+</style>
+</head>
+
+<body class="font-body text-ink bg-paper antialiased selection:bg-mark">
+
+<!-- ============ NAV ============ -->
+<header class="fixed top-0 inset-x-0 z-50 nav-blur bg-paper/80 border-b border-ink/[0.06]">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 h-16 flex items-center justify-between">
+    <a href="#top" class="flex items-center gap-2.5 group" aria-label="EvalioAI home">
+      <span class="w-8 h-8 rounded-lg bg-brand-500 grid place-items-center text-white shadow-soft">
+        <i data-lucide="scan-text" class="w-4.5 h-4.5" style="width:18px;height:18px"></i>
+      </span>
+      <span class="font-display font-semibold text-lg tracking-tight">EvalioAI</span>
+    </a>
+
+    <nav class="hidden lg:flex items-center gap-8 text-[14.5px] text-inkmute font-medium" aria-label="Primary">
+      <a href="#solution" class="hover:text-ink transition-colors">Solution</a>
+      <a href="#how" class="hover:text-ink transition-colors">How it works</a>
+      <a href="#features" class="hover:text-ink transition-colors">Features</a>
+      <a href="#architecture" class="hover:text-ink transition-colors">Architecture</a>
+      <a href="#users" class="hover:text-ink transition-colors">Who it's for</a>
+      <a href="#faq" class="hover:text-ink transition-colors">FAQ</a>
+    </nav>
+
+    <div class="flex items-center gap-3">
+      <button id="themeToggle" aria-label="Toggle dark mode" class="w-9 h-9 rounded-full border border-ink/10 grid place-items-center hover:bg-ink/[0.04] transition-colors">
+        <i data-lucide="moon" class="w-4 h-4"></i>
+      </button>
+      <a href="#waitlist" class="hidden sm:inline-flex items-center gap-1.5 bg-ink text-white text-sm font-semibold px-4 py-2 rounded-full hover:bg-brand-600 transition-colors shadow-soft">
+        Join waitlist
+      </a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ============ HERO ============ -->
+<section class="relative pt-36 pb-24 sm:pt-44 sm:pb-32 overflow-hidden">
+  <div class="absolute inset-0 grain opacity-70 pointer-events-none"></div>
+  <div class="absolute -top-24 right-[-10%] w-[520px] h-[520px] rounded-full bg-brand-100 blur-3xl opacity-60 pointer-events-none"></div>
+
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 relative grid lg:grid-cols-[1.05fr_0.95fr] gap-16 items-center">
+    <div>
+      <div class="reveal inline-flex items-center gap-2 chip text-[12px] uppercase text-brand-700 bg-brand-50 border border-brand-200 px-3 py-1.5 rounded-full mb-7">
+        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+        Patent-pending evaluation pipeline
+      </div>
+
+      <h1 class="reveal font-display text-[2.6rem] leading-[1.06] sm:text-6xl sm:leading-[1.04] font-semibold tracking-tight text-ink">
+        Every answer script,<br class="hidden sm:block">
+        read like a <span class="italic text-brand-600">teacher would.</span>
+      </h1>
+
+      <p class="reveal mt-6 text-lg text-inkmute max-w-xl leading-relaxed">
+        EvalioAI turns scanned and handwritten answer sheets into graded, explained results in under a second —
+        combining OCR, semantic-embedding comparison, and grammar analysis, then scoring everything against the rubric you define.
+      </p>
+
+      <div class="reveal mt-9 flex flex-wrap items-center gap-4">
+        <a href="#waitlist" class="inline-flex items-center gap-2 bg-brand-500 text-white font-semibold px-6 py-3.5 rounded-full hover:bg-brand-600 transition-colors shadow-softlg">
+          Request early access
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </a>
+        <a href="#how" class="inline-flex items-center gap-2 text-ink font-semibold px-6 py-3.5 rounded-full border border-ink/12 hover:bg-ink/[0.03] transition-colors">
+          <i data-lucide="play-circle" class="w-4 h-4"></i>
+          See how it grades
+        </a>
+      </div>
+
+      <div class="reveal mt-12 grid grid-cols-3 gap-6 max-w-md">
+        <div>
+          <div class="font-display num-tick text-2xl sm:text-3xl font-semibold text-ink">94<span class="text-brand-500">%</span></div>
+          <div class="text-[13px] text-inkmute mt-1">OCR word accuracy, incl. handwriting</div>
+        </div>
+        <div>
+          <div class="font-display num-tick text-2xl sm:text-3xl font-semibold text-ink">0.91</div>
+          <div class="text-[13px] text-inkmute mt-1">Semantic-alignment correlation</div>
+        </div>
+        <div>
+          <div class="font-display num-tick text-2xl sm:text-3xl font-semibold text-ink">~310<span class="text-brand-500">ms</span></div>
+          <div class="text-[13px] text-inkmute mt-1">End-to-end grading latency</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero visual: scanned answer sheet -->
+    <div class="reveal relative float">
+      <div class="relative mx-auto max-w-sm rounded-2xl bg-surface shadow-softlg border border-ink/[0.06] p-6 overflow-hidden">
+        <div class="absolute inset-x-6 top-0 h-24 bg-gradient-to-b from-brand-100/60 to-transparent scanline"></div>
+
+        <div class="flex items-center justify-between mb-5">
+          <span class="chip text-[11px] text-inkmute">ANSWER_SCRIPT_0417.pdf</span>
+          <span class="flex items-center gap-1.5 text-[11px] chip text-emerald-600">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> processed
+          </span>
+        </div>
+
+        <div class="space-y-3 font-display text-[15px] text-ink/80 italic leading-snug">
+          <p class="ink-line marked" style="transition-delay:.2s">Photosynthesis converts light energy into chemical</p>
+          <p class="ink-line marked" style="transition-delay:.4s">energy stored in glucose, using chlorophyll within</p>
+          <p class="ink-line" style="transition-delay:.6s">the chloroplast of a plant cell...</p>
+        </div>
+
+        <div class="mt-6 pt-5 border-t border-ink/[0.06] space-y-3">
+          <div class="flex items-center justify-between text-[13px]">
+            <span class="text-inkmute">Concept alignment</span>
+            <span class="chip font-medium text-ink">0.93</span>
+          </div>
+          <div class="h-1.5 rounded-full bg-ink/[0.06] overflow-hidden">
+            <div class="h-full bg-brand-500 rounded-full" style="width:93%"></div>
+          </div>
+          <div class="flex items-center justify-between text-[13px]">
+            <span class="text-inkmute">Relevance</span>
+            <span class="chip text-emerald-600 font-medium">Plausible</span>
+          </div>
+          <div class="flex items-center justify-between text-[13px]">
+            <span class="text-inkmute">Grammar quality</span>
+            <span class="chip font-medium text-ink">88 / 100</span>
+          </div>
+        </div>
+
+        <div class="mt-5 flex items-center justify-between rounded-xl bg-ink text-white px-4 py-3">
+          <span class="text-[13px] text-white/70">Final score</span>
+          <span class="font-display text-xl font-semibold">8.7<span class="text-white/50 text-sm">/10</span></span>
+        </div>
+      </div>
+
+      <div class="absolute -right-6 -bottom-6 hidden sm:block glass rounded-xl px-4 py-3 shadow-soft w-52">
+        <div class="flex items-center gap-2 text-[12px] font-medium text-ink"><i data-lucide="mic-off" class="w-3.5 h-3.5 text-markdark"></i> Filler text flagged</div>
+        <p class="text-[11.5px] text-inkmute mt-1 leading-snug">Line 14 detected as keyword-stuffing, excluded from concept score.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ THE PROBLEM ============ -->
+<section class="py-24 sm:py-28 border-t border-ink/[0.06]">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8">
+    <div class="grid lg:grid-cols-[0.8fr_1.2fr] gap-12">
+      <div class="reveal">
+        <span class="chip text-[12px] uppercase text-inkmute">The problem</span>
+        <h2 class="font-display text-3xl sm:text-4xl font-semibold tracking-tight mt-3 leading-tight">
+          Grading doesn't scale, and keyword-matching isn't understanding.
+        </h2>
+      </div>
+      <div class="grid sm:grid-cols-2 gap-5">
+        <div class="reveal p-6 rounded-2xl border border-ink/[0.07] bg-surface card-hover">
+          <i data-lucide="clock-alert" class="w-5 h-5 text-brand-600 mb-4"></i>
+          <h3 class="font-semibold text-ink mb-1.5">Manual evaluation doesn't scale</h3>
+          <p class="text-[14.5px] text-inkmute leading-relaxed">Reading, interpreting, and scoring every handwritten script by hand puts a heavy, repetitive load on examiners at every exam cycle.</p>
+        </div>
+        <div class="reveal p-6 rounded-2xl border border-ink/[0.07] bg-surface card-hover">
+          <i data-lucide="scale" class="w-5 h-5 text-brand-600 mb-4"></i>
+          <h3 class="font-semibold text-ink mb-1.5">Subjective, inconsistent scoring</h3>
+          <p class="text-[14.5px] text-inkmute leading-relaxed">The same answer can earn different marks from different examiners, or even the same examiner on different days.</p>
+        </div>
+        <div class="reveal p-6 rounded-2xl border border-ink/[0.07] bg-surface card-hover">
+          <i data-lucide="search-x" class="w-5 h-5 text-brand-600 mb-4"></i>
+          <h3 class="font-semibold text-ink mb-1.5">Existing tools stop at keywords</h3>
+          <p class="text-[14.5px] text-inkmute leading-relaxed">Optical mark recognition and keyword matching can't parse messy handwriting or tell a genuine explanation from padded, keyword-stuffed filler.</p>
+        </div>
+        <div class="reveal p-6 rounded-2xl border border-ink/[0.07] bg-surface card-hover">
+          <i data-lucide="puzzle" class="w-5 h-5 text-brand-600 mb-4"></i>
+          <h3 class="font-semibold text-ink mb-1.5">Fragmented pipelines</h3>
+          <p class="text-[14.5px] text-inkmute leading-relaxed">OCR, similarity scoring, grammar checks, and rubric logic usually live in separate tools that were never built to talk to each other.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SOLUTION ============ -->
+<section id="solution" class="py-24 sm:py-28 bg-ink text-white relative overflow-hidden">
+  <div class="absolute inset-0 opacity-[0.05] grain"></div>
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 relative">
+    <div class="max-w-2xl reveal">
+      <span class="chip text-[12px] uppercase text-white/50">Our solution</span>
+      <h2 class="font-display text-3xl sm:text-4xl font-semibold tracking-tight mt-3 leading-tight">
+        One pipeline, from scanned page to explained grade.
+      </h2>
+      <p class="mt-5 text-white/65 text-lg leading-relaxed">
+        EvalioAI unifies OCR pre-processing, semantic-embedding comparison, relevance classification, grammar analysis, and
+        rubric-based scoring into a single hardware-accelerated system — so a scanned answer script becomes a defensible,
+        explainable grade without a human reading it first.
+      </p>
+    </div>
+
+    <div class="mt-16 grid md:grid-cols-3 gap-5">
+      <div class="reveal glass rounded-2xl p-7 border border-white/10">
+        <div class="w-10 h-10 rounded-full bg-brand-500/20 grid place-items-center mb-5">
+          <i data-lucide="scan-eye" class="w-5 h-5 text-brand-300"></i>
+        </div>
+        <h3 class="font-display text-lg font-semibold mb-2">Reads the handwriting</h3>
+        <p class="text-[14.5px] text-white/60 leading-relaxed">Noise removal, contrast correction, and handwriting normalization extract clean text from scans, PDFs, and phone photos alike.</p>
+      </div>
+      <div class="reveal glass rounded-2xl p-7 border border-white/10">
+        <div class="w-10 h-10 rounded-full bg-brand-500/20 grid place-items-center mb-5">
+          <i data-lucide="git-compare-arrows" class="w-5 h-5 text-brand-300"></i>
+        </div>
+        <h3 class="font-display text-lg font-semibold mb-2">Understands the concept</h3>
+        <p class="text-[14.5px] text-white/60 leading-relaxed">Transformer embeddings compare meaning, not wording, against the model answer — so paraphrased correct answers still score correctly.</p>
+      </div>
+      <div class="reveal glass rounded-2xl p-7 border border-white/10">
+        <div class="w-10 h-10 rounded-full bg-brand-500/20 grid place-items-center mb-5">
+          <i data-lucide="sliders-horizontal" class="w-5 h-5 text-brand-300"></i>
+        </div>
+        <h3 class="font-display text-lg font-semibold mb-2">Scores your way</h3>
+        <p class="text-[14.5px] text-white/60 leading-relaxed">Teacher-defined rubric weights combine concept, relevance, and language quality into one final score — configurable per question.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section id="how" class="py-24 sm:py-28 border-b border-ink/[0.06]">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8">
+    <div class="reveal max-w-xl mb-16">
+      <span class="chip text-[12px] uppercase text-inkmute">How it works</span>
+      <h2 class="font-display text-3xl sm:text-4xl font-semibold tracking-tight mt-3 leading-tight">Five stages, one continuous pass.</h2>
+      <p class="mt-4 text-inkmute leading-relaxed">Every script moves through the same sequence of dedicated processing units — each one auditable, each one contributing to the final, explained score.</p>
+    </div>
+
+    <div class="relative">
+      <div class="hidden lg:block absolute left-0 right-0 top-10 h-px bg-ink/[0.08]"></div>
+      <div class="grid lg:grid-cols-5 gap-10 lg:gap-6">
+
+        <div class="reveal relative">
+          <div class="w-10 h-10 rounded-full bg-surface border-2 border-brand-500 text-brand-600 grid place-items-center font-display font-semibold text-sm mb-5 relative z-10">1</div>
+          <h3 class="font-semibold text-ink mb-2">Capture &amp; normalize</h3>
+          <p class="text-[14px] text-inkmute leading-relaxed">Scanned images, PDFs, or camera-captured scripts are ingested and normalized into one standard format.</p>
+        </div>
+        <div class="reveal relative">
+          <div class="w-10 h-10 rounded-full bg-surface border-2 border-brand-500 text-brand-600 grid place-items-center font-display font-semibold text-sm mb-5 relative z-10">2</div>
+          <h3 class="font-semibold text-ink mb-2">Extract text (OCR)</h3>
+          <p class="text-[14px] text-inkmute leading-relaxed">Denoising, contrast enhancement, and handwriting normalization feed a transformer OCR engine.</p>
+        </div>
+        <div class="reveal relative">
+          <div class="w-10 h-10 rounded-full bg-surface border-2 border-brand-500 text-brand-600 grid place-items-center font-display font-semibold text-sm mb-5 relative z-10">3</div>
+          <h3 class="font-semibold text-ink mb-2">Embed &amp; compare</h3>
+          <p class="text-[14px] text-inkmute leading-relaxed">Student and model answers become high-dimensional vectors; cosine similarity yields a concept-alignment score.</p>
+        </div>
+        <div class="reveal relative">
+          <div class="w-10 h-10 rounded-full bg-surface border-2 border-brand-500 text-brand-600 grid place-items-center font-display font-semibold text-sm mb-5 relative z-10">4</div>
+          <h3 class="font-semibold text-ink mb-2">Classify &amp; assess</h3>
+          <p class="text-[14px] text-inkmute leading-relaxed">Relevance classification flags filler and keyword-stuffing while a parallel unit scores grammar and fluency.</p>
+        </div>
+        <div class="reveal relative">
+          <div class="w-10 h-10 rounded-full bg-surface border-2 border-brand-500 text-brand-600 grid place-items-center font-display font-semibold text-sm mb-5 relative z-10">5</div>
+          <h3 class="font-semibold text-ink mb-2">Score &amp; explain</h3>
+          <p class="text-[14px] text-inkmute leading-relaxed">Rubric weights combine every metric into a final score, with generated feedback delivered to the student and teacher.</p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ KEY FEATURES ============ -->
+<section id="features" class="py-24 sm:py-28">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8">
+    <div class="reveal max-w-xl mb-14">
+      <span class="chip text-[12px] uppercase text-inkmute">Key features</span>
+      <h2 class="font-display text-3xl sm:text-4xl font-semibold tracking-tight mt-3 leading-tight">Built as one system, not six point tools.</h2>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <div class="reveal p-7 rounded-2xl bg-surface border border-ink/[0.07] card-hover">
+        <i data-lucide="file-scan" class="w-5 h-5 text-brand-600 mb-4"></i>
+        <h3 class="font-semibold mb-1.5">Any input format</h3>
+        <p class="text-[14px] text-inkmute leading-relaxed">Scanned images, PDFs, handwritten photos, or camera captures — all normalized before grading.</p>
+      </div>
+      <div class="reveal p-7 rounded-2xl bg-surface border border-ink/[0.07] card-hover">
+        <i data-lucide="brain-circuit" class="w-5 h-5 text-brand-600 mb-4"></i>
+        <h3 class="font-semibold mb-1.5">Semantic concept scoring</h3>
+        <p class="text-[14px] text-inkmute leading-relaxed">Hardware-accelerated transformer embeddings measure meaning, not just word overlap.</p>
+      </div>
+      <div class="reveal p-7 rounded-2xl bg-surface border border-ink/[0.07] card-hover">
+        <i data-lucide="shield-alert" class="w-5 h-5 text-brand-600 mb-4"></i>
+        <h3 class="font-semibold mb-1.5">Filler &amp; keyword-stuffing detection</h3>
+        <p class="text-[14px] text-inkmute leading-relaxed">Embedding-space deviation catches padded or gamed answers that surface-level matching misses.</p>
+      </div>
+      <div class="reveal p-7 rounded-2xl bg-surface border border-ink/[0.07] card-hover">
+        <i data-lucide="spell-check-2" class="w-5 h-5 text-brand-600 mb-4"></i>
+        <h3 class="font-semibold mb-1.5">Independent language scoring</h3>
+        <p class="text-[14px] text-inkmute leading-relaxed">Grammar, tense, POS alignment, and punctuation are scored separately from content, never conflated.</p>
+      </div>
+      <div class="reveal p-7 rounded-2xl bg-surface border border-ink/[0.07] card-hover">
+        <i data-lucide="settings-2" class="w-5 h-5 text-brand-600 mb-4"></i>
+        <h3 class="font-semibold mb-1.5">Configurable rubric weights</h3>
+        <p class="text-[14px] text-inkmute leading-relaxed">Teachers set weightages per question — no code changes, no re-deployment.</p>
+      </div>
+      <div class="reveal p-7 rounded-2xl bg-surface border border-ink/[0.07] card-hover">
+        <i data-lucide="message-square-text" class="w-5 h-5 text-brand-600 mb-4"></i>
+        <h3 class="font-semibold mb-1.5">Generated feedback</h3>
+        <p class="text-[14px] text-inkmute leading-relaxed">Natural-language notes on conceptual gaps, relevance, and writing quality — not just a number.</p>
+      </div>
+      <div class="reveal p-7 rounded-2xl bg-surface border border-ink/[0.07] card-hover">
+        <i data-lucide="file-output" class="w-5 h-5 text-brand-600 mb-4"></i>
+        <h3 class="font-semibold mb-1.5">Exportable transcripts</h3>
+        <p class="text-[14px] text-inkmute leading-relaxed">Results export as PDF, HTML, or machine-readable JSON for any LMS or student portal.</p>
+      </div>
+      <div class="reveal p-7 rounded-2xl bg-surface border border-ink/[0.07] card-hover">
+        <i data-lucide="line-chart" class="w-5 h-5 text-brand-600 mb-4"></i>
+        <h3 class="font-semibold mb-1.5">Longitudinal analytics</h3>
+        <p class="text-[14px] text-inkmute leading-relaxed">Historical performance is retained to track a student's trajectory across assessments and terms.</p>
+      </div>
+      <div class="reveal p-7 rounded-2xl bg-surface border border-ink/[0.07] card-hover">
+        <i data-lucide="zap" class="w-5 h-5 text-brand-600 mb-4"></i>
+        <h3 class="font-semibold mb-1.5">Hardware-accelerated speed</h3>
+        <p class="text-[14px] text-inkmute leading-relaxed">GPU/NPU-backed inference keeps end-to-end grading around 310ms per response.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TECHNOLOGY & INNOVATION ============ -->
+<section class="py-24 sm:py-28 bg-brand-50/60 border-y border-ink/[0.06]">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8 grid lg:grid-cols-2 gap-14 items-start">
+    <div class="reveal">
+      <span class="chip text-[12px] uppercase text-inkmute">Technology &amp; innovation</span>
+      <h2 class="font-display text-3xl sm:text-4xl font-semibold tracking-tight mt-3 leading-tight">
+        What actually changes the grading, not just the interface.
+      </h2>
+      <p class="mt-5 text-inkmute leading-relaxed">
+        The core innovation isn't OCR or embeddings alone — it's separating <em>what was said</em> from <em>how well it was said</em>,
+        and running both through a rubric an educator actually controls. Each unit is independently trained, independently
+        auditable, and combined deterministically.
+      </p>
+      <ul class="mt-8 space-y-4">
+        <li class="flex gap-3 text-[14.5px]"><i data-lucide="check" class="w-4.5 h-4.5 text-brand-600 mt-0.5 shrink-0"></i><span><strong class="text-ink">Fine-tuned TrOCR encoder–decoder</strong> for handwritten and printed academic text, trained on over 1.1 million answer-sheet samples.</span></li>
+        <li class="flex gap-3 text-[14.5px]"><i data-lucide="check" class="w-4.5 h-4.5 text-brand-600 mt-0.5 shrink-0"></i><span><strong class="text-ink">Sentence-BERT / MPNet embeddings</strong> at 768 dimensions, contrastively fine-tuned on 140,000+ paired student and model answers.</span></li>
+        <li class="flex gap-3 text-[14.5px]"><i data-lucide="check" class="w-4.5 h-4.5 text-brand-600 mt-0.5 shrink-0"></i><span><strong class="text-ink">Three-way relevance classifier</strong> — plausible, partially relevant, irrelevant — trained on manually labelled response data.</span></li>
+        <li class="flex gap-3 text-[14.5px]"><i data-lucide="check" class="w-4.5 h-4.5 text-brand-600 mt-0.5 shrink-0"></i><span><strong class="text-ink">GPU-accelerated inference</strong> on A100/RTX-class hardware, keeping grading close to real time at scale.</span></li>
+      </ul>
+    </div>
+
+    <div class="reveal grid grid-cols-2 gap-4">
+      <div class="glass rounded-2xl p-6 border border-ink/[0.07]">
+        <div class="font-display text-3xl font-semibold text-brand-600">92–95<span class="text-lg">%</span></div>
+        <p class="text-[13px] text-inkmute mt-2 leading-snug">Relevance classification accuracy across held-out test sets</p>
+      </div>
+      <div class="glass rounded-2xl p-6 border border-ink/[0.07]">
+        <div class="font-display text-3xl font-semibold text-brand-600">85:10:5</div>
+        <p class="text-[13px] text-inkmute mt-2 leading-snug">Train : validation : test split used for classifier training</p>
+      </div>
+      <div class="glass rounded-2xl p-6 border border-ink/[0.07]">
+        <div class="font-display text-3xl font-semibold text-brand-600">768-d</div>
+        <p class="text-[13px] text-inkmute mt-2 leading-snug">Semantic embedding dimensionality per response</p>
+      </div>
+      <div class="glass rounded-2xl p-6 border border-ink/[0.07]">
+        <div class="font-display text-3xl font-semibold text-brand-600">40</div>
+        <p class="text-[13px] text-inkmute mt-2 leading-snug">Training epochs for the fine-tuned OCR encoder–decoder</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BENEFITS ============ -->
+<section class="py-24 sm:py-28">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8">
+    <div class="reveal max-w-xl mb-14">
+      <span class="chip text-[12px] uppercase text-inkmute">Benefits</span>
+      <h2 class="font-display text-3xl sm:text-4xl font-semibold tracking-tight mt-3 leading-tight">Faster grading, and more consistent than it was before.</h2>
+    </div>
+    <div class="grid md:grid-cols-4 gap-5">
+      <div class="reveal p-6 rounded-2xl border border-ink/[0.07]">
+        <i data-lucide="timer" class="w-5 h-5 text-brand-600 mb-4"></i>
+        <h3 class="font-semibold mb-1.5 text-[15px]">Hours back for educators</h3>
+        <p class="text-[13.5px] text-inkmute leading-relaxed">Batch-grade whole cohorts in the time it took to mark a handful of scripts by hand.</p>
+      </div>
+      <div class="reveal p-6 rounded-2xl border border-ink/[0.07]">
+        <i data-lucide="git-merge" class="w-5 h-5 text-brand-600 mb-4"></i>
+        <h3 class="font-semibold mb-1.5 text-[15px]">Consistent, repeatable scores</h3>
+        <p class="text-[13.5px] text-inkmute leading-relaxed">The same answer produces the same score, every time, regardless of examiner fatigue.</p>
+      </div>
+      <div class="reveal p-6 rounded-2xl border border-ink/[0.07]">
+        <i data-lucide="target" class="w-5 h-5 text-brand-600 mb-4"></i>
+        <h3 class="font-semibold mb-1.5 text-[15px]">Feedback students act on</h3>
+        <p class="text-[13.5px] text-inkmute leading-relaxed">Specific, generated notes replace a bare mark with something a student can actually learn from.</p>
+      </div>
+      <div class="reveal p-6 rounded-2xl border border-ink/[0.07]">
+        <i data-lucide="plug-zap" class="w-5 h-5 text-brand-600 mb-4"></i>
+        <h3 class="font-semibold mb-1.5 text-[15px]">Drops into existing systems</h3>
+        <p class="text-[13.5px] text-inkmute leading-relaxed">JSON and HTML exports integrate directly with the LMS or portal you already run.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TARGET USERS ============ -->
+<section id="users" class="py-24 sm:py-28 border-t border-ink/[0.06]">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8">
+    <div class="reveal max-w-xl mb-14">
+      <span class="chip text-[12px] uppercase text-inkmute">Who it's for</span>
+      <h2 class="font-display text-3xl sm:text-4xl font-semibold tracking-tight mt-3 leading-tight">Anyone grading descriptive answers at volume.</h2>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div class="reveal p-6 rounded-2xl bg-surface border border-ink/[0.07] card-hover">
+        <i data-lucide="school" class="w-5 h-5 text-brand-600 mb-4"></i>
+        <h3 class="font-semibold mb-1.5 text-[15px]">Schools &amp; boards</h3>
+        <p class="text-[13.5px] text-inkmute leading-relaxed">K-12 institutions and examination boards grading descriptive, handwritten papers at scale.</p>
+      </div>
+      <div class="reveal p-6 rounded-2xl bg-surface border border-ink/[0.07] card-hover">
+        <i data-lucide="graduation-cap" class="w-5 h-5 text-brand-600 mb-4"></i>
+        <h3 class="font-semibold mb-1.5 text-[15px]">Universities</h3>
+        <p class="text-[13.5px] text-inkmute leading-relaxed">Departments running large-enrollment courses with essay- and short-answer assessments.</p>
+      </div>
+      <div class="reveal p-6 rounded-2xl bg-surface border border-ink/[0.07] card-hover">
+        <i data-lucide="library" class="w-5 h-5 text-brand-600 mb-4"></i>
+        <h3 class="font-semibold mb-1.5 text-[15px]">Competitive exam prep</h3>
+        <p class="text-[13.5px] text-inkmute leading-relaxed">Coaching institutes and test-prep platforms grading mock descriptive papers.</p>
+      </div>
+      <div class="reveal p-6 rounded-2xl bg-surface border border-ink/[0.07] card-hover">
+        <i data-lucide="laptop-2" class="w-5 h-5 text-brand-600 mb-4"></i>
+        <h3 class="font-semibold mb-1.5 text-[15px]">EdTech &amp; LMS platforms</h3>
+        <p class="text-[13.5px] text-inkmute leading-relaxed">Platforms wanting to embed automated evaluation behind their own product experience.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COMPETITIVE ADVANTAGES ============ -->
+<section class="py-24 sm:py-28 bg-ink text-white">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8">
+    <div class="reveal max-w-xl mb-14">
+      <span class="chip text-[12px] uppercase text-white/50">Competitive advantage</span>
+      <h2 class="font-display text-3xl sm:text-4xl font-semibold tracking-tight mt-3 leading-tight">Where EvalioAI pulls ahead of keyword-based tools.</h2>
+    </div>
+    <div class="overflow-x-auto reveal">
+      <table class="w-full text-left border-collapse min-w-[640px]">
+        <thead>
+          <tr class="text-[13px] text-white/50 chip uppercase">
+            <th class="py-4 pr-4 font-medium">Capability</th>
+            <th class="py-4 px-4 font-medium">Keyword-matching tools</th>
+            <th class="py-4 pl-4 font-medium text-brand-300">EvalioAI</th>
+          </tr>
+        </thead>
+        <tbody class="text-[14.5px]">
+          <tr class="border-t border-white/10">
+            <td class="py-4 pr-4">Understands paraphrased correct answers</td>
+            <td class="py-4 px-4 text-white/40">Limited</td>
+            <td class="py-4 pl-4 text-brand-300 font-medium">Yes — semantic embeddings</td>
+          </tr>
+          <tr class="border-t border-white/10">
+            <td class="py-4 pr-4">Detects keyword-stuffed or filler answers</td>
+            <td class="py-4 px-4 text-white/40">No</td>
+            <td class="py-4 pl-4 text-brand-300 font-medium">Yes — embedding-space deviation</td>
+          </tr>
+          <tr class="border-t border-white/10">
+            <td class="py-4 pr-4">Grades handwritten scripts directly</td>
+            <td class="py-4 px-4 text-white/40">Rarely</td>
+            <td class="py-4 pl-4 text-brand-300 font-medium">Yes — dedicated OCR unit</td>
+          </tr>
+          <tr class="border-t border-white/10">
+            <td class="py-4 pr-4">Separates content score from language score</td>
+            <td class="py-4 px-4 text-white/40">No</td>
+            <td class="py-4 pl-4 text-brand-300 font-medium">Yes — independent units</td>
+          </tr>
+          <tr class="border-t border-white/10">
+            <td class="py-4 pr-4">Teacher-configurable rubric weighting</td>
+            <td class="py-4 px-4 text-white/40">Static rules</td>
+            <td class="py-4 pl-4 text-brand-300 font-medium">Yes — no redeployment needed</td>
+          </tr>
+          <tr class="border-t border-white/10">
+            <td class="py-4 pr-4">Single integrated pipeline</td>
+            <td class="py-4 px-4 text-white/40">Fragmented tools</td>
+            <td class="py-4 pl-4 text-brand-300 font-medium">Yes — one hardware-assisted system</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ARCHITECTURE ============ -->
+<section id="architecture" class="py-24 sm:py-28 border-b border-ink/[0.06]">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8">
+    <div class="reveal max-w-xl mb-16">
+      <span class="chip text-[12px] uppercase text-inkmute">Platform architecture</span>
+      <h2 class="font-display text-3xl sm:text-4xl font-semibold tracking-tight mt-3 leading-tight">Six units, one processor, one score.</h2>
+      <p class="mt-4 text-inkmute leading-relaxed">Everything runs behind a single processor coupled to shared memory — each unit specialized, all of them coordinated.</p>
+    </div>
+
+    <div class="reveal rounded-3xl border border-ink/[0.08] bg-surface p-6 sm:p-10">
+      <!-- input row -->
+      <div class="flex justify-center mb-8">
+        <div class="flex items-center gap-2 px-5 py-3 rounded-xl bg-brand-50 border border-brand-200 text-brand-700 text-sm font-medium">
+          <i data-lucide="upload" class="w-4 h-4"></i> Input acquisition unit — scans, PDFs, camera captures
+        </div>
+      </div>
+      <div class="flex justify-center mb-8"><i data-lucide="arrow-down" class="w-4 h-4 text-ink/30"></i></div>
+
+      <!-- processor units -->
+      <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        <div class="flow-arrow rounded-xl border border-ink/[0.08] p-4 bg-paper">
+          <i data-lucide="scan-line" class="w-4 h-4 text-brand-600 mb-2"></i>
+          <div class="text-[12.5px] font-semibold text-ink">OCR processing</div>
+          <div class="text-[11.5px] text-inkmute mt-1">Denoise · extract text</div>
+        </div>
+        <div class="flow-arrow rounded-xl border border-ink/[0.08] p-4 bg-paper">
+          <i data-lucide="waypoints" class="w-4 h-4 text-brand-600 mb-2"></i>
+          <div class="text-[12.5px] font-semibold text-ink">Semantic embedding</div>
+          <div class="text-[11.5px] text-inkmute mt-1">Concept alignment</div>
+        </div>
+        <div class="flow-arrow rounded-xl border border-ink/[0.08] p-4 bg-paper">
+          <i data-lucide="filter" class="w-4 h-4 text-brand-600 mb-2"></i>
+          <div class="text-[12.5px] font-semibold text-ink">Relevance classifier</div>
+          <div class="text-[11.5px] text-inkmute mt-1">Plausible / partial / irrelevant</div>
+        </div>
+        <div class="flow-arrow rounded-xl border border-ink/[0.08] p-4 bg-paper">
+          <i data-lucide="text-cursor-input" class="w-4 h-4 text-brand-600 mb-2"></i>
+          <div class="text-[12.5px] font-semibold text-ink">Grammar &amp; language</div>
+          <div class="text-[11.5px] text-inkmute mt-1">Fluency · syntax</div>
+        </div>
+        <div class="rounded-xl border border-ink/[0.08] p-4 bg-paper">
+          <i data-lucide="calculator" class="w-4 h-4 text-brand-600 mb-2"></i>
+          <div class="text-[12.5px] font-semibold text-ink">Rubric scoring</div>
+          <div class="text-[11.5px] text-inkmute mt-1">Weighted combination</div>
+        </div>
+      </div>
+
+      <div class="flex justify-center my-8"><i data-lucide="arrow-down" class="w-4 h-4 text-ink/30"></i></div>
+
+      <div class="grid sm:grid-cols-3 gap-4">
+        <div class="rounded-xl border border-ink/[0.08] p-4 bg-paper">
+          <i data-lucide="database" class="w-4 h-4 text-brand-600 mb-2"></i>
+          <div class="text-[12.5px] font-semibold text-ink">Non-transitory memory</div>
+          <div class="text-[11.5px] text-inkmute mt-1">Rubrics · history · models</div>
+        </div>
+        <div class="rounded-xl border border-ink/[0.08] p-4 bg-paper">
+          <i data-lucide="message-square-quote" class="w-4 h-4 text-brand-600 mb-2"></i>
+          <div class="text-[12.5px] font-semibold text-ink">Feedback generation</div>
+          <div class="text-[11.5px] text-inkmute mt-1">Natural-language notes</div>
+        </div>
+        <div class="rounded-xl border border-ink/[0.08] p-4 bg-paper">
+          <i data-lucide="send" class="w-4 h-4 text-brand-600 mb-2"></i>
+          <div class="text-[12.5px] font-semibold text-ink">Output interface</div>
+          <div class="text-[11.5px] text-inkmute mt-1">PDF · HTML · JSON to device</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ROADMAP ============ -->
+<section class="py-24 sm:py-28">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8">
+    <div class="reveal max-w-xl mb-16">
+      <span class="chip text-[12px] uppercase text-inkmute">Future roadmap</span>
+      <h2 class="font-display text-3xl sm:text-4xl font-semibold tracking-tight mt-3 leading-tight">What we're building toward next.</h2>
+    </div>
+
+    <div class="relative pl-8 max-w-2xl">
+      <div class="absolute left-[7px] top-1 bottom-1 w-0.5 timeline-line"></div>
+
+      <div class="reveal relative pb-12">
+        <div class="absolute left-[-32px] top-1 w-4 h-4 rounded-full bg-brand-500 border-4 border-paper"></div>
+        <span class="chip text-[12px] text-brand-600">Now</span>
+        <h3 class="font-semibold text-ink mt-1 mb-1.5">Core evaluation pipeline</h3>
+        <p class="text-[14px] text-inkmute leading-relaxed">OCR, semantic embedding, relevance, grammar, and rubric scoring for descriptive answers.</p>
+      </div>
+      <div class="reveal relative pb-12">
+        <div class="absolute left-[-32px] top-1 w-4 h-4 rounded-full bg-brand-300 border-4 border-paper"></div>
+        <span class="chip text-[12px] text-inkmute">Next</span>
+        <h3 class="font-semibold text-ink mt-1 mb-1.5">Multilingual &amp; vernacular support</h3>
+        <p class="text-[14px] text-inkmute leading-relaxed">Extending OCR and embeddings beyond English to regional-language answer scripts.</p>
+      </div>
+      <div class="reveal relative pb-12">
+        <div class="absolute left-[-32px] top-1 w-4 h-4 rounded-full bg-brand-300 border-4 border-paper"></div>
+        <span class="chip text-[12px] text-inkmute">Next</span>
+        <h3 class="font-semibold text-ink mt-1 mb-1.5">Mobile capture app</h3>
+        <p class="text-[14px] text-inkmute leading-relaxed">A dedicated capture app so teachers can photograph scripts directly into the pipeline.</p>
+      </div>
+      <div class="reveal relative">
+        <div class="absolute left-[-32px] top-1 w-4 h-4 rounded-full bg-ink/20 border-4 border-paper"></div>
+        <span class="chip text-[12px] text-inkmute">Later</span>
+        <h3 class="font-semibold text-ink mt-1 mb-1.5">Deeper LMS &amp; analytics integrations</h3>
+        <p class="text-[14px] text-inkmute leading-relaxed">Native connectors for major LMS platforms and richer subject-wise performance dashboards.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section id="faq" class="py-24 sm:py-28 border-t border-ink/[0.06] bg-brand-50/40">
+  <div class="max-w-3xl mx-auto px-5 sm:px-8">
+    <div class="reveal mb-12">
+      <span class="chip text-[12px] uppercase text-inkmute">FAQ</span>
+      <h2 class="font-display text-3xl sm:text-4xl font-semibold tracking-tight mt-3">Questions we get early.</h2>
+    </div>
+
+    <div class="space-y-3">
+      <details class="reveal group glass rounded-xl p-5" open>
+        <summary class="flex items-center justify-between font-semibold text-[15px] text-ink">
+          How does it grade a paraphrased but correct answer?
+          <i data-lucide="plus" class="chev w-4 h-4 text-inkmute transition-transform"></i>
+        </summary>
+        <p class="mt-3 text-[14.5px] text-inkmute leading-relaxed">Student and model answers are converted into semantic embeddings and compared by concept alignment, not word overlap — so a correctly paraphrased answer scores on par with one that matches the model answer's wording.</p>
+      </details>
+      <details class="reveal group glass rounded-xl p-5">
+        <summary class="flex items-center justify-between font-semibold text-[15px] text-ink">
+          Can teachers control how strict the scoring is?
+          <i data-lucide="plus" class="chev w-4 h-4 text-inkmute transition-transform"></i>
+        </summary>
+        <p class="mt-3 text-[14.5px] text-inkmute leading-relaxed">Yes. The rubric-scoring unit reads teacher-defined weightages for concept alignment, relevance, and language quality from memory — so scoring behavior can be tuned per question without touching the underlying system.</p>
+      </details>
+      <details class="reveal group glass rounded-xl p-5">
+        <summary class="flex items-center justify-between font-semibold text-[15px] text-ink">
+          What handwriting quality does it need?
+          <i data-lucide="plus" class="chev w-4 h-4 text-inkmute transition-transform"></i>
+        </summary>
+        <p class="mt-3 text-[14.5px] text-inkmute leading-relaxed">The OCR unit is fine-tuned on over a million handwritten and printed academic samples and applies noise removal, contrast enhancement, and stroke normalization before extraction — it's built for real exam handwriting, not clean typed text.</p>
+      </details>
+      <details class="reveal group glass rounded-xl p-5">
+        <summary class="flex items-center justify-between font-semibold text-[15px] text-ink">
+          How does it stop students from gaming the score?
+          <i data-lucide="plus" class="chev w-4 h-4 text-inkmute transition-transform"></i>
+        </summary>
+        <p class="mt-3 text-[14.5px] text-inkmute leading-relaxed">The relevance classification unit analyzes semantic deviation to identify filler content and keyword-stuffing in embedding space, rather than relying on surface-level keyword presence, so inserted keywords without real explanation are discounted.</p>
+      </details>
+      <details class="reveal group glass rounded-xl p-5">
+        <summary class="flex items-center justify-between font-semibold text-[15px] text-ink">
+          Can results plug into our existing LMS?
+          <i data-lucide="plus" class="chev w-4 h-4 text-inkmute transition-transform"></i>
+        </summary>
+        <p class="mt-3 text-[14.5px] text-inkmute leading-relaxed">Every evaluation can export as PDF, HTML, or machine-readable JSON, so scores and feedback flow into an existing LMS, student portal, or institutional database.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WAITLIST ============ -->
+<section id="waitlist" class="py-24 sm:py-28">
+  <div class="max-w-4xl mx-auto px-5 sm:px-8">
+    <div class="reveal rounded-3xl bg-ink text-white p-8 sm:p-14 relative overflow-hidden">
+      <div class="absolute -top-20 -right-20 w-72 h-72 bg-brand-500/30 rounded-full blur-3xl"></div>
+      <div class="relative grid md:grid-cols-[1fr_1.1fr] gap-10">
+        <div>
+          <h2 class="font-display text-3xl sm:text-4xl font-semibold tracking-tight leading-tight">Grade your first batch of scripts with EvalioAI.</h2>
+          <p class="mt-4 text-white/65 leading-relaxed text-[15px]">Join the early access list and we'll reach out with onboarding details as pilot cohorts open.</p>
+          <ul class="mt-6 space-y-2 text-[13.5px] text-white/60">
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-300"></i> No card required</li>
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-300"></i> Pilot cohorts for schools &amp; universities</li>
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-brand-300"></i> Sample rubric import included</li>
+          </ul>
+        </div>
+
+        <!--
+          Connected to the "Registration Form" Google Form. Responses land in
+          the Google Sheet linked to that form (Form > Responses > Sheet icon).
+          Submitted via a background fetch() request rather than an iframe,
+          since Google blocks its pages from being framed by other sites.
+          Works on static GitHub Pages hosting with no backend — just make
+          sure the page is served over http(s), not opened as a local file://.
+        -->
+        <form id="waitlistForm" class="space-y-3.5" novalidate
+          action="https://docs.google.com/forms/d/e/1FAIpQLSdmzA9Fr_Oej-FuhVti8ODczC2orGZZbFA2MhCrqV8x-S3KPg/formResponse"
+          method="POST">
+          <div>
+            <label for="name" class="sr-only">Full name</label>
+            <input id="name" name="entry.442817125" type="text" required placeholder="Full name"
+              class="w-full rounded-xl bg-white/10 border border-white/15 px-4 py-3 text-sm placeholder-white/40 focus:outline-none focus:border-brand-400 focus:bg-white/[0.14] transition-colors" />
+          </div>
+          <div>
+            <label for="email" class="sr-only">Work email</label>
+            <input id="email" name="entry.1362055463" type="email" required placeholder="Work email"
+              class="w-full rounded-xl bg-white/10 border border-white/15 px-4 py-3 text-sm placeholder-white/40 focus:outline-none focus:border-brand-400 focus:bg-white/[0.14] transition-colors" />
+          </div>
+          <div>
+            <label for="org" class="sr-only">Institution / organization</label>
+            <input id="org" name="entry.900744635" type="text" placeholder="Institution or organization"
+              class="w-full rounded-xl bg-white/10 border border-white/15 px-4 py-3 text-sm placeholder-white/40 focus:outline-none focus:border-brand-400 focus:bg-white/[0.14] transition-colors" />
+          </div>
+          <div>
+            <label for="role" class="sr-only">Role</label>
+            <select id="role" name="entry.1753460876" class="w-full rounded-xl bg-white/10 border border-white/15 px-4 py-3 text-sm text-white/80 focus:outline-none focus:border-brand-400 transition-colors">
+              <option class="text-ink" value="">I am a…</option>
+              <option class="text-ink" value="Teacher / examiner">Teacher / examiner</option>
+              <option class="text-ink" value="School / university administrator">School / university administrator</option>
+              <option class="text-ink" value="EdTech / LMS team">EdTech / LMS team</option>
+              <option class="text-ink" value="Other">Other</option>
+            </select>
+          </div>
+
+          <button type="submit" class="w-full bg-brand-500 hover:bg-brand-600 transition-colors font-semibold text-sm py-3.5 rounded-xl flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed">
+            <span id="waitlistBtnText">Join the waitlist</span>
+            <i data-lucide="arrow-right" class="w-4 h-4" id="waitlistBtnIcon"></i>
+          </button>
+          <p id="waitlistNote" class="text-[12px] text-white/40 text-center pt-1">We'll only email you about EvalioAI access.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="border-t border-ink/[0.06] py-14">
+  <div class="max-w-7xl mx-auto px-5 sm:px-8">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-10">
+      <div class="lg:col-span-2">
+        <a href="#top" class="flex items-center gap-2.5 mb-4">
+          <span class="w-8 h-8 rounded-lg bg-brand-500 grid place-items-center text-white">
+            <i data-lucide="scan-text" style="width:18px;height:18px"></i>
+          </span>
+          <span class="font-display font-semibold text-lg">EvalioAI</span>
+        </a>
+        <p class="text-[13.5px] text-inkmute max-w-xs leading-relaxed">OCR and semantic-embedding evaluation for student answer scripts — one pipeline, from scanned page to explained grade.</p>
+      </div>
+      <div>
+        <h4 class="text-[12px] chip uppercase text-inkmute mb-4">Product</h4>
+        <ul class="space-y-2.5 text-[13.5px] text-inkmute">
+          <li><a href="#solution" class="hover:text-ink transition-colors">Solution</a></li>
+          <li><a href="#features" class="hover:text-ink transition-colors">Features</a></li>
+          <li><a href="#architecture" class="hover:text-ink transition-colors">Architecture</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-[12px] chip uppercase text-inkmute mb-4">Company</h4>
+        <ul class="space-y-2.5 text-[13.5px] text-inkmute">
+          <li><a href="#users" class="hover:text-ink transition-colors">Who it's for</a></li>
+          <li><a href="#faq" class="hover:text-ink transition-colors">FAQ</a></li>
+          <li><a href="#waitlist" class="hover:text-ink transition-colors">Waitlist</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-[12px] chip uppercase text-inkmute mb-4">Contact</h4>
+        <ul class="space-y-2.5 text-[13.5px] text-inkmute">
+          <li>hello@EvalioAI.ai</li>
+          <li>Pune, India</li>
+        </ul>
+      </div>
+    </div>
+    <div class="mt-12 pt-8 border-t border-ink/[0.06] flex flex-col sm:flex-row items-center justify-between gap-4 text-[12.5px] text-inkmute">
+      <span>© 2026 EvalioAI. Patent application filed.</span>
+      <span class="flex items-center gap-1"><i data-lucide="lock" class="w-3.5 h-3.5"></i> Concept preview — not a live product</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  lucide.createIcons();
+
+  // reveal on scroll
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  revealEls.forEach((el, i) => { el.style.transitionDelay = (Math.min(i % 6, 5) * 60) + 'ms'; io.observe(el); });
+
+  // theme toggle
+  const themeToggle = document.getElementById('themeToggle');
+  const root = document.documentElement;
+  function applyTheme(mode) {
+    if (mode === 'dark') {
+      root.classList.add('dark');
+      document.body.classList.remove('bg-paper','text-ink');
+      document.body.classList.add('bg-[#0B0C10]','text-white/90');
+      themeToggle.innerHTML = '<i data-lucide="sun" class="w-4 h-4"></i>';
+    } else {
+      root.classList.remove('dark');
+      document.body.classList.remove('bg-[#0B0C10]','text-white/90');
+      document.body.classList.add('bg-paper','text-ink');
+      themeToggle.innerHTML = '<i data-lucide="moon" class="w-4 h-4"></i>';
+    }
+    lucide.createIcons();
+  }
+  let theme = 'light';
+  applyTheme(theme);
+  themeToggle.addEventListener('click', () => {
+    theme = theme === 'light' ? 'dark' : 'light';
+    applyTheme(theme);
+  });
+
+  // waitlist form -> Google Form, sent via a background fetch request
+  // (Google blocks its pages from being framed, so we POST directly instead
+  // of using a hidden iframe — this works from any static host, including
+  // GitHub Pages, as long as the page is served over http(s), not file://)
+  const form = document.getElementById('waitlistForm');
+  const btnText = document.getElementById('waitlistBtnText');
+  const note = document.getElementById('waitlistNote');
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    form.querySelectorAll('input, select, button').forEach(el => el.disabled = true);
+    btnText.textContent = 'Submitting…';
+
+    fetch(form.action, {
+      method: 'POST',
+      mode: 'no-cors', // Google Forms doesn't send CORS headers; response is opaque
+      body: new FormData(form)
+    })
+    .then(() => {
+      // no-cors means we can't read the actual status, but if fetch didn't
+      // throw, the request reached Google — this is the standard pattern.
+      btnText.textContent = "You're on the list";
+      note.textContent = "Thanks — we'll be in touch as pilot cohorts open.";
+    })
+    .catch(() => {
+      btnText.textContent = 'Try again';
+      note.textContent = "Something went wrong — please try again in a moment.";
+      form.querySelectorAll('input, select, button').forEach(el => el.disabled = false);
+    });
+  });
+</script>
+
+</body>
+</html>
