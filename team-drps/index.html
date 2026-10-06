@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI-Powered Non-Destructive Reading & Text Recovery | Group G5, PVG's COET&M</title>
+<meta name="description" content="An end-to-end AI pipeline that virtually unwraps closed ancient books and scrolls from CT scans and recovers their hidden text.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:opsz,wght@6..72,500;6..72,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap bar">
+    <a class="brand" href="#top"><img src="assets/logo-pvg.png" alt="PVG logo"><span>Group G5 · AI &amp; Data Science</span></a>
+    <button class="burger" aria-label="Menu" aria-expanded="false">Menu</button>
+    <nav id="nav">
+      <a href="#problem">Problem</a><a href="#pipeline">Pipeline</a><a href="#science">Science</a>
+      <a href="#validation">Validation</a><a href="#plan">Plan</a><a href="#impact">Impact</a><a href="#team">Team</a>
+      <a class="btn small" href="Project_Detail_Report_G5.pdf" download>Project PDF</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <p class="kicker">PVG's College of Engineering, Technology &amp; Management, Pune · AY 2026–27</p>
+      <h1>Reading books that can never be opened</h1>
+      <p class="lead">An AI pipeline that takes a CT scan of a closed, fused or carbonised book or scroll, unfolds every page digitally, and recovers the hidden text, with a confidence score on every character.</p>
+      <div class="cta">
+        <a class="btn" href="#pipeline">Explore the pipeline</a>
+        <a class="btn ghost" href="Project_Detail_Report_G5.pdf" download>Download detailed report (PDF)</a>
+      </div>
+    </div>
+    <figure class="hero-fig">
+      <img src="assets/scroll-closeup.png" alt="Carbonised scroll that cannot be unrolled">
+      <figcaption>A carbonised scroll: physically unopenable, with text still intact inside.</figcaption>
+    </figure>
+  </div>
+  <div class="wrap stats">
+    <div><b data-n="1800" data-suf="+">0</b><span>carbonised scrolls still unread at Herculaneum</span></div>
+    <div><b data-n="15" data-suf=" TB">0</b><span>raw data in a single high-resolution scan</span></div>
+    <div><b>Dice &gt; 0.90</b><span>target accuracy for page tracking</span></div>
+    <div><b data-n="6">0</b><span>independent, swappable modules</span></div>
+  </div>
+</section>
+
+<section id="problem" class="sec">
+  <div class="wrap">
+    <h2>The problem</h2>
+    <p class="intro">Millions of bound books and rolled scrolls in the world's archives are fused, brittle or burnt. Opening them destroys them; leaving them closed leaves them unread. Micro-CT can see inside, but the raw result is a block of warped, touching layers in which the ink is almost invisible.</p>
+    <div class="split">
+      <figure><img src="assets/heritage-risk.png" alt="Dashboard of heritage at risk: 100 million documents, 1,800 carbonised scrolls"><figcaption>Heritage at risk: scale of the unreadable archive.</figcaption></figure>
+      <div class="cards2">
+        <article class="card"><h3>Fused layers</h3><p>Neighbouring pages touch at sub-voxel distance, so a naive segmenter "jumps" from one sheet to the next.</p></article>
+        <article class="card"><h3>Warped geometry</h3><p>Pages are crumpled 3D surfaces that must be unfolded without distorting letter shapes.</p></article>
+        <article class="card"><h3>Invisible ink</h3><p>Carbon ink has almost the same X-ray density as the carbonised page, so no simple threshold works.</p></article>
+        <article class="card"><h3>Damaged text</h3><p>Recovered letters are broken. Any guess must be flagged as a guess, never presented as fact.</p></article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="pipeline" class="sec alt">
+  <div class="wrap">
+    <h2>The pipeline, step by step</h2>
+    <p class="intro">Select a module to see what it does, how, and how we will test it. Every module hands a documented file to the next, so any stage can be tested or swapped alone.</p>
+    <div class="flow" role="tablist" aria-label="Pipeline modules"></div>
+    <div class="panel" id="panel" role="tabpanel" aria-live="polite"></div>
+    <div class="split rev">
+      <figure><img src="assets/ink-recovery.jpg" alt="3D scan window fed to a neural network that outputs readable characters"><figcaption>Ink recovery: a small 3D window of the scan goes into a neural network, which outputs the letters.</figcaption></figure>
+      <figure><img src="assets/ct-scroll.jpg" alt="3D reconstruction of a scroll from CT data"><figcaption>3D reconstruction of a rolled scroll from CT data (Vesuvius Challenge).</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section id="science" class="sec">
+  <div class="wrap">
+    <h2>The science behind it</h2>
+    <p class="intro">Five ideas carry the project. Each gives us either a physical explanation or a number we can check.</p>
+    <div class="grid3">
+      <article class="card math"><h3>Beer–Lambert attenuation</h3><code>I = I₀ · e<sup>−μx</sup></code><p>How X-rays fade through the artifact. This is the basis of ink-versus-page contrast.</p></article>
+      <article class="card math"><h3>Photoelectric absorption</h3><code>P ∝ Z<sup>n</sup> / E³</code><p>Metal-based ink (high Z) shows up clearly; carbon ink (low Z) does not. That is the core difficulty.</p></article>
+      <article class="card math"><h3>ARAP flattening</h3><code>E = Σ wᵢ ‖(pᵢ−pⱼ) − Rᵢ(pᵢ⁰−pⱼ⁰)‖²</code><p>Unfolds a curved page to a flat one with minimal stretch and shear, so letters keep their shape.</p></article>
+      <article class="card math"><h3>Dice coefficient</h3><code>2|A∩B| / (|A|+|B|)</code><p>Measures how well our page segmentation overlaps the expert annotation. The gate is above 0.90.</p></article>
+      <article class="card math"><h3>Token log-likelihood</h3><code>log P(tokenₜ | context)</code><p>A per-character confidence. Low-scoring characters are highlighted for a human to review.</p></article>
+      <article class="card"><h3>Models used</h3><p>FastSAM3D and a 3D U-Net for segmentation, 3D CNN and TimeSformer for ink, CRNN with CTC for reading, an Ithaca-style language model for gap filling.</p></article>
+    </div>
+    <h3 class="sub">How we compare with existing approaches</h3>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Criterion</th><th>Spine-cutting / flatbed</th><th>ThaumatoAnakalyptor</th><th>Generic 2D SAM + OCR</th><th class="us">This project</th></tr></thead>
+      <tbody>
+      <tr><th>Artifact safety</th><td>Destroys binding</td><td>Non-destructive</td><td>Not applicable</td><td class="us">Non-destructive</td></tr>
+      <tr><th>Artifacts handled</th><td>Books, after cutting</td><td>Rolled scrolls only</td><td>Flat 2D images</td><td class="us">Bound books and scrolls</td></tr>
+      <tr><th>Automation</th><td>Manual, page by page</td><td>Semi-manual</td><td>Partial</td><td class="us">End-to-end pipeline</td></tr>
+      <tr><th>Confidence reporting</th><td>None</td><td>Limited</td><td>Binary error rate</td><td class="us">Per-character score</td></tr>
+      <tr><th>Reuse elsewhere</th><td>None</td><td>Scroll-specific</td><td>Not volumetric</td><td class="us">Modular: medical, NDT, PCB</td></tr>
+      </tbody></table></div>
+  </div>
+</section>
+
+<section id="validation" class="sec alt">
+  <div class="wrap">
+    <h2>Validation and current status</h2>
+    <p class="intro">Every requirement has a test. Phase 1 tests run on synthetic CT data; benchmark tests on real scroll data begin once segmentation passes its gate.</p>
+    <div class="status-row">
+      <div class="pill done"><b>1</b> Passed</div><div class="pill prog"><b>2</b> In progress</div><div class="pill plan"><b>5</b> Planned</div>
+    </div>
+    <div class="tablewrap"><table class="tests">
+      <thead><tr><th>ID</th><th>Requirement</th><th>What is tested</th><th>Data</th><th>Pass criterion</th><th>Status</th></tr></thead>
+      <tbody id="tests"></tbody></table></div>
+    <div class="metrics">
+      <div class="card"><h3>Segmentation</h3><p>Dice / IoU above 0.90 on continuous sheet tracking, with zero cross-layer merges on a 40 µm gap phantom.</p></div>
+      <div class="card"><h3>Reading</h3><p>Character and word error rates against benchmark transcriptions, plus a log-likelihood for every token.</p></div>
+      <div class="card"><h3>Trustworthiness</h3><p>100% of sub-threshold characters must be visibly flagged in the interface. Nothing uncertain is shown as certain.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="plan" class="sec">
+  <div class="wrap">
+    <h2>Plan, feasibility and risk</h2>
+    <p class="intro">A fixed 12-month schedule in four phases, with a milestone gate at the end of each. Hover or tap a phase for its deliverables.</p>
+    <div class="timeline" id="timeline"></div>
+    <div class="grid2">
+      <div>
+        <h3 class="sub">Is it achievable?</h3>
+        <ul class="ticks">
+          <li><b>Technical.</b> Every phase builds on published, reproducible work. The hard part is the Dice gate on fused layers.</li>
+          <li><b>Economic.</b> The whole stack is open source and data is public. About ₹40,000 on the institute GPU cluster, or about ₹2,70,000 on the cloud.</li>
+          <li><b>Schedule.</b> Roughly 2,300 person-hours across four members.</li>
+          <li><b>Operational.</b> Runs offline on a cluster; the GUI keeps the archivist's workflow simple.</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="sub">Top risks and our backup plan</h3>
+        <ul class="ticks warn">
+          <li><b>Layer-jumping.</b> Fall back to point-cloud tracking with manual seeds and a normal-consistency loss.</li>
+          <li><b>Invisible carbon ink.</b> Train on phase-contrast scans; validate first on metal-ink samples.</li>
+          <li><b>Invented text.</b> Hard-gate output on log-likelihood; never show a low-confidence letter as definite.</li>
+          <li><b>No GPU time.</b> Patch-wise training at reduced resolution; cloud budget held in reserve.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="impact" class="sec alt">
+  <div class="wrap">
+    <h2>Impact and future scope</h2>
+    <div class="split">
+      <figure><img src="assets/scrolls.png" alt="Ancient rolled scrolls on a wooden table"><figcaption>Archives, libraries and museums hold thousands of such sealed volumes.</figcaption></figure>
+      <div>
+        <h3 class="sub first">Direct outcomes</h3>
+        <ul class="ticks">
+          <li>A working six-module pipeline from raw voxels to translated text.</li>
+          <li>Validated accuracy on public benchmark data.</li>
+          <li>Confidence-annotated transcripts that archivists can trust.</li>
+          <li>A researcher GUI, documentation and a submittable paper.</li>
+        </ul>
+        <h3 class="sub">Where the same core can go</h3>
+        <div class="chips"><span>Mass archive digitisation</span><span>Medical tumour and organ segmentation</span><span>Industrial non-destructive testing</span><span>PCB and microchip inspection</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="team" class="sec">
+  <div class="wrap">
+    <h2>Team and guide</h2>
+    <div class="grid4" id="teamgrid"></div>
+    <p class="guide">Internal guide: <b>Prof. Ravindra Mule</b> · Department of Artificial Intelligence &amp; Data Science, PVG's COET&amp;M, Pune</p>
+    <div class="dl">
+      <div><h3>Want the full detail?</h3><p>The report covers requirements, architecture, algorithms, test plan, cost and references.</p></div>
+      <a class="btn" href="Project_Detail_Report_G5.pdf" download>Download the PDF report</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <img src="assets/logo-excellence.png" alt="Excellence in Engineering Education">
+    <p>PVG's College of Engineering, Technology &amp; Management, Pune · Department of Artificial Intelligence &amp; Data Science · Group G5 · AY 2026–27</p>
+  </div>
+</footer>
+<script src="script.js"></script>
+</body>
+</html>
