@@ -1,0 +1,68 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import TechList from './TechList.astro';
+import TechLogo from './TechLogo.astro';
+import type { CaseStudy } from '../data/caseStudies';
+
+interface Props {
+  study: CaseStudy;
+  /** Puts the picture on the right for every second project. */
+  flip?: boolean;
+  as?: 'h2' | 'h3';
+}
+
+const { study: s, flip = false, as: Heading = 'h3' } = Astro.props;
+
+// A screenshot saved as src/assets/projects/<id>.png (or .jpg/.webp) takes priority.
+const shots = import.meta.glob<{ default: ImageMetadata }>('../assets/projects/*.{png,jpg,jpeg,webp}', { eager: true });
+const own = Object.entries(shots).find(([path]) => path.split('/').pop()!.replace(/\.\w+$/, '') === s.id)?.[1].default;
+const image = own ?? s.image;
+const alt = own ? `Screenshot of ${s.title}` : (s.imageAlt ?? '');
+const caption = own ? undefined : s.imageCaption;
+---
+
+<article id={s.id} class="reveal grid overflow-hidden rounded-3xl border border-line bg-surface lg:grid-cols-2">
+  <div class:list={['flex min-h-64 flex-col items-center justify-center gap-3 bg-slate-900 p-5 sm:p-8', flip && 'lg:order-2']}>
+    {image ? (
+      <figure class="w-full" data-zoom>
+        <Image src={image} alt={alt} widths={[500, 1000]} sizes="(min-width: 1024px) 560px, 100vw" format="webp" class="w-full rounded-xl shadow-2xl" />
+        {caption && <figcaption class="mt-3 text-center text-xs text-slate-300">{caption}</figcaption>}
+      </figure>
+    ) : (
+      <ul class="flex max-w-md flex-wrap justify-center gap-4" data-zoom aria-label={`Technology behind ${s.title}`}>
+        {s.stack.map((t) => (
+          <li class="flex size-28 flex-col items-center justify-center gap-3 rounded-2xl bg-white p-2 text-center text-slate-900 shadow-xl">
+            <TechLogo name={t} class="size-10" />
+            <span class="text-xs font-semibold leading-tight">{t}</span>
+          </li>
+        ))}
+      </ul>
+    )}
+  </div>
+
+  <div class="flex flex-col justify-center p-6 sm:p-10">
+    <p class="badge self-start">{s.badge}</p>
+    <Heading class="mt-4 text-2xl font-semibold sm:text-3xl">{s.title}</Heading>
+    <p class="mt-3 text-lg text-muted">{s.summary}</p>
+
+    {s.metrics.length > 0 && (
+      <dl class="mt-6 flex flex-wrap gap-x-10 gap-y-4">
+        {s.metrics.map((m) => (
+          <div class="flex flex-col">
+            <dt class="order-2 max-w-40 text-sm text-muted">{m.label}</dt>
+            <dd class="gradient-text font-display text-3xl font-bold">{m.value}</dd>
+          </div>
+        ))}
+      </dl>
+    )}
+
+    <ul class="mt-6 list-disc space-y-2 pl-5 text-sm text-muted marker:text-accent">
+      {s.points.map((p) => <li>{p}</li>)}
+    </ul>
+    <TechList items={s.stack} label="Technologies" class="mt-6" />
+    {s.link && (
+      <p class="mt-6"><a class="link" href={s.link.href}>{s.link.label} →</a></p>
+    )}
+  </div>
+</article>

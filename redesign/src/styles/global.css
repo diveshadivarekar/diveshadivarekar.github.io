@@ -1,0 +1,138 @@
+@import "tailwindcss";
+
+/* Colours: edit these two blocks to retheme the whole site. */
+:root {
+  color-scheme: light;
+  --bg: #f7f7f5;
+  --surface: #ffffff;
+  --text: #14161c;
+  --muted: #4d5261;
+  --line: #dcdde3;
+  --accent: #3b3fd6;
+  --accent-2: #0a7c86;
+  --on-accent: #ffffff;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0e1016;
+  --surface: #161922;
+  --text: #eef0f6;
+  --muted: #a7adbf;
+  --line: #2a2f3d;
+  --accent: #9ea8ff;
+  --accent-2: #4fd6d0;
+  --on-accent: #0e1016;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-on-accent: var(--on-accent);
+  --font-display: "Bricolage Grotesque Variable", ui-sans-serif, sans-serif;
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+  body { background: var(--bg); color: var(--text); font-family: var(--font-sans); line-height: 1.6; }
+  h1, h2, h3 { font-family: var(--font-display); line-height: 1.12; letter-spacing: -0.02em; text-wrap: balance; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+}
+
+@layer components {
+  .wrap { @apply mx-auto w-full max-w-6xl px-5 sm:px-8; }
+  .btn { @apply inline-flex min-h-11 items-center justify-center rounded-lg px-5 text-sm font-semibold transition-colors; }
+  .btn-primary { @apply bg-accent text-on-accent hover:opacity-90; }
+  .btn-ghost { @apply border border-line bg-surface hover:border-accent hover:text-accent; }
+  .link { @apply font-medium text-accent underline-offset-4 hover:underline; }
+  .section { @apply border-t border-line py-16 sm:py-24; }
+  .section-title { @apply text-3xl font-semibold sm:text-4xl; }
+  .eyebrow { @apply mb-2 text-sm font-semibold text-accent; }
+  .chip { @apply inline-block rounded-lg border border-line bg-bg px-2.5 py-1 text-xs font-medium; }
+  .badge { @apply inline-flex items-center rounded-full border border-line bg-surface px-3 py-1 text-xs font-semibold text-accent; }
+
+  .gradient-text {
+    background: linear-gradient(100deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Soft colour glows over a faint grid, behind page headers. */
+  .hero-bg { position: relative; isolation: isolate; }
+  .hero-bg::before,
+  .hero-bg::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+  .hero-bg::before {
+    background:
+      radial-gradient(40rem 28rem at 85% 5%, color-mix(in oklab, var(--accent) 24%, transparent), transparent 70%),
+      radial-gradient(34rem 26rem at 5% 45%, color-mix(in oklab, var(--accent-2) 18%, transparent), transparent 70%);
+  }
+  .hero-bg::after {
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 3.5rem 3.5rem;
+    opacity: 0.45;
+    mask-image: linear-gradient(to bottom, black, transparent 80%);
+  }
+
+  .glass {
+    border: 1px solid var(--line);
+    background: color-mix(in oklab, var(--surface) 70%, transparent);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 24px 60px -30px color-mix(in oklab, var(--accent) 55%, transparent);
+  }
+
+  /* Dark colour band. Set --hue to change the colour. */
+  .panel {
+    background:
+      radial-gradient(circle at 1px 1px, rgb(255 255 255 / 0.16) 1px, transparent 0) 0 0 / 1.25rem 1.25rem,
+      linear-gradient(140deg, oklch(0.45 0.13 var(--hue, 275)), oklch(0.25 0.08 calc(var(--hue, 275) + 40)));
+  }
+
+  .lift { transition: transform 0.2s ease, border-color 0.2s ease; }
+  .lift:hover { transform: translateY(-3px); border-color: var(--accent); }
+}
+
+/* ---- GitHub contribution graph ---- */
+.contributions text { fill: var(--muted); font-size: 10px; }
+.contributions rect[data-level="0"] { fill: color-mix(in oklab, var(--muted) 16%, transparent); }
+.contributions rect[data-level="1"] { fill: color-mix(in oklab, var(--accent-2) 38%, var(--surface)); }
+.contributions rect[data-level="2"] { fill: color-mix(in oklab, var(--accent-2) 70%, var(--surface)); }
+.contributions rect[data-level="3"] { fill: var(--accent-2); }
+.contributions rect[data-level="4"] { fill: var(--accent); }
+.bar { background: linear-gradient(90deg, var(--accent), var(--accent-2)); }
+
+/* ---- Scroll effects. The .motion class is added by src/scripts/motion.ts. ---- */
+.motion .hero-bg::before { translate: 0 calc(var(--scroll, 0) * 0.35px); }
+.motion .hero-bg::after { translate: 0 calc(var(--scroll, 0) * 0.18px); }
+.motion .statement { height: 220vh; }
+.statement { padding-block: 6rem; border-top: 1px solid var(--line); }
+.motion .statement { padding-block: 0; }
+.motion .statement-pin { position: sticky; top: 0; display: flex; height: 100vh; height: 100svh; align-items: center; }
+.motion .word { opacity: 0.16; }
+
+/* Fade the top and bottom of the drifting wall into the background. */
+.wall::before,
+.wall::after { content: ""; position: absolute; inset-inline: 0; height: 7rem; z-index: 1; pointer-events: none; }
+.wall::before { top: 0; background: linear-gradient(to bottom, #020617, transparent); }
+.wall::after { bottom: 0; background: linear-gradient(to top, #020617, transparent); }
+
+@keyframes rise { from { opacity: 0.2; transform: translateY(1.5rem); } }
+
+/* Scroll-in effect where the browser supports it. Content is never hidden without it. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal { animation: rise both ease-out; animation-timeline: view(); animation-range: entry 0% entry 35%; }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; animation: none !important; }
+}

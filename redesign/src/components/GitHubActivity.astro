@@ -1,0 +1,100 @@
+---
+/** Contribution graph drawn from src/data/github.json (see scripts/github.mjs). */
+import data from '../data/github.json';
+import TechLogo from './TechLogo.astro';
+
+const { days, repos, updated, user } = data;
+
+const date = (iso: string) => new Date(`${iso}T00:00:00Z`);
+const format = (iso: string, options: Intl.DateTimeFormatOptions) =>
+  date(iso).toLocaleDateString('en-GB', { timeZone: 'UTC', ...options });
+
+const total = days.reduce((sum, d) => sum + d.count, 0);
+const active = days.filter((d) => d.count > 0).length;
+let streak = 0;
+let best = 0;
+for (const d of days) {
+  streak = d.count > 0 ? streak + 1 : 0;
+  best = Math.max(best, streak);
+}
+
+const stats = [
+  { value: total.toLocaleString('en-IN'), label: 'contributions in the past year' },
+  { value: String(active), label: 'active days' },
+  { value: `${best} days`, label: 'longest streak' },
+  { value: String(repos.publicRepos), label: 'public repositories' },
+];
+
+// One column per week, Sunday at the top, as on GitHub.
+const STEP = 15;
+const LEFT = 30;
+const TOP = 20;
+const offset = date(days[0].date).getUTCDay();
+const cells = days.map((d, i) => ({ ...d, week: Math.floor((i + offset) / 7), day: (i + offset) % 7 }));
+const width = LEFT + (cells.at(-1)!.week + 1) * STEP;
+const height = TOP + 7 * STEP;
+
+// Label a week when a new month starts in it, skipping labels that would collide.
+const months: { week: number; label: string }[] = [];
+for (const c of cells.filter((c) => c.date.endsWith('-01'))) {
+  months.push({ week: c.week, label: format(c.date, { month: 'short' }) });
+}
+
+const languageTotal = repos.languages.reduce((sum, l) => sum + l.repos, 0);
+---
+
+<dl class="mt-10 grid grid-cols-2 gap-4 lg:grid-cols-4">
+  {stats.map((s) => (
+    <div class="reveal flex flex-col rounded-2xl border border-line bg-surface p-5">
+      <dt class="order-2 mt-1 text-sm text-muted">{s.label}</dt>
+      <dd class="gradient-text font-display text-3xl font-bold sm:text-4xl">{s.value}</dd>
+    </div>
+  ))}
+</dl>
+
+<figure class="mt-4 rounded-2xl border border-line bg-surface p-5 sm:p-7">
+  <div id="contribution-scroll" class="overflow-x-auto pb-2" tabindex="0" role="region" aria-label="Contribution graph, scrolls sideways on small screens">
+    <svg class="contributions h-auto w-full min-w-[46rem]" viewBox={`0 0 ${width} ${height}`} role="img" aria-label={`${total} GitHub contributions on ${active} days between ${format(days[0].date, { month: 'long', year: 'numeric' })} and ${format(days.at(-1)!.date, { month: 'long', year: 'numeric' })}`}>
+      {months.map((m) => <text x={LEFT + m.week * STEP} y="11">{m.label}</text>)}
+      {['Mon', 'Wed', 'Fri'].map((label, i) => <text x="0" y={TOP + (i * 2 + 1) * STEP + 10}>{label}</text>)}
+      {cells.map((c) => (
+        <rect x={LEFT + c.week * STEP} y={TOP + c.day * STEP} width="12" height="12" rx="3" data-level={c.level} style={`--week:${c.week}`}>
+          <title>{`${c.count} contribution${c.count === 1 ? '' : 's'} on ${format(c.date, { day: 'numeric', month: 'short', year: 'numeric' })}`}</title>
+        </rect>
+      ))}
+    </svg>
+  </div>
+  <figcaption class="mt-3 flex flex-wrap items-center justify-between gap-3 text-xs text-muted">
+    <span>Public GitHub activity, saved {format(updated, { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+    <span class="contributions flex items-center gap-1.5">
+      Less
+      {[0, 1, 2, 3, 4].map((level) => <svg width="12" height="12" aria-hidden="true"><rect width="12" height="12" rx="3" data-level={level} /></svg>)}
+      More
+    </span>
+  </figcaption>
+</figure>
+
+<div class="mt-4 rounded-2xl border border-line bg-surface p-5 sm:p-7">
+  <h3 class="text-lg font-semibold">Main language of my repositories</h3>
+  <ul class="mt-5 grid gap-x-10 gap-y-4 sm:grid-cols-2">
+    {repos.languages.map((l) => (
+      <li>
+        <p class="flex items-center justify-between gap-3 text-sm">
+          <span class="inline-flex items-center gap-2 font-medium"><TechLogo name={l.name} />{l.name}</span>
+          <span class="tabular-nums text-muted">{l.repos} {l.repos === 1 ? 'repository' : 'repositories'}</span>
+        </p>
+        <div class="mt-1.5 h-2 overflow-hidden rounded-full bg-line" aria-hidden="true">
+          <div class="bar h-full rounded-full" style={`width:${(l.repos / languageTotal) * 100}%`}></div>
+        </div>
+      </li>
+    ))}
+  </ul>
+</div>
+
+<p class="mt-8"><a class="link" href={`https://github.com/${user}`}>See my GitHub profile →</a></p>
+
+<script>
+  // On narrow screens, start at the most recent weeks.
+  const scroller = document.getElementById('contribution-scroll');
+  if (scroller) scroller.scrollLeft = scroller.scrollWidth;
+</script>

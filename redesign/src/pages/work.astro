@@ -1,0 +1,61 @@
+---
+import Base from '../layouts/Base.astro';
+import CaseStudy from '../components/CaseStudy.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import FilterBar from '../components/FilterBar.astro';
+import CallToAction from '../components/CallToAction.astro';
+import GitHubActivity from '../components/GitHubActivity.astro';
+import { caseStudies } from '../data/caseStudies';
+import { projects, categories } from '../data/projects';
+
+const filters = [
+  { name: 'All', count: projects.length },
+  ...categories.map((name) => ({ name, count: projects.filter((p) => p.categories.includes(name)).length })),
+];
+---
+
+<Base
+  title="Projects | Divesh Adivarekar"
+  description="AI agent, machine learning and full-stack projects by Divesh Adivarekar, with how each one works and what it achieved."
+>
+  <div class="hero-bg">
+    <div class="wrap py-14 sm:py-20">
+      <h1 class="text-4xl font-bold sm:text-5xl">Projects</h1>
+      <p class="mt-4 max-w-2xl text-lg text-muted">
+        My major projects, with how each one works. Smaller projects are further down.
+      </p>
+      <nav aria-label="Major projects" class="mt-8">
+        <ul class="flex flex-wrap gap-2">
+          {caseStudies.map((c) => <li><a class="chip hover:border-accent hover:text-accent" href={`#${c.id}`}>{c.title}</a></li>)}
+        </ul>
+      </nav>
+    </div>
+  </div>
+
+  <div class="wrap space-y-8 pb-16">
+    {caseStudies.map((study, i) => <CaseStudy study={study} flip={i % 2 === 1} as="h2" />)}
+  </div>
+
+  <section class="section" aria-labelledby="more">
+    <div class="wrap">
+      <h2 id="more" class="section-title">More projects</h2>
+      <FilterBar label="Filter projects" noun="projects" filters={filters} />
+      <ul class="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {projects.map((p) => (
+          <li data-categories={p.categories.join('|')}>
+            <ProjectCard project={p} />
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="github">
+    <div class="wrap">
+      <h2 id="github" class="section-title">My GitHub activity</h2>
+      <GitHubActivity />
+    </div>
+  </section>
+
+  <CallToAction />
+</Base>

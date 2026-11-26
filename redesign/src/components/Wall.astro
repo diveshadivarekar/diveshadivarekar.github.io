@@ -1,0 +1,62 @@
+---
+/** Columns of real screenshots and certificates that drift at different speeds. */
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { certificates } from '../data/certificates';
+import bloomify from '../assets/shots/bloomify.jpg';
+import scrollSite from '../assets/shots/team-drps.jpg';
+import studySearch from '../assets/shots/study-search.jpg';
+import pointMedia from '../assets/shots/point-media.jpg';
+import feedMeMore from '../assets/shots/feed-me-more.jpg';
+
+const shot = (image: ImageMetadata, alt: string, href: string) => ({ image, alt, href });
+const cert = (c: { image: ImageMetadata; title: string; href: string }) => shot(c.image, `Certificate: ${c.title}`, c.href);
+
+const columns = [
+  {
+    speed: 0.16,
+    items: [
+      shot(bloomify, 'Bloomify', '/work.html#bloomify'),
+      cert(certificates.codeClash),
+      shot(studySearch, 'Study Search', 'https://diveshadivarekar.github.io/Study-Search/'),
+      cert(certificates.nvidia),
+    ],
+  },
+  {
+    speed: -0.16,
+    items: [
+      cert(certificates.codeForBharat),
+      shot(scrollSite, 'Sealed books project showcase', '/team-drps/'),
+      cert(certificates.dolphin),
+      shot(feedMeMore, 'Feed Me More', '/feed_me_more/index.html'),
+    ],
+  },
+  {
+    speed: 0.26,
+    extra: 'hidden md:flex',
+    items: [
+      cert(certificates.ciphathon),
+      shot(pointMedia, 'Point Media', 'https://diveshadivarekar.github.io/PointMedia01/'),
+      cert(certificates.sih),
+      cert(certificates.jspmMerit),
+    ],
+  },
+];
+---
+
+<section class="wall relative overflow-hidden border-t border-line bg-slate-950" aria-labelledby="wall-title">
+  <h2 id="wall-title" class="sr-only">Project screenshots and certificates</h2>
+  <div class="wrap grid h-[34rem] grid-cols-2 gap-4 sm:h-[44rem] md:grid-cols-3 md:gap-6">
+    {columns.map((column) => (
+      <ul class:list={['flex flex-col justify-center gap-4 md:gap-6', column.extra]} data-speed={column.speed}>
+        {column.items.map((item) => (
+          <li class="shrink-0">
+            <a href={item.href} class="block overflow-hidden rounded-xl border border-white/10 bg-slate-900 shadow-2xl transition-transform hover:scale-[1.03]">
+              <Image src={item.image} alt={item.alt} widths={[360, 720]} sizes="(min-width: 768px) 360px, 50vw" format="webp" class="aspect-[16/11] w-full object-cover object-top" />
+            </a>
+          </li>
+        ))}
+      </ul>
+    ))}
+  </div>
+</section>

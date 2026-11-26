@@ -1,0 +1,37 @@
+---
+import { Image } from 'astro:assets';
+import TechList from './TechList.astro';
+import type { Project } from '../data/projects';
+
+interface Props {
+  project: Project;
+  /** Heading level, so each page keeps a correct outline. */
+  as?: 'h2' | 'h3';
+}
+
+const { project: p, as: Heading = 'h3' } = Astro.props;
+---
+
+<article class="lift flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-surface">
+  {p.cover && (
+    <Image
+      src={p.cover.image}
+      alt={p.cover.alt}
+      widths={[400, 700]}
+      sizes="(min-width: 1024px) 350px, 90vw"
+      format="webp"
+      class:list={['aspect-video w-full border-b border-line', p.cover.background ? 'object-contain' : 'object-cover object-top']}
+      style={p.cover.background && `background:${p.cover.background}`}
+    />
+  )}
+  <div class="flex flex-1 flex-col p-6">
+    <Heading class="text-xl font-semibold">{p.title}</Heading>
+    <p class="mt-2 text-muted">{p.summary}</p>
+    {p.tags.length > 0 && <TechList items={p.tags} label="Topics" class="mt-4" />}
+    {p.link && (
+      <p class="mt-auto pt-5">
+        <a class="link" href={p.link.href} aria-label={`${p.link.label}: ${p.title}`}>{p.link.label} →</a>
+      </p>
+    )}
+  </div>
+</article>

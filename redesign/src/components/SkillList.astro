@@ -1,0 +1,15 @@
+---
+import TechList from './TechList.astro';
+import { skills } from '../data/profile';
+---
+
+<dl class="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+  {skills.map((s) => (
+    <div class="reveal rounded-2xl border border-line bg-surface p-6">
+      <dt class="font-display text-lg font-semibold">{s.group}</dt>
+      <dd>
+        <TechList items={s.items} class="mt-4" />
+      </dd>
+    </div>
+  ))}
+</dl>

@@ -1,0 +1,137 @@
+---
+import Base from '../layouts/Base.astro';
+import { availability, email, resume, social } from '../data/profile';
+
+/**
+ * To send messages straight from the page, create a free access key at web3forms.com
+ * and paste it here. The key is meant to be public. While this is empty, the form
+ * opens the visitor's email app instead.
+ */
+const web3formsKey = '';
+const direct = web3formsKey !== '';
+
+const field =
+  'mt-2 w-full rounded-lg border border-line bg-surface px-3.5 py-2.5 text-text focus:border-accent';
+---
+
+<Base
+  title="Contact | Divesh Adivarekar"
+  description="Get in touch with Divesh Adivarekar about projects, roles or collaboration."
+>
+  <div class="hero-bg">
+  <div class="wrap grid gap-12 py-14 sm:py-20 lg:grid-cols-[1fr_1.2fr]">
+    <div>
+      {availability && <p class="badge mb-5">{availability}</p>}
+      <h1 class="text-4xl font-bold sm:text-5xl">Contact</h1>
+      <p class="mt-4 max-w-md text-lg text-muted">Have a project, role or collaboration in mind? Send me a message.</p>
+
+      <p class="mt-6"><a class="btn btn-ghost" href={resume} download>Download résumé</a></p>
+
+      <dl class="mt-10 space-y-6">
+        <div>
+          <dt class="text-sm text-muted">Email</dt>
+          <dd class="mt-1 flex flex-wrap items-center gap-3">
+            <a class="link break-all" href={`mailto:${email}`}>{email}</a>
+            <button id="copy-email" type="button" class="btn btn-ghost" data-email={email} hidden>Copy</button>
+          </dd>
+          <dd id="copy-status" class="mt-1 text-sm text-muted" aria-live="polite"></dd>
+        </div>
+        <div>
+          <dt class="text-sm text-muted">Location</dt>
+          <dd class="mt-1 font-medium">Pune, Maharashtra, India</dd>
+        </div>
+        <div>
+          <dt class="text-sm text-muted">Elsewhere</dt>
+          <dd>
+            <ul class="mt-1 flex flex-wrap gap-5">
+              {social.map((s) => <li><a class="link" href={s.href}>{s.label}</a></li>)}
+            </ul>
+          </dd>
+        </div>
+      </dl>
+    </div>
+
+    <form
+      id="contact-form"
+      class="glass space-y-5 self-start rounded-3xl p-6 sm:p-8"
+      action={direct ? 'https://api.web3forms.com/submit' : `mailto:${email}`}
+      method="post"
+      enctype={direct ? undefined : 'text/plain'}
+      data-email={email}
+    >
+      {direct && (
+        <>
+          <input type="hidden" name="access_key" value={web3formsKey} />
+          <input type="hidden" name="subject" value="Portfolio message" />
+          <input type="checkbox" name="botcheck" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        </>
+      )}
+      <label class="block text-sm font-medium">
+        Name
+        <input class={field} type="text" name="name" autocomplete="name" required />
+      </label>
+      <label class="block text-sm font-medium">
+        Email
+        <input class={field} type="email" name="email" autocomplete="email" required />
+      </label>
+      <label class="block text-sm font-medium">
+        Message
+        <textarea class={field} name="message" rows="6" required></textarea>
+      </label>
+      <button type="submit" class="btn btn-primary w-full sm:w-auto">
+        {direct ? 'Send message' : 'Open in email app'}
+      </button>
+      {!direct && <p class="text-sm text-muted">This opens your email app with the message filled in. Press send there.</p>}
+      <p id="form-status" class="text-sm font-medium" role="status"></p>
+    </form>
+  </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('contact-form') as HTMLFormElement;
+    const status = document.getElementById('form-status')!;
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const data = new FormData(form);
+      const value = (name: string) => String(data.get(name) ?? '').trim();
+
+      if (!data.has('access_key')) {
+        const subject = `Portfolio message from ${value('name')}`;
+        const body = `${value('message')}\n\n${value('name')}\n${value('email')}`;
+        window.location.href = `mailto:${form.dataset.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        status.textContent = 'If your email app didn’t open, email me using the address on this page.';
+        return;
+      }
+
+      const button = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+      button.disabled = true;
+      status.textContent = 'Sending…';
+      try {
+        const response = await fetch(form.action, { method: 'POST', body: data, headers: { Accept: 'application/json' } });
+        const result = await response.json();
+        if (!response.ok || !result.success) throw new Error(result.message);
+        form.reset();
+        status.textContent = 'Message sent. I’ll reply by email.';
+      } catch {
+        status.textContent = 'Your message wasn’t sent. Try again, or email me using the address on this page.';
+      } finally {
+        button.disabled = false;
+      }
+    });
+
+    const copy = document.getElementById('copy-email') as HTMLButtonElement;
+    const copyStatus = document.getElementById('copy-status')!;
+    if (navigator.clipboard) {
+      copy.hidden = false;
+      copy.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(copy.dataset.email!);
+          copyStatus.textContent = 'Email address copied.';
+        } catch {
+          copyStatus.textContent = 'Couldn’t copy. Select the address and copy it.';
+        }
+      });
+    }
+  </script>
+</Base>

@@ -1,0 +1,111 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import Proof from '../components/Proof.astro';
+import CaseStudy from '../components/CaseStudy.astro';
+import Experience from '../components/Experience.astro';
+import Awards from '../components/Awards.astro';
+import SkillList from '../components/SkillList.astro';
+import CallToAction from '../components/CallToAction.astro';
+import Statement from '../components/Statement.astro';
+import Wall from '../components/Wall.astro';
+import GitHubActivity from '../components/GitHubActivity.astro';
+import { featuredStudies } from '../data/caseStudies';
+import { availability, resume, social, stats } from '../data/profile';
+---
+
+<Base
+  title="Divesh Adivarekar | AI Engineer and Full-Stack Developer"
+  description="AI & Data Science undergraduate in Pune building LLM agents, RAG pipelines and production backends. Three internships, a granted patent and national hackathon wins."
+>
+  <div class="hero-bg">
+    <section class="wrap grid items-center gap-14 py-14 sm:py-20 lg:grid-cols-[1.15fr_1fr]">
+      <div data-hero-copy>
+        {availability && (
+          <p class="badge gap-2"><span class="size-2 shrink-0 rounded-full bg-emerald-500" aria-hidden="true"></span>{availability}</p>
+        )}
+        <h1 class="mt-6 text-4xl font-bold sm:text-6xl">
+          I build <span class="gradient-text">AI agents</span> and the backends that run them.
+        </h1>
+        <p class="mt-6 max-w-xl text-lg text-muted">
+          I’m Divesh Adivarekar, an AI &amp; Data Science undergraduate in Pune working on LLM agents, RAG pipelines and
+          production backends. I’m currently an intern at Achieverr AI.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a class="btn btn-primary" href="#projects">See my projects</a>
+          <a class="btn btn-ghost gap-2" href={resume} download><Icon name="download" class="size-4" />Download résumé</a>
+        </div>
+        <ul class="mt-6 flex flex-wrap gap-6 text-sm">
+          {social.slice(0, 2).map((s) => <li><a class="link" href={s.href}>{s.label} →</a></li>)}
+          <li><a class="link" href="/contact.html">Contact me →</a></li>
+        </ul>
+      </div>
+      <Proof />
+    </section>
+
+    <section class="wrap pb-16" aria-label="At a glance">
+      <dl class="glass grid grid-cols-2 gap-px overflow-hidden rounded-3xl lg:grid-cols-4">
+        {stats.map((s) => (
+          <div class="flex flex-col bg-surface/70 p-5 sm:p-7">
+            <dt class="order-2 mt-1 text-sm text-muted">{s.label}</dt>
+            <dd class="gradient-text font-display text-3xl font-bold sm:text-4xl">{s.value}</dd>
+          </div>
+        ))}
+      </dl>
+      <p class="mt-6 text-center text-sm text-muted">
+        <strong class="text-text">Winner,</strong> Code for Bharat (Microsoft) ·
+        <strong class="text-text">Grand Finalist (Top 5),</strong> Smart India Hackathon 2025 ·
+        <strong class="text-text">Top 2,</strong> Lenovo LEAP Hackathon 2026
+      </p>
+    </section>
+  </div>
+
+  <Statement />
+  <Wall />
+
+  <section id="projects" class="section">
+    <div class="wrap">
+      <p class="eyebrow">Projects</p>
+      <h2 class="section-title">Selected work</h2>
+      <div class="mt-10 space-y-8">
+        {featuredStudies.map((study, i) => <CaseStudy study={study} flip={i % 2 === 1} />)}
+      </div>
+      <p class="mt-10 text-center"><a class="btn btn-ghost" href="/work.html">See all projects →</a></p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="experience">
+    <div class="wrap">
+      <p class="eyebrow">Experience</p>
+      <h2 id="experience" class="section-title">Where I’ve worked</h2>
+      <Experience />
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="awards">
+    <div class="wrap">
+      <p class="eyebrow">Recognition</p>
+      <h2 id="awards" class="section-title">Hackathons and awards</h2>
+      <Awards />
+      <p class="mt-8"><a class="link" href="/achievements.html">Full timeline and certificates →</a></p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="github">
+    <div class="wrap">
+      <p class="eyebrow">Open source</p>
+      <h2 id="github" class="section-title">My GitHub activity</h2>
+      <GitHubActivity />
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="skills">
+    <div class="wrap">
+      <p class="eyebrow">Toolbox</p>
+      <h2 id="skills" class="section-title">Skills</h2>
+      <SkillList />
+    </div>
+  </section>
+
+  <CallToAction />
+</Base>

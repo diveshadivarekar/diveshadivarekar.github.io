@@ -1,0 +1,48 @@
+---
+import { Image } from 'astro:assets';
+import { awards, intellectualProperty } from '../data/profile';
+import { certificates, type Certificate } from '../data/certificates';
+
+const proof: Record<string, Certificate> = {
+  'Code for Bharat (Microsoft)': certificates.codeForBharat,
+  'Smart India Hackathon, Grand Finalist': certificates.sih,
+  'MITWPU Ciphathon ’26': certificates.ciphathon,
+};
+// Awards with a certificate photo come first.
+const sorted = [...awards].sort((a, b) => Number(b.event in proof) - Number(a.event in proof));
+---
+
+<ul class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+  {sorted.map((a) => {
+    const cert = proof[a.event];
+    return (
+      <li class="lift reveal flex flex-col overflow-hidden rounded-2xl border border-line bg-surface">
+        {cert && (
+          <a href={cert.href} class="block bg-slate-900" aria-label={`View certificate: ${cert.title}`}>
+            <Image src={cert.image} alt="" widths={[400, 700]} sizes="(min-width: 1024px) 350px, 90vw" format="webp" class="aspect-[7/5] w-full object-cover" />
+          </a>
+        )}
+        <div class="p-6">
+          <div class="flex items-baseline justify-between gap-3">
+            <p class="gradient-text font-display text-3xl font-bold">{a.rank}</p>
+            <span class="text-sm tabular-nums text-muted">{a.year}</span>
+          </div>
+          <p class="mt-1 font-semibold">{a.event}</p>
+          <p class="mt-2 text-sm text-muted">{a.detail}</p>
+        </div>
+      </li>
+    );
+  })}
+</ul>
+
+<h3 class="mt-14 text-2xl font-semibold">Patents and intellectual property</h3>
+<ul class="mt-6 grid gap-5 md:grid-cols-2">
+  {intellectualProperty.map((ip) => (
+    <li class="rounded-2xl border border-line border-l-4 border-l-accent bg-surface p-6">
+      <p class="font-display text-lg font-semibold">{ip.status}</p>
+      {ip.when && <p class="text-sm text-muted">{ip.when}</p>}
+      <p class="mt-2 text-sm">{ip.title}</p>
+      {ip.link && <p class="mt-2 text-sm"><a class="link" href={ip.link}>View patent →</a></p>}
+    </li>
+  ))}
+</ul>

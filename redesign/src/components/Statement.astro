@@ -1,0 +1,13 @@
+---
+/** A large sentence that stays on screen while its words light up with scrolling. */
+const text =
+  'I build AI that reads handwritten answers, checks whether media is fake, fills in government forms and plans its own next step.';
+---
+
+<section class="statement" data-statement>
+  <div class="statement-pin">
+    <p class="wrap max-w-5xl text-center font-display text-3xl leading-tight font-bold sm:text-5xl lg:text-6xl">
+      {text.split(' ').map((word) => (<><span class="word">{word}</span> </>))}
+    </p>
+  </div>
+</section>

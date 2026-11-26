@@ -1,0 +1,87 @@
+---
+import Base from '../layouts/Base.astro';
+import FilterBar from '../components/FilterBar.astro';
+import Awards from '../components/Awards.astro';
+import CallToAction from '../components/CallToAction.astro';
+import CertificateCard from '../components/CertificateCard.astro';
+import { certificates } from '../data/certificates';
+import { achievements, categories } from '../data/achievements';
+
+const filters = [
+  { name: 'All', count: achievements.length },
+  ...categories.map((name) => ({ name, count: achievements.filter((a) => a.categories.includes(name)).length })),
+];
+
+const years = [...new Set(achievements.map((a) => a.year))].map((year) => ({
+  year,
+  items: achievements.filter((a) => a.year === year),
+}));
+
+/** Longer descriptions are folded away so the timeline stays easy to scan. */
+const LONG = 160;
+---
+
+<Base
+  title="Achievements | Divesh Adivarekar"
+  description="Hackathon results, courses, certificates, internships and academic ranks of Divesh Adivarekar."
+>
+  <div class="hero-bg">
+    <div class="wrap py-14 sm:py-20">
+      <h1 class="text-4xl font-bold sm:text-5xl">Achievements</h1>
+      <p class="mt-4 max-w-2xl text-lg text-muted">Highlights first, then every hackathon, course and result in date order.</p>
+      <h2 class="sr-only">Highlights</h2>
+      <Awards />
+    </div>
+  </div>
+
+  <section class="section" aria-labelledby="certificates">
+    <div class="wrap">
+      <h2 id="certificates" class="section-title">Certificates</h2>
+      <ul class="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {Object.values(certificates).map((c) => <li><CertificateCard certificate={c} /></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+  <div class="wrap">
+    <h2 class="section-title">Full timeline</h2>
+    <FilterBar label="Filter achievements" noun="entries" filters={filters} />
+
+    {years.map(({ year, items }) => (
+      <section class="mt-14 grid gap-4 lg:grid-cols-[10rem_1fr]" aria-labelledby={`year-${year}`} data-filter-group>
+        <h3 id={`year-${year}`} class="text-3xl font-semibold tabular-nums lg:sticky lg:top-24 lg:self-start">{year}</h3>
+        <ol class="border-l border-line">
+          {items.map((a) => (
+            <li class="relative pb-10 pl-6 last:pb-0" data-categories={a.categories.join('|')}>
+              <span
+                class:list={['absolute -left-[0.4rem] top-1.5 size-3 rounded-full border-2', a.award ? 'border-accent bg-accent' : 'border-muted bg-bg']}
+                aria-hidden="true"
+              />
+              <p class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted">
+                <time datetime={a.iso}>{a.month} {a.year}</time>
+                {a.award && <span class="rounded-md bg-accent px-2 py-0.5 text-xs font-semibold text-on-accent">{a.award}</span>}
+              </p>
+              <h4 class="mt-1 font-display text-xl font-semibold">{a.title}</h4>
+              {a.description && a.description.length <= LONG && <p class="mt-2 max-w-2xl text-muted">{a.description}</p>}
+              {a.description.length > LONG && (
+                <details class="mt-2 max-w-2xl">
+                  <summary class="link cursor-pointer text-sm">Details<span class="sr-only"> about {a.title}</span></summary>
+                  <p class="mt-2 text-muted">{a.description}</p>
+                </details>
+              )}
+              {a.link && (
+                <p class="mt-2 text-sm">
+                  <a class="link" href={a.link.href} aria-label={`${a.link.label}: ${a.title}`}>{a.link.label} →</a>
+                </p>
+              )}
+            </li>
+          ))}
+        </ol>
+      </section>
+    ))}
+  </div>
+  </section>
+
+  <CallToAction />
+</Base>

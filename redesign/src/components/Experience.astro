@@ -1,0 +1,30 @@
+---
+import { Image } from 'astro:assets';
+import TechList from './TechList.astro';
+import { experience } from '../data/profile';
+---
+
+<ol class="mt-10 space-y-5">
+  {experience.map((e, i) => (
+    <li class="reveal grid gap-4 rounded-2xl border border-line bg-surface p-6 sm:grid-cols-[auto_1fr] sm:gap-6 sm:p-8">
+      <span class="flex h-20 w-32 items-center justify-center rounded-2xl border border-line p-2.5" style={`background:${e.logoBg}`}>
+        <Image src={e.logo} alt={`${e.company} logo`} class="max-h-full w-auto object-contain" />
+      </span>
+      <div>
+        <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+          <h3 class="text-xl font-semibold">{e.title}</h3>
+          {i === 0 && e.when.endsWith('Present') && <span class="badge">Current</span>}
+        </div>
+        <p class="mt-1 font-medium text-accent">{e.company}</p>
+        <p class="text-sm tabular-nums text-muted">{e.when}</p>
+        <ul class="mt-3 list-disc space-y-1.5 pl-5 text-muted marker:text-accent">
+          {e.points.map((p) => <li>{p}</li>)}
+        </ul>
+        <TechList items={e.stack} label="Skills used" class="mt-4" />
+        {e.certificate && (
+          <p class="mt-3 text-sm"><a class="link" href={e.certificate}>View certificate →</a></p>
+        )}
+      </div>
+    </li>
+  ))}
+</ol>

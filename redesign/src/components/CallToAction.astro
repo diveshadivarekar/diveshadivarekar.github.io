@@ -1,0 +1,18 @@
+---
+import Icon from './Icon.astro';
+import { email, resume } from '../data/profile';
+---
+
+<section class="wrap py-16 sm:py-24" aria-labelledby="cta">
+  <div class="panel reveal rounded-3xl px-6 py-14 text-center text-white sm:px-12" style="--hue:275">
+    <h2 id="cta" class="text-3xl font-bold sm:text-4xl">Hiring for AI or full-stack work?</h2>
+    <p class="mx-auto mt-4 max-w-xl text-lg text-white/85">I’d be glad to talk about your team and what you’re building.</p>
+    <div class="mt-8 flex flex-wrap justify-center gap-3">
+      <a class="btn bg-white text-slate-900 hover:bg-white/90" href={`mailto:${email}`}>Email me</a>
+      <a class="btn gap-2 border border-white/40 text-white hover:bg-white/10" href={resume} download>
+        <Icon name="download" class="size-4" />Download résumé
+      </a>
+      <a class="btn border border-white/40 text-white hover:bg-white/10" href="https://www.linkedin.com/in/divesh-adivarekar/">LinkedIn</a>
+    </div>
+  </div>
+</section>

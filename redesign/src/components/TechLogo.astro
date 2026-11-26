@@ -1,0 +1,44 @@
+---
+/**
+ * Official technology logos from the simple-icons package. Names without a logo there
+ * (for example AWS, Azure, OpenAI and Playwright) show as text only.
+ */
+import * as icons from 'simple-icons';
+
+const slugs: Record<string, string> = {
+  Python: 'Python', TypeScript: 'Typescript', JavaScript: 'Javascript', Java: 'Openjdk', 'C++': 'Cplusplus',
+  PostgreSQL: 'Postgresql', MongoDB: 'Mongodb', Redis: 'Redis', Supabase: 'Supabase',
+  FastAPI: 'Fastapi', 'Node.js': 'Nodedotjs', Express: 'Express', 'Next.js': 'Nextdotjs', React: 'React',
+  GraphQL: 'Graphql', WebSockets: 'Socketdotio', LangChain: 'Langchain', LangGraph: 'Langgraph',
+  MCP: 'Modelcontextprotocol', 'Hugging Face': 'Huggingface', 'OpenAI and Anthropic APIs': 'Anthropic',
+  Ollama: 'Ollama', PyTorch: 'Pytorch', TensorFlow: 'Tensorflow', 'scikit-learn': 'Scikitlearn', n8n: 'N8n',
+  Docker: 'Docker', Kubernetes: 'Kubernetes', Git: 'Git', GCP: 'Googlecloud', Render: 'Render',
+  Tailwind: 'Tailwindcss', 'LLaMA 3': 'Meta', 'Gemini API': 'Googlegemini', Jira: 'Jira', Flask: 'Flask',
+};
+// The Anthropic logo would misrepresent a chip that names two companies.
+delete slugs['OpenAI and Anthropic APIs'];
+
+interface Props {
+  name: string;
+  class?: string;
+  /** Use the surrounding text colour instead of the brand colour. */
+  mono?: boolean;
+}
+
+const { name, class: className = 'size-4', mono = false } = Astro.props;
+const icon = slugs[name] ? (icons as unknown as Record<string, { path: string; hex: string }>)[`si${slugs[name]}`] : undefined;
+
+// Very dark or very light brand colours disappear on one of the two themes.
+let fill = 'currentColor';
+if (icon && !mono) {
+  const [r, g, b] = [0, 2, 4].map((i) => parseInt(icon.hex.slice(i, i + 2), 16));
+  const light = (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
+  if (light > 0.18 && light < 0.82) fill = `#${icon.hex}`;
+}
+---
+
+{icon && (
+  <svg class:list={['shrink-0', className]} viewBox="0 0 24 24" fill={fill} aria-hidden="true">
+    <path d={icon.path} />
+  </svg>
+)}

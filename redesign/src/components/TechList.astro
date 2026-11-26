@@ -1,0 +1,17 @@
+---
+import TechLogo from './TechLogo.astro';
+
+interface Props {
+  items: string[];
+  label?: string;
+  class?: string;
+}
+
+const { items, label, class: className } = Astro.props;
+---
+
+<ul class:list={['flex flex-wrap gap-2', className]} aria-label={label}>
+  {items.map((item) => (
+    <li class="chip inline-flex items-center gap-1.5"><TechLogo name={item} class="size-3.5" />{item}</li>
+  ))}
+</ul>

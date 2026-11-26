@@ -1,0 +1,52 @@
+---
+/**
+ * Filter buttons for any list. Items need data-categories="A|B". Wrap items in a
+ * [data-filter-group] element to hide the whole group when nothing in it matches.
+ */
+interface Props {
+  label: string;
+  noun: string;
+  filters: { name: string; count: number }[];
+}
+
+const { label, noun, filters } = Astro.props;
+---
+
+<!-- Hidden until the script runs, so visitors without JavaScript just see everything. -->
+<div id="filters" class="mt-8 flex flex-wrap gap-2" role="group" aria-label={label} data-noun={noun} hidden>
+  {filters.map((f, i) => (
+    <button
+      type="button"
+      class="btn btn-ghost gap-2 aria-pressed:border-accent aria-pressed:bg-accent aria-pressed:text-on-accent"
+      data-filter={f.name}
+      aria-pressed={i === 0 ? 'true' : 'false'}
+    >
+      {f.name}<span class="tabular-nums opacity-75">{f.count}</span>
+    </button>
+  ))}
+</div>
+<p id="filter-status" class="sr-only" aria-live="polite"></p>
+
+<script>
+  const bar = document.getElementById('filters')!;
+  const buttons = bar.querySelectorAll<HTMLButtonElement>('button');
+  const status = document.getElementById('filter-status')!;
+  bar.hidden = false;
+
+  buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const filter = button.dataset.filter!;
+      let shown = 0;
+      document.querySelectorAll<HTMLElement>('[data-categories]').forEach((item) => {
+        const match = filter === 'All' || item.dataset.categories!.split('|').includes(filter);
+        item.hidden = !match;
+        if (match) shown += 1;
+      });
+      document.querySelectorAll<HTMLElement>('[data-filter-group]').forEach((group) => {
+        group.hidden = !group.querySelector('[data-categories]:not([hidden])');
+      });
+      buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === button)));
+      status.textContent = `Showing ${shown} ${bar.dataset.noun}`;
+    });
+  });
+</script>

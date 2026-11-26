@@ -1,0 +1,17 @@
+---
+import { Image } from 'astro:assets';
+import type { Certificate } from '../data/certificates';
+
+interface Props {
+  certificate: Certificate;
+}
+
+const { certificate: c } = Astro.props;
+---
+
+<a href={c.href} class="lift group block h-full overflow-hidden rounded-2xl border border-line bg-surface">
+  <span class="flex aspect-[4/3] items-center justify-center bg-slate-900 p-3">
+    <Image src={c.image} alt="" widths={[400, 700]} sizes="(min-width: 1024px) 350px, 90vw" format="webp" class="max-h-full w-auto rounded object-contain" />
+  </span>
+  <span class="block p-4 text-sm font-semibold group-hover:text-accent">{c.title} →</span>
+</a>

@@ -1,0 +1,101 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { Image } from 'astro:assets';
+import Proof from '../components/Proof.astro';
+import Experience from '../components/Experience.astro';
+import SkillList from '../components/SkillList.astro';
+import CallToAction from '../components/CallToAction.astro';
+import { certifications, education, leadership, resume } from '../data/profile';
+---
+
+<Base
+  title="About | Divesh Adivarekar"
+  description="Education, internships, leadership, certifications and skills of Divesh Adivarekar, an AI & Data Science undergraduate from Pune."
+>
+  <div class="hero-bg">
+    <div class="wrap grid items-center gap-12 py-14 sm:py-20 lg:grid-cols-[1.2fr_1fr]">
+      <div>
+        <h1 class="text-4xl font-bold sm:text-5xl">About me</h1>
+        <div class="mt-6 max-w-2xl space-y-4 text-lg text-muted">
+          <p>
+            I’m Divesh, an AI &amp; Data Science undergraduate from Pune. I specialise in LLM-driven automation, agent
+            architectures and RAG pipelines, and the backend systems around them.
+          </p>
+          <p>
+            I’ve learned by shipping: three internships, team leadership and a run of national hackathons, from first
+            idea to working demo.
+          </p>
+        </div>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a class="btn btn-primary gap-2" href={resume} download><Icon name="download" class="size-4" />Download résumé</a>
+          <a class="btn btn-ghost" href="/work.html">See my projects</a>
+        </div>
+      </div>
+      <Proof />
+    </div>
+  </div>
+
+  <section class="section" aria-labelledby="education">
+    <div class="wrap">
+      <h2 id="education" class="section-title">Education</h2>
+      <ul class="mt-10 grid gap-5 md:grid-cols-2">
+        {education.map((e) => (
+          <li class="reveal rounded-2xl border border-line bg-surface p-6 sm:p-8">
+            {e.logo && <Image src={e.logo} alt="PVG college logo" width={80} class="mb-4 h-24 w-auto rounded-xl bg-white p-1.5" />}
+            <p class="gradient-text font-display text-3xl font-bold">{e.score}</p>
+            <h3 class="mt-2 text-xl font-semibold">{e.title}</h3>
+            <p class="mt-1">{e.place}</p>
+            <p class="mt-1 text-sm tabular-nums text-muted">{e.when}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="experience">
+    <div class="wrap">
+      <h2 id="experience" class="section-title">Experience</h2>
+      <Experience />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap grid gap-12 lg:grid-cols-2">
+      <div>
+        <h2 class="text-3xl font-semibold">Leadership</h2>
+        <ul class="mt-8 space-y-5">
+          {leadership.map((l) => (
+            <li class="rounded-2xl border border-line bg-surface p-6">
+              <h3 class="text-lg font-semibold">{l.title}</h3>
+              <p class="mt-2 text-muted">{l.detail}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <h2 class="text-3xl font-semibold">Certifications</h2>
+        <ul class="mt-8 divide-y divide-line rounded-2xl border border-line bg-surface px-6">
+          {certifications.map((c) => (
+            <li class="flex items-center gap-4 py-4">
+              <div>
+                <p class="font-semibold">{c.title}</p>
+                <p class="text-sm text-muted">{c.issuer} · {c.when}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+        <p class="mt-4"><a class="link" href="/achievements.html">All courses and certificates →</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="skills">
+    <div class="wrap">
+      <h2 id="skills" class="section-title">Skills</h2>
+      <SkillList />
+    </div>
+  </section>
+
+  <CallToAction />
+</Base>
